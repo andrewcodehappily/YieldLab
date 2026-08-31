@@ -1,7 +1,7 @@
 const $ = (id) => document.getElementById(id);
 
 function fmtBp(value) {
-  if (value === null || value === undefined) return "n/a";
+  if (value === null || value === undefined) return "無資料";
   const sign = value > 0 ? "+" : "";
   return `${sign}${value.toFixed(1)}`;
 }
@@ -62,7 +62,7 @@ async function loadCurve() {
     fetch("/api/curve"),
     fetch("/api/curve/metrics"),
   ]);
-  if (!curveRes.ok || !metricsRes.ok) throw new Error("Unable to load curve data");
+  if (!curveRes.ok || !metricsRes.ok) throw new Error("無法載入殖利率曲線資料");
 
   const curve = await curveRes.json();
   const metrics = await metricsRes.json();
@@ -70,9 +70,19 @@ async function loadCurve() {
   $("twoTen").textContent = fmtBp(metrics.two_ten_spread_bp);
   $("fiveThirty").textContent = fmtBp(metrics.five_thirty_spread_bp);
   $("frontBack").textContent = fmtBp(metrics.front_back_spread_bp);
-  $("shape").textContent = metrics.shape;
-  $("curveSource").textContent = curve.source;
-  $("asOf").textContent = `as of ${curve.as_of}`;
+  const shapeLabels = {
+    normal: "正常",
+    flat: "平坦",
+    inverted: "倒掛",
+  };
+  const sourceLabels = {
+    "U.S. Department of the Treasury": "美國財政部",
+    "YieldLab built-in demo data": "YieldLab 內建示範資料",
+    "YieldLab demo data (Treasury feed unavailable)": "YieldLab 示範資料（美國財政部資料來源暫時無法使用）",
+  };
+  $("shape").textContent = shapeLabels[metrics.shape] || metrics.shape;
+  $("curveSource").textContent = sourceLabels[curve.source] || curve.source;
+  $("asOf").textContent = `資料日期 ${curve.as_of}`;
   renderCurve(curve);
 }
 
@@ -91,17 +101,18 @@ async function analyzeBond(event) {
     });
     const data = await response.json();
     if (!response.ok) {
-      const detail = Array.isArray(data.detail) ? data.detail.map((item) => item.msg).join("; ") : (data.detail || "Bond analysis failed");
-      throw new Error(detail);
+      throw new Error("債券分析失敗，請檢查輸入值是否合理。");
     }
 
     $("price").textContent = `$${data.price.toFixed(2)}`;
-    $("macaulay").textContent = `${data.macaulay_duration.toFixed(3)} y`;
-    $("modified").textContent = `${data.modified_duration.toFixed(3)} y`;
+    $("macaulay").textContent = `${data.macaulay_duration.toFixed(3)} 年`;
+    $("modified").textContent = `${data.modified_duration.toFixed(3)} 年`;
     $("convexity").textContent = data.convexity.toFixed(3);
     $("dv01").textContent = `$${data.dv01.toFixed(4)}`;
   } catch (err) {
-    error.textContent = err.message;
+    error.textContent = err.message === "債券分析失敗，請檢查輸入值是否合理。"
+      ? err.message
+      : "債券分析暫時無法完成，請稍後再試。";
     error.hidden = false;
   }
 }
@@ -109,7 +120,7 @@ async function analyzeBond(event) {
 $("bondForm").addEventListener("submit", analyzeBond);
 window.addEventListener("resize", () => loadCurve().catch(() => {}));
 
-loadCurve().catch((err) => {
-  $("curveChart").textContent = err.message;
+loadCurve().catch(() => {
+  $("curveChart").textContent = "殖利率曲線資料暫時無法載入。";
 });
 $("bondForm").requestSubmit();
