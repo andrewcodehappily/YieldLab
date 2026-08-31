@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="YieldLab fixed-income analytics and yield-curve research lab" />
+  <title>YieldLab</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">FIXED-INCOME RESEARCH LAB</p>
+        <h1>YieldLab</h1>
+        <p class="lede">Explore the yield curve, spreads, and bond risk without needing a Bloomberg keyboard the size of a small piano.</p>
+      </div>
+      <a class="docs-link" href="/docs">API Docs ↗</a>
+    </header>
+
+    <section class="metric-grid" aria-label="Curve metrics">
+      <article class="metric-card"><span>2s10s</span><strong id="twoTen">—</strong><small>basis points</small></article>
+      <article class="metric-card"><span>5s30s</span><strong id="fiveThirty">—</strong><small>basis points</small></article>
+      <article class="metric-card"><span>Front → Back</span><strong id="frontBack">—</strong><small>basis points</small></article>
+      <article class="metric-card"><span>Curve shape</span><strong id="shape">—</strong><small id="curveSource">loading</small></article>
+    </section>
+
+    <section class="panel chart-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">CURVE EXPLORER</p>
+          <h2>U.S. Treasury par yield curve</h2>
+        </div>
+        <span id="asOf" class="pill">loading…</span>
+      </div>
+      <div id="curveChart" class="chart" role="img" aria-label="Yield curve chart"></div>
+    </section>
+
+    <section class="panel calculator-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">BOND ENGINE</p>
+          <h2>Price & risk calculator</h2>
+        </div>
+        <span class="pill">Discrete compounding</span>
+      </div>
+
+      <form id="bondForm" class="bond-form">
+        <label>Face value<input name="face_value" type="number" value="1000" min="0.01" step="0.01" required></label>
+        <label>Coupon %<input name="coupon_rate_pct" type="number" value="4.25" min="0" step="0.01" required></label>
+        <label>Yield to maturity %<input name="yield_to_maturity_pct" type="number" value="4.50" step="0.01" required></label>
+        <label>Maturity (years)<input name="maturity_years" type="number" value="10" min="0.5" step="0.5" required></label>
+        <label>Payments / year<select name="payments_per_year"><option value="1">1</option><option value="2" selected>2</option><option value="4">4</option><option value="12">12</option></select></label>
+        <button type="submit">Analyze bond</button>
+      </form>
+
+      <div class="result-grid" id="bondResults" aria-live="polite">
+        <article><span>Price</span><strong id="price">—</strong></article>
+        <article><span>Macaulay duration</span><strong id="macaulay">—</strong></article>
+        <article><span>Modified duration</span><strong id="modified">—</strong></article>
+        <article><span>Convexity</span><strong id="convexity">—</strong></article>
+        <article><span>DV01</span><strong id="dv01">—</strong></article>
+      </div>
+      <p id="bondError" class="error" hidden></p>
+    </section>
+
+    <footer>YieldLab v0.1 · built to make interest-rate risk less mysterious and more clickable.</footer>
+  </main>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

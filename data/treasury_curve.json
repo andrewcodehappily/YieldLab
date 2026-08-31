@@ -1,0 +1,20 @@
+{
+  "as_of": "2026-08-28",
+  "source": "U.S. Department of the Treasury",
+  "points": [
+    {"maturity_years": 0.08333333333333333, "yield_pct": 3.84, "label": "1M"},
+    {"maturity_years": 0.125, "yield_pct": 3.83, "label": "1.5M"},
+    {"maturity_years": 0.16666666666666666, "yield_pct": 3.86, "label": "2M"},
+    {"maturity_years": 0.25, "yield_pct": 3.90, "label": "3M"},
+    {"maturity_years": 0.3333333333333333, "yield_pct": 3.94, "label": "4M"},
+    {"maturity_years": 0.5, "yield_pct": 4.02, "label": "6M"},
+    {"maturity_years": 1.0, "yield_pct": 4.15, "label": "1Y"},
+    {"maturity_years": 2.0, "yield_pct": 4.34, "label": "2Y"},
+    {"maturity_years": 3.0, "yield_pct": 4.41, "label": "3Y"},
+    {"maturity_years": 5.0, "yield_pct": 4.48, "label": "5Y"},
+    {"maturity_years": 7.0, "yield_pct": 4.59, "label": "7Y"},
+    {"maturity_years": 10.0, "yield_pct": 4.73, "label": "10Y"},
+    {"maturity_years": 20.0, "yield_pct": 5.21, "label": "20Y"},
+    {"maturity_years": 30.0, "yield_pct": 5.22, "label": "30Y"}
+  ]
+}

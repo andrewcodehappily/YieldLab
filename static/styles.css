@@ -1,0 +1,66 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #0a0d12;
+  color: #eef3f8;
+  --panel: rgba(18, 24, 33, .88);
+  --border: rgba(255, 255, 255, .09);
+  --muted: #8e9baa;
+  --accent: #9ee7c8;
+  --accent-2: #90b8ff;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 10% 0%, #14231e 0, transparent 28rem), radial-gradient(circle at 100% 20%, #101d34 0, transparent 32rem), #0a0d12; }
+button, input, select { font: inherit; }
+.shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 64px 0 40px; }
+.hero { display: flex; justify-content: space-between; gap: 24px; align-items: flex-start; margin-bottom: 30px; }
+.eyebrow { color: var(--accent); font-size: .72rem; letter-spacing: .16em; font-weight: 750; margin: 0 0 9px; }
+h1 { font-size: clamp(3.4rem, 9vw, 7.3rem); line-height: .88; letter-spacing: -.07em; margin: 0; }
+h2 { margin: 0; font-size: clamp(1.35rem, 3vw, 2rem); letter-spacing: -.035em; }
+.lede { max-width: 660px; color: var(--muted); font-size: 1.05rem; line-height: 1.6; margin: 22px 0 0; }
+.docs-link, .pill { border: 1px solid var(--border); border-radius: 999px; padding: 10px 14px; color: #dce7ef; text-decoration: none; background: rgba(255,255,255,.035); white-space: nowrap; }
+.docs-link:hover { border-color: rgba(158,231,200,.5); }
+.metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
+.metric-card, .panel { border: 1px solid var(--border); background: var(--panel); box-shadow: 0 18px 70px rgba(0,0,0,.22); backdrop-filter: blur(18px); }
+.metric-card { border-radius: 18px; padding: 20px; display: grid; gap: 7px; }
+.metric-card span, .result-grid span { color: var(--muted); font-size: .82rem; }
+.metric-card strong { font-size: 2rem; letter-spacing: -.045em; text-transform: capitalize; }
+.metric-card small { color: #687584; }
+.panel { border-radius: 24px; padding: 26px; margin-bottom: 12px; }
+.panel-heading { display: flex; justify-content: space-between; gap: 20px; align-items: center; margin-bottom: 24px; }
+.pill { font-size: .78rem; color: var(--muted); }
+.chart { min-height: 390px; overflow: hidden; }
+.chart svg { display: block; width: 100%; height: 390px; overflow: visible; }
+.chart text { font-family: inherit; fill: #7f8c9a; font-size: 12px; }
+.chart .grid { stroke: rgba(255,255,255,.07); stroke-width: 1; }
+.chart .curve { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.chart .area { fill: url(#areaGradient); }
+.chart .point { fill: #0a0d12; stroke: var(--accent); stroke-width: 3; }
+.bond-form { display: grid; grid-template-columns: repeat(5, 1fr) auto; gap: 10px; align-items: end; }
+.bond-form label { display: grid; gap: 7px; color: var(--muted); font-size: .77rem; }
+.bond-form input, .bond-form select { width: 100%; min-width: 0; color: #eff5f8; background: #0d1219; border: 1px solid var(--border); border-radius: 12px; padding: 11px 12px; outline: none; }
+.bond-form input:focus, .bond-form select:focus { border-color: rgba(158,231,200,.55); box-shadow: 0 0 0 3px rgba(158,231,200,.08); }
+.bond-form button { border: 0; border-radius: 12px; padding: 12px 18px; background: var(--accent); color: #06110c; font-weight: 800; cursor: pointer; }
+.bond-form button:hover { filter: brightness(1.06); }
+.result-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 18px; }
+.result-grid article { padding: 17px; background: rgba(255,255,255,.026); border: 1px solid var(--border); border-radius: 15px; display: grid; gap: 7px; }
+.result-grid strong { font-size: 1.2rem; }
+.error { color: #ffb6b6; background: rgba(255,85,85,.08); border: 1px solid rgba(255,85,85,.2); padding: 12px 14px; border-radius: 12px; }
+footer { color: #65717d; text-align: center; font-size: .78rem; padding: 18px 0 0; }
+
+@media (max-width: 900px) {
+  .metric-grid { grid-template-columns: repeat(2, 1fr); }
+  .bond-form { grid-template-columns: repeat(2, 1fr); }
+  .bond-form button { min-height: 43px; }
+  .result-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .shell { width: min(100% - 20px, 1180px); padding-top: 32px; }
+  .hero, .panel-heading { align-items: flex-start; flex-direction: column; }
+  .metric-grid { grid-template-columns: 1fr 1fr; }
+  .panel { padding: 18px; border-radius: 18px; }
+  .bond-form, .result-grid { grid-template-columns: 1fr; }
+  .chart, .chart svg { min-height: 320px; height: 320px; }
+}
