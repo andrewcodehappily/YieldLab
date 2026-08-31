@@ -3,69 +3,75 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="YieldLab 固定收益分析與殖利率曲線研究實驗室" />
+  <meta name="description" content="YieldLab 固定收益分析與殖利率曲線研究實驗室 / fixed-income analytics and yield-curve research lab" />
   <title>YieldLab</title>
-  <link rel="stylesheet" href="/static/styles.css?v=0.1.1" />
+  <link rel="stylesheet" href="/static/styles.css?v=0.2.0" />
 </head>
 <body>
   <main class="shell">
     <header class="hero">
       <div>
-        <p class="eyebrow">固定收益研究實驗室</p>
+        <p class="eyebrow" data-i18n="eyebrow">固定收益研究實驗室</p>
         <h1>YieldLab</h1>
-        <p class="lede">探索殖利率曲線、利差與債券風險，不需要一台大得像小鋼琴的彭博終端機鍵盤。</p>
+        <p class="lede" data-i18n="lede">探索殖利率曲線、利差與債券風險，不需要一台大得像小鋼琴的彭博終端機鍵盤。</p>
       </div>
-      <a class="docs-link" href="/docs">介面文件 ↗</a>
+      <div class="hero-actions">
+        <div class="language-switch" role="group" aria-label="Language">
+          <button type="button" data-lang="zh-Hant" class="lang-button active">繁中</button>
+          <button type="button" data-lang="en" class="lang-button">EN</button>
+        </div>
+        <a class="docs-link" href="/docs" data-i18n="apiDocs">介面文件 ↗</a>
+      </div>
     </header>
 
-    <section class="metric-grid" aria-label="殖利率曲線指標">
-      <article class="metric-card"><span>10年－2年利差（2s10s）</span><strong id="twoTen">—</strong><small>基點</small></article>
-      <article class="metric-card"><span>30年－5年利差（5s30s）</span><strong id="fiveThirty">—</strong><small>基點</small></article>
-      <article class="metric-card"><span>短端 → 長端</span><strong id="frontBack">—</strong><small>基點</small></article>
-      <article class="metric-card"><span>曲線形狀</span><strong id="shape">—</strong><small id="curveSource">載入中</small></article>
+    <section class="metric-grid" data-i18n-aria-label="curveMetricsAria" aria-label="殖利率曲線指標">
+      <article class="metric-card"><span data-i18n="twoTenLabel">10年－2年利差（2s10s）</span><strong id="twoTen">—</strong><small data-i18n="basisPoints">基點</small></article>
+      <article class="metric-card"><span data-i18n="fiveThirtyLabel">30年－5年利差（5s30s）</span><strong id="fiveThirty">—</strong><small data-i18n="basisPoints">基點</small></article>
+      <article class="metric-card"><span data-i18n="frontBackLabel">短端 → 長端</span><strong id="frontBack">—</strong><small data-i18n="basisPoints">基點</small></article>
+      <article class="metric-card"><span data-i18n="curveShapeLabel">曲線形狀</span><strong id="shape">—</strong><small id="curveSource" data-i18n="loading">載入中</small></article>
     </section>
 
     <section class="panel chart-panel">
       <div class="panel-heading">
         <div>
-          <p class="eyebrow">曲線探索器</p>
-          <h2>美國國債票面殖利率曲線</h2>
+          <p class="eyebrow" data-i18n="curveExplorer">曲線探索器</p>
+          <h2 data-i18n="treasuryCurveTitle">美國國債票面殖利率曲線</h2>
         </div>
-        <span id="asOf" class="pill">載入中…</span>
+        <span id="asOf" class="pill" data-i18n="loadingEllipsis">載入中…</span>
       </div>
-      <div id="curveChart" class="chart" role="img" aria-label="殖利率曲線圖"></div>
+      <div id="curveChart" class="chart" role="img" data-i18n-aria-label="curveChartAria" aria-label="殖利率曲線圖"></div>
     </section>
 
     <section class="panel calculator-panel">
       <div class="panel-heading">
         <div>
-          <p class="eyebrow">債券引擎</p>
-          <h2>價格與風險計算器</h2>
+          <p class="eyebrow" data-i18n="bondEngine">債券引擎</p>
+          <h2 data-i18n="priceRiskCalculator">價格與風險計算器</h2>
         </div>
-        <span class="pill">離散複利</span>
+        <span class="pill" data-i18n="discreteCompounding">離散複利</span>
       </div>
 
       <form id="bondForm" class="bond-form">
-        <label>面額<input name="face_value" type="number" value="1000" min="0.01" step="0.01" required></label>
-        <label>票面利率 %<input name="coupon_rate_pct" type="number" value="4.25" min="0" step="0.01" required></label>
-        <label>到期殖利率 %<input name="yield_to_maturity_pct" type="number" value="4.50" step="0.01" required></label>
-        <label>到期年限（年）<input name="maturity_years" type="number" value="10" min="0.5" step="0.5" required></label>
-        <label>每年付息次數<select name="payments_per_year"><option value="1">1</option><option value="2" selected>2</option><option value="4">4</option><option value="12">12</option></select></label>
-        <button type="submit">分析債券</button>
+        <label><span data-i18n="faceValue">面額</span><input name="face_value" type="number" value="1000" min="0.01" step="0.01" required></label>
+        <label><span data-i18n="couponRate">票面利率 %</span><input name="coupon_rate_pct" type="number" value="4.25" min="0" step="0.01" required></label>
+        <label><span data-i18n="ytm">到期殖利率 %</span><input name="yield_to_maturity_pct" type="number" value="4.50" step="0.01" required></label>
+        <label><span data-i18n="maturityYears">到期年限（年）</span><input name="maturity_years" type="number" value="10" min="0.5" step="0.5" required></label>
+        <label><span data-i18n="paymentsPerYear">每年付息次數</span><select name="payments_per_year"><option value="1">1</option><option value="2" selected>2</option><option value="4">4</option><option value="12">12</option></select></label>
+        <button type="submit" data-i18n="analyzeBond">分析債券</button>
       </form>
 
       <div class="result-grid" id="bondResults" aria-live="polite">
-        <article><span>價格</span><strong id="price">—</strong></article>
-        <article><span>麥考利存續期間</span><strong id="macaulay">—</strong></article>
-        <article><span>修正存續期間</span><strong id="modified">—</strong></article>
-        <article><span>凸性</span><strong id="convexity">—</strong></article>
-        <article><span>每基點價格變動（DV01）</span><strong id="dv01">—</strong></article>
+        <article><span data-i18n="price">價格</span><strong id="price">—</strong></article>
+        <article><span data-i18n="macaulayDuration">麥考利存續期間</span><strong id="macaulay">—</strong></article>
+        <article><span data-i18n="modifiedDuration">修正存續期間</span><strong id="modified">—</strong></article>
+        <article><span data-i18n="convexity">凸性</span><strong id="convexity">—</strong></article>
+        <article><span data-i18n="dv01">每基點價格變動（DV01）</span><strong id="dv01">—</strong></article>
       </div>
       <p id="bondError" class="error" hidden></p>
     </section>
 
-    <footer>YieldLab v0.1 · 讓利率風險少一點神祕，多一點可以直接點。</footer>
+    <footer data-i18n="footer">YieldLab v0.1 · 讓利率風險少一點神祕，多一點可以直接點。</footer>
   </main>
-  <script src="/static/app.js?v=0.1.1" defer></script>
+  <script src="/static/app.js?v=0.2.0" defer></script>
 </body>
 </html>
