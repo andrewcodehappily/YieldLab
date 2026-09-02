@@ -41,7 +41,7 @@ from app.services.treasury import get_current_curve
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / "static"
-VERSION = "0.4.3"
+VERSION = "0.4.4"
 CurveModel = Literal["nelson_siegel", "svensson"]
 
 app = FastAPI(

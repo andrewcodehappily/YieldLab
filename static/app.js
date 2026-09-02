@@ -155,6 +155,9 @@ const TRANSLATIONS = {
     marketZoom5Y: "5年",
     marketZoom2Y: "2年",
     marketZoom1Y: "1年",
+    zoomForMarkers: "縮到 15 年內才顯示事件線",
+    previousEvent: "← 上一個事件",
+    nextEvent: "下一個事件 →",
     nonInverted: "未倒掛",
     invertedPeriod: "倒掛",
     unavailableData: "無 ACM 資料",
@@ -185,7 +188,7 @@ const TRANSLATIONS = {
     marketMethodology: "紅色月份滿足 Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂)。倒掛開始定義為狀態由未倒掛切換為倒掛；事件研究比較該月與 +6 個月的 S&P 500，最大回撤依月度資料計算。1961 前無 ACM 資料顯示灰色。",
     marketSource: (sp500, rates) => `S&P 500：${sp500} · 分解模型：${rates}`,
     marketGenericError: "長期市場歷史資料暫時無法載入，或選擇的期限／月份區間無效。",
-    footer: "YieldLab v0.4.3 · 倒掛半年後到底跌不跌，現在直接逐次驗屍。",
+    footer: "YieldLab v0.4.4 · 全景看 regime，細節才把事件線放出來。",
     noData: "無資料",
     shapeNormal: "正常",
     shapeFlat: "平坦",
@@ -354,6 +357,9 @@ const TRANSLATIONS = {
     marketZoom5Y: "5Y",
     marketZoom2Y: "2Y",
     marketZoom1Y: "1Y",
+    zoomForMarkers: "Zoom to 15 years or less to show event lines",
+    previousEvent: "← Previous event",
+    nextEvent: "Next event →",
     nonInverted: "Not inverted",
     invertedPeriod: "Inverted",
     unavailableData: "No ACM data",
@@ -384,7 +390,7 @@ const TRANSLATIONS = {
     marketMethodology: "Red months satisfy Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂). An inversion start is a transition from non-inverted to inverted. The event study compares the S&P 500 at that month with +6 months; max drawdown uses monthly observations. Pre-1961 months are gray because ACM data do not exist.",
     marketSource: (sp500, rates) => `S&P 500: ${sp500} · Decomposition model: ${rates}`,
     marketGenericError: "Long-run market history is unavailable, or the selected maturity/month range is invalid.",
-    footer: "YieldLab v0.4.3 · six months after inversion can now be tested event by event.",
+    footer: "YieldLab v0.4.4 · overview shows regimes; detail view shows event markers.",
     noData: "n/a",
     shapeNormal: "Normal",
     shapeFlat: "Flat",
@@ -421,6 +427,9 @@ let pcaAnalysis = null;
 let factorShockResult = null;
 let factorShockedCurve = null;
 let marketHistory = null;
+let marketEventCatalog = [];
+let marketEventCatalogKey = "";
+let marketFocusedEventIndex = -1;
 
 function t(key) {
   return TRANSLATIONS[currentLanguage][key];
@@ -865,8 +874,9 @@ function populateMarketMaturityControls() {
   }).join("");
   t1.value = "2";
   t2.value = "10";
-  if (!$("marketEndMonth").value) $("marketEndMonth").value = new Date().toISOString().slice(0, 7);
-  if (!$("marketStartMonth").value) $("marketStartMonth").value = "1950-01";
+  const currentMonth = new Date().toISOString().slice(0, 7);
+  if (!$("marketEndMonth").value) $("marketEndMonth").value = currentMonth;
+  if (!$("marketStartMonth").value) $("marketStartMonth").value = shiftMonth($("marketEndMonth").value, -119);
 }
 
 function shiftMonth(month, delta) {
@@ -931,11 +941,18 @@ function renderMarketHistory() {
   const prices = points.map((point) => point.sp500_close);
   const minPrice = Math.min(...prices);
   const maxPrice = Math.max(...prices);
+  const count = points.length;
+  const useLogScale = count > 180;
   const minLog = Math.log10(minPrice);
   const maxLog = Math.log10(maxPrice);
+  const linearPad = Math.max((maxPrice - minPrice) * 0.06, 1);
+  const linearMin = Math.max(0, minPrice - linearPad);
+  const linearMax = maxPrice + linearPad;
 
   const x = (timestamp) => margin.left + ((timestamp - minTime) / (maxTime - minTime || 1)) * innerW;
-  const y = (price) => margin.top + ((maxLog - Math.log10(price)) / (maxLog - minLog || 1)) * innerH;
+  const y = (price) => useLogScale
+    ? margin.top + ((maxLog - Math.log10(price)) / (maxLog - minLog || 1)) * innerH
+    : margin.top + ((linearMax - price) / (linearMax - linearMin || 1)) * innerH;
 
   const segments = [];
   let segmentStart = 0;
@@ -959,16 +976,17 @@ function renderMarketHistory() {
     return `<rect class="market-regime market-regime-${segment.status}" x="${left}" y="${margin.top}" width="${Math.max(right - left, 0.5)}" height="${innerH}"/>`;
   }).join("");
 
-  const yCandidates = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000];
-  const yTicks = yCandidates
-    .filter((value) => value >= minPrice * 0.9 && value <= maxPrice * 1.1)
-    .map((value) => {
-      const yy = y(value);
-      const label = new Intl.NumberFormat(currentLanguage === "zh-Hant" ? "zh-TW" : "en-US").format(value);
-      return `<line class="market-grid" x1="${margin.left}" x2="${margin.left + innerW}" y1="${yy}" y2="${yy}"/><text x="8" y="${yy + 4}">${label}</text>`;
-    }).join("");
-
-  const count = points.length;
+  const logCandidates = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000];
+  const yTickValues = useLogScale
+    ? logCandidates.filter((value) => value >= minPrice * 0.9 && value <= maxPrice * 1.1)
+    : Array.from({ length: 5 }, (_, index) => linearMin + ((linearMax - linearMin) * index) / 4);
+  const yTicks = yTickValues.map((value) => {
+    const yy = y(value);
+    const label = new Intl.NumberFormat(currentLanguage === "zh-Hant" ? "zh-TW" : "en-US", {
+      maximumFractionDigits: value < 100 ? 1 : 0,
+    }).format(value);
+    return `<line class="market-grid" x1="${margin.left}" x2="${margin.left + innerW}" y1="${yy}" y2="${yy}"/><text x="8" y="${yy + 4}">${label}</text>`;
+  }).join("");
   const tickStep = count <= 18 ? 1 : count <= 36 ? 3 : count <= 72 ? 6 : count <= 180 ? 12 : Math.ceil(count / 12);
   const tickIndexes = [];
   for (let index = 0; index < count; index += tickStep) tickIndexes.push(index);
@@ -980,21 +998,26 @@ function renderMarketHistory() {
     return `<line class="market-year-grid" x1="${xx}" x2="${xx}" y1="${margin.top}" y2="${margin.top + innerH}"/><text text-anchor="middle" x="${xx}" y="${height - 14}">${label}</text>`;
   }).join("");
 
-  const eventLines = (marketHistory.events || []).map((event) => {
+  const showEventMarkers = count <= 180;
+  document.querySelectorAll(".market-event-marker-legend").forEach((element) => {
+    element.hidden = !showEventMarkers;
+  });
+  $("marketMarkerHint").hidden = showEventMarkers;
+  const eventLines = showEventMarkers ? (marketHistory.events || []).map((event) => {
     const startTime = Date.parse(`${event.inversion_start_date}T00:00:00Z`);
     const sixTime = event.six_month_date ? Date.parse(`${event.six_month_date}T00:00:00Z`) : null;
     const parts = [];
     if (startTime >= minTime && startTime <= maxTime) {
       const xx = x(startTime);
       parts.push(`<line class="market-event-start" x1="${xx}" x2="${xx}" y1="${margin.top}" y2="${margin.top + innerH}"><title>${t("inversionOnset")}: ${event.inversion_start_date}</title></line>`);
-      parts.push(`<circle class="market-event-start-dot" cx="${xx}" cy="${margin.top + 8}" r="4"><title>${t("inversionOnset")}: ${event.inversion_start_date}</title></circle>`);
+      parts.push(`<circle class="market-event-start-dot" cx="${xx}" cy="${margin.top + 8}" r="5"><title>${t("inversionOnset")}: ${event.inversion_start_date}</title></circle>`);
     }
     if (sixTime !== null && sixTime >= minTime && sixTime <= maxTime) {
       const xx = x(sixTime);
       parts.push(`<line class="market-event-six" x1="${xx}" x2="${xx}" y1="${margin.top}" y2="${margin.top + innerH}"><title>${t("sixMonthsLater")}: ${event.six_month_date} · ${fmtPercent(event.six_month_return_pct)}</title></line>`);
     }
     return parts.join("");
-  }).join("");
+  }).join("") : "";
 
   const line = points.map((point, index) => `${x(timestamps[index])},${y(point.sp500_close)}`).join(" ");
   const hoverStep = count <= 36 ? 1 : Math.max(1, Math.round(count / 80));
@@ -1034,6 +1057,60 @@ function renderMarketHistory() {
   renderMarketEventStudy();
 }
 
+async function ensureMarketEventCatalog(t1, t2) {
+  const key = `${t1}:${t2}`;
+  if (marketEventCatalogKey === key && marketEventCatalog.length) {
+    updateMarketEventNav();
+    return;
+  }
+
+  try {
+    const params = new URLSearchParams({
+      t1: String(t1),
+      t2: String(t2),
+      start_month: "1961-06",
+      end_month: new Date().toISOString().slice(0, 7),
+    });
+    const response = await fetch(`/api/market/sp500-inversions?${params}`);
+    if (!response.ok) throw new Error("event-catalog-failed");
+    const payload = await response.json();
+    marketEventCatalog = payload.events || [];
+    marketEventCatalogKey = key;
+    const visibleLatest = marketHistory?.events?.at(-1)?.inversion_start_date?.slice(0, 7);
+    const matchedIndex = visibleLatest
+      ? marketEventCatalog.findIndex((event) => event.inversion_start_date.slice(0, 7) === visibleLatest)
+      : -1;
+    marketFocusedEventIndex = matchedIndex >= 0 ? matchedIndex : marketEventCatalog.length - 1;
+  } catch (_) {
+    marketEventCatalog = marketHistory?.events || [];
+    marketEventCatalogKey = key;
+    marketFocusedEventIndex = marketEventCatalog.length - 1;
+  }
+  updateMarketEventNav();
+}
+
+function updateMarketEventNav() {
+  const prev = $("marketPrevEvent");
+  const next = $("marketNextEvent");
+  if (!prev || !next) return;
+  const hasEvents = marketEventCatalog.length > 0;
+  prev.disabled = !hasEvents || marketFocusedEventIndex <= 0;
+  next.disabled = !hasEvents || marketFocusedEventIndex >= marketEventCatalog.length - 1;
+}
+
+async function focusMarketEvent(delta) {
+  if (!marketEventCatalog.length) {
+    await ensureMarketEventCatalog(Number($("marketT1").value), Number($("marketT2").value));
+  }
+  if (!marketEventCatalog.length) return;
+  const baseIndex = marketFocusedEventIndex < 0 ? marketEventCatalog.length - 1 : marketFocusedEventIndex;
+  const targetIndex = Math.min(Math.max(baseIndex + delta, 0), marketEventCatalog.length - 1);
+  marketFocusedEventIndex = targetIndex;
+  const startMonth = marketEventCatalog[targetIndex].inversion_start_date.slice(0, 7);
+  await zoomToMarketEvent(startMonth);
+  updateMarketEventNav();
+}
+
 async function loadMarketHistory() {
   const error = $("marketError");
   if (!error) return;
@@ -1058,6 +1135,7 @@ async function loadMarketHistory() {
     const response = await fetch(`/api/market/sp500-inversions?${params}`);
     if (!response.ok) throw new Error("market-history-failed");
     marketHistory = await response.json();
+    await ensureMarketEventCatalog(t1, t2);
     renderMarketHistory();
   } catch (_) {
     error.textContent = t("marketGenericError");
@@ -1074,10 +1152,13 @@ async function setMarketWindow(months) {
 }
 
 async function zoomToMarketEvent(startMonth) {
+  const catalogIndex = marketEventCatalog.findIndex((event) => event.inversion_start_date.slice(0, 7) === startMonth);
+  if (catalogIndex >= 0) marketFocusedEventIndex = catalogIndex;
   const currentMonth = new Date().toISOString().slice(0, 7);
   $("marketStartMonth").value = shiftMonth(startMonth, -3);
   $("marketEndMonth").value = [shiftMonth(startMonth, 9), currentMonth].sort()[0];
   await loadMarketHistory();
+  updateMarketEventNav();
 }
 
 function renderDynamicText() {
@@ -1499,6 +1580,8 @@ document.querySelectorAll("[data-lang]").forEach((button) => {
 $("spreadCalculate").addEventListener("click", calculateSpread);
 $("historyCompare").addEventListener("click", compareHistory);
 $("marketApply").addEventListener("click", loadMarketHistory);
+$("marketPrevEvent").addEventListener("click", () => focusMarketEvent(-1));
+$("marketNextEvent").addEventListener("click", () => focusMarketEvent(1));
 document.querySelectorAll("[data-market-window]").forEach((button) => {
   button.addEventListener("click", () => setMarketWindow(button.dataset.marketWindow));
 });

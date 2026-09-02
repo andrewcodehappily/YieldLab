@@ -180,7 +180,13 @@ h2 { margin: 0; font-size: clamp(1.35rem, 3vw, 2rem); letter-spacing: -.035em; }
 .market-decomposition-results small { color: #687584; }
 .market-event-study { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
 .market-event-study-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.market-event-study-heading > div:first-child { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .market-event-study-heading h3 { margin: 0; font-size: 1.05rem; letter-spacing: -.015em; }
+.market-event-nav { display: flex; align-items: center; gap: 8px; }
+.market-event-nav button { border: 1px solid var(--border); border-radius: 999px; padding: 7px 11px; background: rgba(255,255,255,.035); color: #dce7ef; font-size: .74rem; font-weight: 700; cursor: pointer; }
+.market-event-nav button:hover:not(:disabled) { border-color: rgba(158,231,200,.45); }
+.market-event-nav button:disabled { opacity: .35; cursor: not-allowed; }
+.market-marker-hint { color: #71808e; font-style: italic; }
 .market-event-summary { grid-template-columns: repeat(5, 1fr); }
 .market-event-table-wrap { margin-top: 12px; }
 .market-event-table { min-width: 720px; }
@@ -219,5 +225,8 @@ footer { color: #65717d; text-align: center; font-size: .78rem; padding: 18px 0 
   .market-chart, .market-chart svg { min-height: 330px; height: 330px; }
   .market-legend { justify-content: flex-start; }
   .market-event-study-heading { align-items: flex-start; flex-direction: column; }
+  .market-event-study-heading > div:first-child { align-items: flex-start; flex-direction: column; }
+  .market-event-nav { width: 100%; }
+  .market-event-nav button { flex: 1; }
   .market-formula { justify-content: flex-start; padding: 15px; font-size: .95rem; overflow-x: auto; flex-wrap: nowrap; }
 }

@@ -10,9 +10,9 @@ YieldLab 是一個互動式固定收益分析、殖利率曲線建模、因子�
 
 後端使用 FastAPI，前端保持零框架原生瀏覽器介面。Treasury collector 讀取美國財政部官方 XML 資料，將最新曲線與歷史交易日資料原子寫入本地 JSON；Web API 只讀本地資料，因此上游暫時故障時不會把整個網站一起拖下水。
 
-### v0.4.3 功能
+### v0.4.4 功能
 
-v0.4.3 在 ACM 預期短率／期限溢酬倒掛條件上加入月份級縮放與「倒掛開始後 6 個月」事件研究：
+v0.4.4 重新整理倒掛時間軸的視覺層級，讓全景與事件細節分工，不再把 76 年事件線全部擠在同一張圖上：
 
 - 美國國債票面殖利率曲線資料擷取與本地快取
 - 歷史殖利率曲線持久化與日期查詢
@@ -35,11 +35,14 @@ v0.4.3 在 ACM 預期短率／期限溢酬倒掛條件上加入月份級縮放�
 - 倒掛定義改為 `Eavg(T₂) − Eavg(T₁) < L(T₁) − L(T₂)`，其中 `Eavg` 使用 ACM risk-neutral yield、`L(T)` 使用 ACM term premium
 - `T₁` / `T₂` 可自由選擇 1Y～10Y 的 ACM 整數期限，並要求 `T₁ < T₂`
 - 可自由選擇精確到月份的圖表區間；1961 前因 ACM 尚無資料顯示灰色
-- `全部 / 10年 / 5年 / 2年 / 1年` 快速縮放；短時間窗會自動提高 X 軸刻度密度
+- 預設只開最近 10 年，`全部 / 10年 / 5年 / 2年 / 1年` 可快速切換
+- 超過 15 年的全景模式只畫 S&P 500 與紅／綠 regime，不再堆疊倒掛開始／+6 月事件線
+- 15 年以下細節模式才顯示事件標線，並把 S&P 500 Y 軸由對數切成線性以放大回撤細節
 - 圖表同時顯示預期短率平均差、期限溢酬門檻、ACM fitted-yield spread 與最新倒掛狀態
 - 每次 `未倒掛 → 倒掛` 的月份視為倒掛開始，並標示 +6 個月位置
 - 6 個月事件研究直接計算 S&P 500 六個月報酬、負報酬比例、中位報酬與月度最大回撤
 - 事件表可逐筆檢查；點任一事件會自動縮放到倒掛前 3 個月至後 9 個月
+- `上一個事件 / 下一個事件` 可跨完整 ACM 歷史逐次跳轉
 - S&P 500 月度歷史資料與 New York Fed ACM monthly term-premium Excel 使用獨立本地快取
 - 利率情境衝擊引擎：全曲線平移 + 任意期限節點 shock 線性插值
 - 內建 Parallel ±100 bp、Bull/Bear Steepener、Bull/Bear Flattener 情境
@@ -97,7 +100,7 @@ python -m app.collectors.market_history
 
 這個 collector 使用 Multpl 的月度 S&P 500 歷史價格，搭配 Federal Reserve Bank of New York 的 `ACMTermPremium.xls` 月資料。ACM 提供 1Y～10Y fitted yield、term premium 與 expected average short rate；成功後才原子更新 `data/sp500_inversion_history.json`。
 
-### v0.4.3 API
+### v0.4.4 API
 
 #### `GET /api/market/sp500-inversions`
 
@@ -282,9 +285,9 @@ YieldLab is an interactive fixed-income analytics, yield-curve modelling, factor
 
 The backend uses FastAPI while the frontend stays framework-free. A Treasury collector reads the official U.S. Department of the Treasury XML feed and atomically stores the latest curve plus historical trading-day curves in local JSON files. The web API reads local data only, so upstream outages do not block normal user requests.
 
-### v0.4.3 Features
+### v0.4.4 Features
 
-v0.4.3 adds month-level zooming and a six-month post-inversion event study on top of the ACM expected-rate / term-premium inversion condition:
+v0.4.4 restructures the inversion timeline so overview and event-detail views do different jobs instead of stacking decades of event markers on one chart:
 
 - U.S. Treasury par yield-curve ingestion with local caching
 - Persistent historical yield curves with date lookup
@@ -307,9 +310,12 @@ v0.4.3 adds month-level zooming and a six-month post-inversion event study on to
 - Inversion condition: `Eavg(T₂) − Eavg(T₁) < L(T₁) − L(T₂)`, using ACM risk-neutral yields for `Eavg` and ACM term premia for `L(T)`
 - Freely selectable integer ACM maturities from 1Y to 10Y with `T₁ < T₂`
 - Freely selectable exact month window; pre-1961 months are gray because ACM data do not exist
-- Quick `All / 10Y / 5Y / 2Y / 1Y` zoom presets with denser x-axis ticks for short windows
+- The chart now opens on the latest 10 years by default, with `All / 10Y / 5Y / 2Y / 1Y` presets
+- Windows longer than 15 years show only the S&P 500 and inversion regimes; event-start and +6-month markers are suppressed
+- Windows of 15 years or less show event markers and automatically switch the S&P 500 y-axis from logarithmic to linear for clearer drawdown detail
 - Latest decomposition cards show the expected-rate difference, term-premium threshold, ACM fitted-yield spread, and inversion state
 - Each `not inverted → inverted` transition is marked as an inversion start together with a +6-month marker
+- Previous/next-event controls can step through the full ACM history
 - Six-month event-study statistics include S&P 500 return, negative-return rate, median return, and monthly max drawdown
 - Click an event-table row to zoom automatically from three months before to nine months after that inversion start
 - Separate cached monthly S&P 500 and New York Fed ACM term-premium data
@@ -359,7 +365,7 @@ python -m app.collectors.market_history
 
 The market-history collector uses Multpl monthly S&P 500 historical prices plus the Federal Reserve Bank of New York `ACMTermPremium.xls` monthly data. ACM provides fitted yields, term premia, and expected average short rates for 1Y–10Y maturities. The cache is atomically replaced only after a successful refresh.
 
-### v0.4.3 API
+### v0.4.4 API
 
 #### `GET /api/market/sp500-inversions`
 

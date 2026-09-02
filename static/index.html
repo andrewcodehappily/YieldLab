@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="YieldLab 固定收益分析與殖利率曲線研究實驗室 / fixed-income analytics and yield-curve research lab" />
   <title>YieldLab</title>
-  <link rel="stylesheet" href="/static/styles.css?v=0.4.3" />
+  <link rel="stylesheet" href="/static/styles.css?v=0.4.4" />
 </head>
 <body>
   <main class="shell">
@@ -314,8 +314,8 @@
       <div class="market-history-controls market-acm-controls">
         <label><span data-i18n="marketT1">短端 T₁</span><select id="marketT1"></select></label>
         <label><span data-i18n="marketT2">長端 T₂</span><select id="marketT2"></select></label>
-        <label><span data-i18n="marketStartMonth">起始月</span><input id="marketStartMonth" type="month" value="1950-01" min="1950-01" max="2026-12"></label>
-        <label><span data-i18n="marketEndMonth">結束月</span><input id="marketEndMonth" type="month" value="2026-09" min="1950-01" max="2026-12"></label>
+        <label><span data-i18n="marketStartMonth">起始月</span><input id="marketStartMonth" type="month" min="1950-01" max="2026-12"></label>
+        <label><span data-i18n="marketEndMonth">結束月</span><input id="marketEndMonth" type="month" min="1950-01" max="2026-12"></label>
         <button type="button" id="marketApply" data-i18n="marketApply">更新圖表</button>
       </div>
 
@@ -331,8 +331,9 @@
         <span><i class="market-swatch market-normal"></i><b data-i18n="nonInverted">未倒掛</b></span>
         <span><i class="market-swatch market-inverted"></i><b data-i18n="invertedPeriod">倒掛</b></span>
         <span><i class="market-swatch market-unavailable"></i><b data-i18n="unavailableData">無 ACM 資料</b></span>
-        <span><i class="market-event-key market-event-start-key"></i><b data-i18n="inversionOnset">倒掛開始</b></span>
-        <span><i class="market-event-key market-event-six-key"></i><b data-i18n="sixMonthsLater">+6 個月</b></span>
+        <span class="market-event-marker-legend"><i class="market-event-key market-event-start-key"></i><b data-i18n="inversionOnset">倒掛開始</b></span>
+        <span class="market-event-marker-legend"><i class="market-event-key market-event-six-key"></i><b data-i18n="sixMonthsLater">+6 個月</b></span>
+        <span id="marketMarkerHint" class="market-marker-hint" hidden data-i18n="zoomForMarkers">縮到 15 年內才顯示事件線</span>
       </div>
 
       <div id="marketChart" class="market-chart" role="img" data-i18n-aria-label="marketChartAria" aria-label="S&amp;P 500 與 ACM 倒掛區間圖"></div>
@@ -346,8 +347,14 @@
 
       <div class="market-event-study">
         <div class="market-event-study-heading">
-          <h3 data-i18n="eventStudyTitle">倒掛開始後 6 個月事件研究</h3>
-          <span class="pill" data-i18n="monthlyObservationNote">月度 S&amp;P 500</span>
+          <div>
+            <h3 data-i18n="eventStudyTitle">倒掛開始後 6 個月事件研究</h3>
+            <span class="pill" data-i18n="monthlyObservationNote">月度 S&amp;P 500</span>
+          </div>
+          <div class="market-event-nav">
+            <button type="button" id="marketPrevEvent" data-i18n="previousEvent">← 上一個事件</button>
+            <button type="button" id="marketNextEvent" data-i18n="nextEvent">下一個事件 →</button>
+          </div>
         </div>
         <div class="result-grid market-event-summary">
           <article><span data-i18n="eventCount">倒掛開始事件</span><strong id="eventCount">—</strong><small id="eventCompleted">—</small></article>
@@ -377,8 +384,8 @@
       <p id="marketError" class="error" hidden></p>
     </section>
 
-    <footer data-i18n="footer">YieldLab v0.4.3 · 倒掛半年後到底跌不跌，現在直接逐次驗屍。</footer>
+    <footer data-i18n="footer">YieldLab v0.4.4 · 全景看 regime，細節才把事件線放出來。</footer>
   </main>
-  <script src="/static/app.js?v=0.4.3" defer></script>
+  <script src="/static/app.js?v=0.4.4" defer></script>
 </body>
 </html>
