@@ -82,6 +82,7 @@ def _event_results(
     selected_end_month: str,
 ) -> list[InversionEventResult]:
     by_month = {_month_key(point.date): point for point in all_points}
+    point_index = {id(point): index for index, point in enumerate(all_points)}
     events: list[InversionEventResult] = []
 
     previous_valid_state: bool | None = None
@@ -92,9 +93,10 @@ def _event_results(
             continue
 
         month = _month_key(point.date)
-        started = current_state is True and previous_valid_state is False
+        # An inversion ends on the first non-inverted monthly observation after an inverted month.
+        ended = current_state is False and previous_valid_state is True
         previous_valid_state = current_state
-        if not started or month < selected_start_month or month > selected_end_month:
+        if not ended or month < selected_start_month or month > selected_end_month:
             continue
 
         target_month = _add_months(month, 6)
@@ -102,16 +104,16 @@ def _event_results(
         if target is None:
             events.append(
                 InversionEventResult(
-                    inversion_start_date=point.date,
-                    start_sp500=point.sp500_close,
+                    inversion_end_date=point.date,
+                    end_sp500=point.sp500_close,
                     completed=False,
                 )
             )
             continue
 
-        start_index = all_points.index(point)
-        target_index = all_points.index(target)
-        window = all_points[start_index : target_index + 1]
+        end_index = point_index[id(point)]
+        target_index = point_index[id(target)]
+        window = all_points[end_index : target_index + 1]
         running_peak = window[0].sp500_close
         max_drawdown = 0.0
         max_drawdown_date = window[0].date
@@ -125,9 +127,9 @@ def _event_results(
         six_month_return = (target.sp500_close / point.sp500_close - 1) * 100
         events.append(
             InversionEventResult(
-                inversion_start_date=point.date,
+                inversion_end_date=point.date,
                 six_month_date=target.date,
-                start_sp500=round(point.sp500_close, 6),
+                end_sp500=round(point.sp500_close, 6),
                 six_month_sp500=round(target.sp500_close, 6),
                 six_month_return_pct=round(six_month_return, 6),
                 max_drawdown_pct=round(max_drawdown, 6),
@@ -203,8 +205,8 @@ def build_inversion_view(
         methodology=(
             "ACM decomposition inversion: Eavg(T2)-Eavg(T1) < L(T1)-L(T2), "
             "where Eavg is ACMRNY and L(T) is the ACM term premium. "
-            "Six-month event study starts when the state changes from non-inverted to inverted; "
-            "drawdowns use monthly S&P 500 observations."
+            "Six-month event study starts when the state changes from inverted to non-inverted; "
+            "the first non-inverted month is the inversion-end observation, and drawdowns use monthly S&P 500 observations."
         ),
         points=selected,
         events=events,

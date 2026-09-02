@@ -61,7 +61,7 @@ def test_market_history_supports_maturity_and_date_ranges() -> None:
     assert view.end_date.startswith("2010-08")
 
 
-def test_six_month_event_study_uses_inversion_starts() -> None:
+def test_six_month_event_study_uses_inversion_ends() -> None:
     view = build_inversion_view(
         load_market_history(),
         t1_years=2,
@@ -72,6 +72,18 @@ def test_six_month_event_study_uses_inversion_starts() -> None:
     assert view.events
     assert view.event_summary.event_count == len(view.events)
     assert view.event_summary.completed_event_count <= view.event_summary.event_count
+
+    points_by_month = {point.date[:7]: point for point in view.points}
+    for event in view.events:
+        end_month = event.inversion_end_date[:7]
+        end_point = points_by_month[end_month]
+        year, month = map(int, end_month.split("-"))
+        previous_year = year if month > 1 else year - 1
+        previous_month = month - 1 if month > 1 else 12
+        previous_key = f"{previous_year:04d}-{previous_month:02d}"
+        assert end_point.inverted is False
+        assert points_by_month[previous_key].inverted is True
+
     completed = [event for event in view.events if event.completed]
     assert completed
     assert all(event.six_month_return_pct is not None for event in completed)

@@ -187,8 +187,8 @@ h2 { margin: 0; font-size: clamp(1.35rem, 3vw, 2rem); letter-spacing: -.035em; }
 .market-event-summary { grid-template-columns: repeat(5, 1fr); }
 .market-event-table-wrap { margin-top: 12px; }
 .market-event-table { min-width: 720px; }
-.market-event-table tbody tr[data-event-start] { cursor: pointer; }
-.market-event-table tbody tr[data-event-start]:hover td { background: rgba(158,231,200,.035); }
+.market-event-table tbody tr[data-event-end] { cursor: pointer; }
+.market-event-table tbody tr[data-event-end]:hover td { background: rgba(158,231,200,.035); }
 .market-event-empty, .market-event-incomplete { color: var(--muted) !important; text-align: center !important; padding: 18px !important; }
 .market-source { color: #65717d; font-size: .72rem; line-height: 1.55; margin: 10px 2px 0; word-break: break-word; }
 

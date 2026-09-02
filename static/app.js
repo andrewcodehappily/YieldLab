@@ -169,25 +169,25 @@ const TRANSLATIONS = {
     marketStateInverted: "倒掛",
     marketStateNormal: "未倒掛",
     marketChartAria: "S&P 500 與 ACM 倒掛區間圖",
-    eventStudyTitle: "倒掛後 6 個月事件研究",
+    eventStudyTitle: "倒掛結束後 6 個月事件研究",
     monthlyObservationNote: "月度 S&P 500",
-    eventCount: "倒掛事件",
+    eventCount: "倒掛結束事件",
     completedSamples: (done, total) => `已完成 ${done} / ${total} 個 6 個月樣本`,
     negativeSixMonthRate: "6 個月後負報酬比例",
     medianSixMonthReturn: "6 個月中位報酬",
     worstSixMonthReturn: "最差 6 個月報酬",
     worstSixMonthDrawdown: "最差 6 個月內最大回撤",
-    eventStart: "倒掛月份",
+    eventEnd: "倒掛結束月",
     eventSixMonth: "+6 個月",
     eventSixMonthReturn: "6 個月報酬",
     eventMaxDrawdown: "期間最大回撤",
     eventDrawdownDate: "最深回撤月",
     incompleteSample: "尚未滿 6 個月",
-    noEvents: "這個區間沒有新的倒掛開始事件。",
-    marketMethodology: "紅色月份滿足 Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂)。倒掛開始定義為狀態由未倒掛切換為倒掛；事件研究比較該月與 +6 個月的 S&P 500，最大回撤依月度資料計算。1961 前無 ACM 資料顯示灰色。",
+    noEvents: "這個區間沒有倒掛結束事件。",
+    marketMethodology: "紅色月份滿足 Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂)。倒掛結束定義為狀態由倒掛切回未倒掛，並以第一個未倒掛月份作為結束月；事件研究比較結束月與 +6 個月的 S&P 500，最大回撤依月度資料計算。1961 前無 ACM 資料顯示灰色。",
     marketSource: (sp500, rates) => `S&P 500：${sp500} · 分解模型：${rates}`,
     marketGenericError: "長期市場歷史資料暫時無法載入，或選擇的期限／月份區間無效。",
-    footer: "YieldLab v0.4.5 · 全景看倒掛區間，細節只保留 +6 個月標記。",
+    footer: "YieldLab v0.4.6 · 半年倒數從倒掛結束才開始。",
     noData: "無資料",
     shapeNormal: "正常",
     shapeFlat: "平坦",
@@ -370,25 +370,25 @@ const TRANSLATIONS = {
     marketStateInverted: "Inverted",
     marketStateNormal: "Not inverted",
     marketChartAria: "S&P 500 with ACM inversion regimes",
-    eventStudyTitle: "Six-month post-inversion event study",
+    eventStudyTitle: "Six-month post-inversion-end event study",
     monthlyObservationNote: "Monthly S&P 500",
-    eventCount: "Inversion events",
+    eventCount: "Inversion-end events",
     completedSamples: (done, total) => `${done} / ${total} completed six-month samples`,
     negativeSixMonthRate: "Negative six-month return rate",
     medianSixMonthReturn: "Median six-month return",
     worstSixMonthReturn: "Worst six-month return",
     worstSixMonthDrawdown: "Worst max drawdown within six months",
-    eventStart: "Inversion month",
+    eventEnd: "Inversion end month",
     eventSixMonth: "+6 months",
     eventSixMonthReturn: "Six-month return",
     eventMaxDrawdown: "Max drawdown",
     eventDrawdownDate: "Deepest drawdown month",
     incompleteSample: "Not six months old yet",
-    noEvents: "No new inversion-start event occurs in this window.",
-    marketMethodology: "Red months satisfy Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂). An inversion start is a transition from non-inverted to inverted. The event study compares the S&P 500 at that month with +6 months; max drawdown uses monthly observations. Pre-1961 months are gray because ACM data do not exist.",
+    noEvents: "No inversion-end event occurs in this window.",
+    marketMethodology: "Red months satisfy Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂). An inversion ends when the state transitions from inverted to non-inverted; the first non-inverted month is the end observation. The event study compares the S&P 500 at that month with +6 months; max drawdown uses monthly observations. Pre-1961 months are gray because ACM data do not exist.",
     marketSource: (sp500, rates) => `S&P 500: ${sp500} · Decomposition model: ${rates}`,
     marketGenericError: "Long-run market history is unavailable, or the selected maturity/month range is invalid.",
-    footer: "YieldLab v0.4.5 · overview shows inversion regimes; detail view keeps only +6-month markers.",
+    footer: "YieldLab v0.4.6 · the six-month clock now starts when inversion ends.",
     noData: "n/a",
     shapeNormal: "Normal",
     shapeFlat: "Flat",
@@ -909,11 +909,11 @@ function renderMarketEventStudy() {
   }
   tbody.innerHTML = events.map((event) => {
     if (!event.completed) {
-      return `<tr data-event-start="${event.inversion_start_date.slice(0, 7)}"><td>${event.inversion_start_date}</td><td colspan="4" class="market-event-incomplete">${t("incompleteSample")}</td></tr>`;
+      return `<tr data-event-end="${event.inversion_end_date.slice(0, 7)}"><td>${event.inversion_end_date}</td><td colspan="4" class="market-event-incomplete">${t("incompleteSample")}</td></tr>`;
     }
     const returnClass = event.six_month_return_pct > 0 ? "positive" : event.six_month_return_pct < 0 ? "negative" : "";
-    return `<tr data-event-start="${event.inversion_start_date.slice(0, 7)}">
-      <td>${event.inversion_start_date}</td>
+    return `<tr data-event-end="${event.inversion_end_date.slice(0, 7)}">
+      <td>${event.inversion_end_date}</td>
       <td>${event.six_month_date}</td>
       <td class="${returnClass}">${fmtPercent(event.six_month_return_pct)}</td>
       <td class="negative">${fmtPercent(event.max_drawdown_pct)}</td>
@@ -1065,9 +1065,9 @@ async function ensureMarketEventCatalog(t1, t2) {
     const payload = await response.json();
     marketEventCatalog = payload.events || [];
     marketEventCatalogKey = key;
-    const visibleLatest = marketHistory?.events?.at(-1)?.inversion_start_date?.slice(0, 7);
+    const visibleLatest = marketHistory?.events?.at(-1)?.inversion_end_date?.slice(0, 7);
     const matchedIndex = visibleLatest
-      ? marketEventCatalog.findIndex((event) => event.inversion_start_date.slice(0, 7) === visibleLatest)
+      ? marketEventCatalog.findIndex((event) => event.inversion_end_date.slice(0, 7) === visibleLatest)
       : -1;
     marketFocusedEventIndex = matchedIndex >= 0 ? matchedIndex : marketEventCatalog.length - 1;
   } catch (_) {
@@ -1095,8 +1095,8 @@ async function focusMarketEvent(delta) {
   const baseIndex = marketFocusedEventIndex < 0 ? marketEventCatalog.length - 1 : marketFocusedEventIndex;
   const targetIndex = Math.min(Math.max(baseIndex + delta, 0), marketEventCatalog.length - 1);
   marketFocusedEventIndex = targetIndex;
-  const startMonth = marketEventCatalog[targetIndex].inversion_start_date.slice(0, 7);
-  await zoomToMarketEvent(startMonth);
+  const endMonth = marketEventCatalog[targetIndex].inversion_end_date.slice(0, 7);
+  await zoomToMarketEvent(endMonth);
   updateMarketEventNav();
 }
 
@@ -1140,12 +1140,12 @@ async function setMarketWindow(months) {
   await loadMarketHistory();
 }
 
-async function zoomToMarketEvent(startMonth) {
-  const catalogIndex = marketEventCatalog.findIndex((event) => event.inversion_start_date.slice(0, 7) === startMonth);
+async function zoomToMarketEvent(endMonth) {
+  const catalogIndex = marketEventCatalog.findIndex((event) => event.inversion_end_date.slice(0, 7) === endMonth);
   if (catalogIndex >= 0) marketFocusedEventIndex = catalogIndex;
   const currentMonth = new Date().toISOString().slice(0, 7);
-  $("marketStartMonth").value = shiftMonth(startMonth, -3);
-  $("marketEndMonth").value = [shiftMonth(startMonth, 9), currentMonth].sort()[0];
+  $("marketStartMonth").value = shiftMonth(endMonth, -3);
+  $("marketEndMonth").value = [shiftMonth(endMonth, 9), currentMonth].sort()[0];
   await loadMarketHistory();
   updateMarketEventNav();
 }
@@ -1575,8 +1575,8 @@ document.querySelectorAll("[data-market-window]").forEach((button) => {
   button.addEventListener("click", () => setMarketWindow(button.dataset.marketWindow));
 });
 $("marketEventRows").addEventListener("click", (event) => {
-  const row = event.target.closest("tr[data-event-start]");
-  if (row) zoomToMarketEvent(row.dataset.eventStart);
+  const row = event.target.closest("tr[data-event-end]");
+  if (row) zoomToMarketEvent(row.dataset.eventEnd);
 });
 $("fitCurve").addEventListener("click", loadCurveFit);
 $("queryFittedYield").addEventListener("click", queryFittedYield);

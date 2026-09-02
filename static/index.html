@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="YieldLab 固定收益分析與殖利率曲線研究實驗室 / fixed-income analytics and yield-curve research lab" />
   <title>YieldLab</title>
-  <link rel="stylesheet" href="/static/styles.css?v=0.4.5" />
+  <link rel="stylesheet" href="/static/styles.css?v=0.4.6" />
 </head>
 <body>
   <main class="shell">
@@ -347,7 +347,7 @@
       <div class="market-event-study">
         <div class="market-event-study-heading">
           <div>
-            <h3 data-i18n="eventStudyTitle">倒掛後 6 個月事件研究</h3>
+            <h3 data-i18n="eventStudyTitle">倒掛結束後 6 個月事件研究</h3>
             <span class="pill" data-i18n="monthlyObservationNote">月度 S&amp;P 500</span>
           </div>
           <div class="market-event-nav">
@@ -356,7 +356,7 @@
           </div>
         </div>
         <div class="result-grid market-event-summary">
-          <article><span data-i18n="eventCount">倒掛事件</span><strong id="eventCount">—</strong><small id="eventCompleted">—</small></article>
+          <article><span data-i18n="eventCount">倒掛結束事件</span><strong id="eventCount">—</strong><small id="eventCompleted">—</small></article>
           <article><span data-i18n="negativeSixMonthRate">6 個月後負報酬比例</span><strong id="eventNegativeRate">—</strong></article>
           <article><span data-i18n="medianSixMonthReturn">6 個月中位報酬</span><strong id="eventMedianReturn">—</strong></article>
           <article><span data-i18n="worstSixMonthReturn">最差 6 個月報酬</span><strong id="eventWorstReturn">—</strong></article>
@@ -366,7 +366,7 @@
           <table class="portfolio-table market-event-table">
             <thead>
               <tr>
-                <th data-i18n="eventStart">倒掛月份</th>
+                <th data-i18n="eventEnd">倒掛結束月</th>
                 <th data-i18n="eventSixMonth">+6 個月</th>
                 <th data-i18n="eventSixMonthReturn">6 個月報酬</th>
                 <th data-i18n="eventMaxDrawdown">期間最大回撤</th>
@@ -378,13 +378,13 @@
         </div>
       </div>
 
-      <p class="notice compact-notice" data-i18n="marketMethodology">紅色月份滿足 Eavg(T₂)−Eavg(T₁) &lt; L(T₁)−L(T₂)。倒掛開始定義為狀態由未倒掛切換為倒掛；事件研究比較該月與 +6 個月的 S&amp;P 500，最大回撤依月度資料計算。1961 前無 ACM 資料顯示灰色。</p>
+      <p class="notice compact-notice" data-i18n="marketMethodology">紅色月份滿足 Eavg(T₂)−Eavg(T₁) &lt; L(T₁)−L(T₂)。倒掛結束定義為狀態由倒掛切回未倒掛，並以第一個未倒掛月份作為結束月；事件研究比較結束月與 +6 個月的 S&amp;P 500，最大回撤依月度資料計算。1961 前無 ACM 資料顯示灰色。</p>
       <p id="marketSource" class="market-source">—</p>
       <p id="marketError" class="error" hidden></p>
     </section>
 
-    <footer data-i18n="footer">YieldLab v0.4.5 · 全景看倒掛區間，細節只保留 +6 個月標記。</footer>
+    <footer data-i18n="footer">YieldLab v0.4.6 · 半年倒數從倒掛結束才開始。</footer>
   </main>
-  <script src="/static/app.js?v=0.4.5" defer></script>
+  <script src="/static/app.js?v=0.4.6" defer></script>
 </body>
 </html>

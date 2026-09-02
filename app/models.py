@@ -250,9 +250,9 @@ class MarketInversionPoint(BaseModel):
 
 
 class InversionEventResult(BaseModel):
-    inversion_start_date: str
+    inversion_end_date: str
     six_month_date: str | None = None
-    start_sp500: float
+    end_sp500: float
     six_month_sp500: float | None = None
     six_month_return_pct: float | None = None
     max_drawdown_pct: float | None = None
