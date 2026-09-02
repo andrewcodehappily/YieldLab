@@ -1,6 +1,6 @@
 [project]
 name = "yieldlab"
-version = "0.4.0"
+version = "0.4.1"
 description = "Interactive fixed-income analytics and yield-curve research lab"
 readme = "README.md"
 requires-python = ">=3.11"

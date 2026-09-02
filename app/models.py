@@ -221,3 +221,18 @@ class FactorShockRequest(BaseModel):
 class FactorShockResult(BaseModel):
     scenario: CurveScenario
     shock_result: CurveShockResult
+
+
+class MarketHistoryPoint(BaseModel):
+    date: str
+    sp500_close: float
+    spread_10y3m_bp: float | None = None
+    spread_10y2y_bp: float | None = None
+
+
+class MarketHistoryData(BaseModel):
+    start_date: str
+    end_date: str
+    sp500_source: str
+    rates_source: str
+    points: list[MarketHistoryPoint]

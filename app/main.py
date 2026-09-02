@@ -22,6 +22,7 @@ from app.models import (
     FactorShockResult,
     FittedYieldQuote,
     ForwardRateQuote,
+    MarketHistoryData,
     PcaAnalysis,
     PortfolioScenarioRequest,
     PortfolioScenarioResult,
@@ -34,12 +35,13 @@ from app.services.curve import analyze_curve, calculate_spread, compare_curves
 from app.services.factors import analyze_pca, factor_shock
 from app.services.fitting import fit_curve, fitted_yield_quote, forward_rate_quote
 from app.services.history import get_curve_by_date, load_history, merge_history
+from app.services.market_history import load_market_history
 from app.services.scenarios import get_presets, shock_curve, stress_portfolio
 from app.services.treasury import get_current_curve
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / "static"
-VERSION = "0.4.0"
+VERSION = "0.4.1"
 CurveModel = Literal["nelson_siegel", "svensson"]
 
 app = FastAPI(
@@ -109,6 +111,14 @@ def get_curve_history(
 ) -> CurveHistory:
     curves = _available_history()
     return CurveHistory(curves=curves[-limit:])
+
+
+@app.get("/api/market/sp500-inversions", response_model=MarketHistoryData)
+def get_sp500_inversion_history() -> MarketHistoryData:
+    try:
+        return load_market_history()
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        raise HTTPException(status_code=503, detail="Market history cache is unavailable") from exc
 
 
 @app.get("/api/spread", response_model=SpreadQuote)

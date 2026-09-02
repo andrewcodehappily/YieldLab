@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="YieldLab 固定收益分析與殖利率曲線研究實驗室 / fixed-income analytics and yield-curve research lab" />
   <title>YieldLab</title>
-  <link rel="stylesheet" href="/static/styles.css?v=0.4.0" />
+  <link rel="stylesheet" href="/static/styles.css?v=0.4.1" />
 </head>
 <body>
   <main class="shell">
@@ -292,8 +292,38 @@
       <p id="bondError" class="error" hidden></p>
     </section>
 
-    <footer data-i18n="footer">YieldLab v0.4 · 現在曲線不只會動，還會被拆成因子研究。</footer>
+    <section class="panel market-history-panel">
+      <div class="panel-heading market-history-heading">
+        <div>
+          <p class="eyebrow" data-i18n="marketHistoryLab">市場歷史實驗室</p>
+          <h2 data-i18n="marketHistoryTitle">S&amp;P 500 與殖利率曲線倒掛</h2>
+        </div>
+        <span class="pill">1950 → 2026</span>
+      </div>
+
+      <div class="market-history-controls">
+        <label>
+          <span data-i18n="inversionDefinition">倒掛定義</span>
+          <select id="marketSpread">
+            <option value="10y3m" data-i18n="tenThreeDefinition">10年 − 3月（10Y−3M）</option>
+            <option value="10y2y" data-i18n="tenTwoDefinition">10年 − 2年（10Y−2Y）</option>
+          </select>
+        </label>
+        <div class="market-legend">
+          <span><i class="market-swatch market-normal"></i><b data-i18n="nonInverted">未倒掛</b></span>
+          <span><i class="market-swatch market-inverted"></i><b data-i18n="invertedPeriod">倒掛</b></span>
+          <span><i class="market-swatch market-unavailable"></i><b data-i18n="unavailableData">無資料</b></span>
+        </div>
+      </div>
+
+      <div id="marketChart" class="market-chart" role="img" data-i18n-aria-label="marketChartAria" aria-label="1950 至 2026 S&amp;P 500 與殖利率曲線倒掛區間圖"></div>
+      <p class="notice compact-notice" data-i18n="marketMethodology">紅色代表所選「長端 − 短端」利差小於 0；綠色代表大於等於 0；灰色代表該期限資料尚未開始。S&amp;P 500 使用月度價格，縱軸採對數刻度。</p>
+      <p id="marketSource" class="market-source">—</p>
+      <p id="marketError" class="error" hidden></p>
+    </section>
+
+    <footer data-i18n="footer">YieldLab v0.4.1 · 連 1950 年的市場都被拖進來對質了。</footer>
   </main>
-  <script src="/static/app.js?v=0.4.0" defer></script>
+  <script src="/static/app.js?v=0.4.1" defer></script>
 </body>
 </html>

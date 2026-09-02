@@ -1,0 +1,5528 @@
+{
+  "start_date": "1950-01-01",
+  "end_date": "2026-09-01",
+  "sp500_source": "Multpl monthly S&P 500 historical prices (Standard & Poor's / Robert Shiller)",
+  "rates_source": "Board of Governors of the Federal Reserve System H.15 monthly averages",
+  "points": [
+    {
+      "date": "1950-01-01",
+      "sp500_close": 16.88,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1950-02-01",
+      "sp500_close": 17.21,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1950-03-01",
+      "sp500_close": 17.35,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1950-04-01",
+      "sp500_close": 17.84,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1950-05-01",
+      "sp500_close": 18.44,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1950-06-01",
+      "sp500_close": 18.74,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1950-07-01",
+      "sp500_close": 17.38,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1950-08-01",
+      "sp500_close": 18.43,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1950-09-01",
+      "sp500_close": 19.08,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1950-10-01",
+      "sp500_close": 19.87,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1950-11-01",
+      "sp500_close": 19.83,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1950-12-01",
+      "sp500_close": 19.75,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1951-01-01",
+      "sp500_close": 21.21,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1951-02-01",
+      "sp500_close": 22.0,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1951-03-01",
+      "sp500_close": 21.63,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1951-04-01",
+      "sp500_close": 21.92,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1951-05-01",
+      "sp500_close": 21.93,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1951-06-01",
+      "sp500_close": 21.55,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1951-07-01",
+      "sp500_close": 21.93,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1951-08-01",
+      "sp500_close": 22.89,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1951-09-01",
+      "sp500_close": 23.48,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1951-10-01",
+      "sp500_close": 23.36,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1951-11-01",
+      "sp500_close": 22.71,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1951-12-01",
+      "sp500_close": 23.41,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1952-01-01",
+      "sp500_close": 24.19,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1952-02-01",
+      "sp500_close": 23.75,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1952-03-01",
+      "sp500_close": 23.81,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1952-04-01",
+      "sp500_close": 23.74,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1952-05-01",
+      "sp500_close": 23.73,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1952-06-01",
+      "sp500_close": 24.38,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1952-07-01",
+      "sp500_close": 25.08,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1952-08-01",
+      "sp500_close": 25.18,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1952-09-01",
+      "sp500_close": 24.78,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1952-10-01",
+      "sp500_close": 24.26,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1952-11-01",
+      "sp500_close": 25.03,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1952-12-01",
+      "sp500_close": 26.04,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1953-01-01",
+      "sp500_close": 26.18,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1953-02-01",
+      "sp500_close": 25.86,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1953-03-01",
+      "sp500_close": 25.99,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1953-04-01",
+      "sp500_close": 24.71,
+      "spread_10y3m_bp": 64.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1953-05-01",
+      "sp500_close": 24.84,
+      "spread_10y3m_bp": 89.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1953-06-01",
+      "sp500_close": 23.95,
+      "spread_10y3m_bp": 100.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1953-07-01",
+      "sp500_close": 24.29,
+      "spread_10y3m_bp": 89.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1953-08-01",
+      "sp500_close": 24.39,
+      "spread_10y3m_bp": 91.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1953-09-01",
+      "sp500_close": 23.27,
+      "spread_10y3m_bp": 108.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1953-10-01",
+      "sp500_close": 23.97,
+      "spread_10y3m_bp": 128.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1953-11-01",
+      "sp500_close": 24.5,
+      "spread_10y3m_bp": 124.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1953-12-01",
+      "sp500_close": 24.83,
+      "spread_10y3m_bp": 99.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1954-01-01",
+      "sp500_close": 25.46,
+      "spread_10y3m_bp": 130.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1954-02-01",
+      "sp500_close": 26.02,
+      "spread_10y3m_bp": 150.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1954-03-01",
+      "sp500_close": 26.57,
+      "spread_10y3m_bp": 134.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1954-04-01",
+      "sp500_close": 27.63,
+      "spread_10y3m_bp": 132.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1954-05-01",
+      "sp500_close": 28.73,
+      "spread_10y3m_bp": 161.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1954-06-01",
+      "sp500_close": 28.96,
+      "spread_10y3m_bp": 174.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1954-07-01",
+      "sp500_close": 30.13,
+      "spread_10y3m_bp": 158.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1954-08-01",
+      "sp500_close": 30.73,
+      "spread_10y3m_bp": 144.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1954-09-01",
+      "sp500_close": 31.45,
+      "spread_10y3m_bp": 137.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1954-10-01",
+      "sp500_close": 32.18,
+      "spread_10y3m_bp": 145.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1954-11-01",
+      "sp500_close": 33.44,
+      "spread_10y3m_bp": 155.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1954-12-01",
+      "sp500_close": 34.97,
+      "spread_10y3m_bp": 136.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1955-01-01",
+      "sp500_close": 35.6,
+      "spread_10y3m_bp": 139.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1955-02-01",
+      "sp500_close": 36.79,
+      "spread_10y3m_bp": 148.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1955-03-01",
+      "sp500_close": 36.5,
+      "spread_10y3m_bp": 140.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1955-04-01",
+      "sp500_close": 37.76,
+      "spread_10y3m_bp": 116.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1955-05-01",
+      "sp500_close": 37.6,
+      "spread_10y3m_bp": 131.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1955-06-01",
+      "sp500_close": 39.78,
+      "spread_10y3m_bp": 137.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1955-07-01",
+      "sp500_close": 42.69,
+      "spread_10y3m_bp": 130.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1955-08-01",
+      "sp500_close": 42.43,
+      "spread_10y3m_bp": 107.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1955-09-01",
+      "sp500_close": 44.34,
+      "spread_10y3m_bp": 90.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1955-10-01",
+      "sp500_close": 42.11,
+      "spread_10y3m_bp": 65.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1955-11-01",
+      "sp500_close": 44.95,
+      "spread_10y3m_bp": 65.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1955-12-01",
+      "sp500_close": 45.37,
+      "spread_10y3m_bp": 42.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1956-01-01",
+      "sp500_close": 44.15,
+      "spread_10y3m_bp": 49.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1956-02-01",
+      "sp500_close": 44.43,
+      "spread_10y3m_bp": 52.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1956-03-01",
+      "sp500_close": 47.49,
+      "spread_10y3m_bp": 71.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1956-04-01",
+      "sp500_close": 48.05,
+      "spread_10y3m_bp": 58.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1956-05-01",
+      "sp500_close": 46.54,
+      "spread_10y3m_bp": 46.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1956-06-01",
+      "sp500_close": 46.27,
+      "spread_10y3m_bp": 51.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1956-07-01",
+      "sp500_close": 48.78,
+      "spread_10y3m_bp": 80.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1956-08-01",
+      "sp500_close": 48.49,
+      "spread_10y3m_bp": 73.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1956-09-01",
+      "sp500_close": 46.84,
+      "spread_10y3m_bp": 54.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1956-10-01",
+      "sp500_close": 46.24,
+      "spread_10y3m_bp": 44.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1956-11-01",
+      "sp500_close": 45.76,
+      "spread_10y3m_bp": 50.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1956-12-01",
+      "sp500_close": 46.44,
+      "spread_10y3m_bp": 38.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1957-01-01",
+      "sp500_close": 45.43,
+      "spread_10y3m_bp": 35.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1957-02-01",
+      "sp500_close": 43.47,
+      "spread_10y3m_bp": 24.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1957-03-01",
+      "sp500_close": 44.03,
+      "spread_10y3m_bp": 33.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1957-04-01",
+      "sp500_close": 45.05,
+      "spread_10y3m_bp": 41.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1957-05-01",
+      "sp500_close": 46.78,
+      "spread_10y3m_bp": 54.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1957-06-01",
+      "sp500_close": 47.55,
+      "spread_10y3m_bp": 51.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1957-07-01",
+      "sp500_close": 48.51,
+      "spread_10y3m_bp": 77.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1957-08-01",
+      "sp500_close": 45.84,
+      "spread_10y3m_bp": 56.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1957-09-01",
+      "sp500_close": 43.98,
+      "spread_10y3m_bp": 39.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1957-10-01",
+      "sp500_close": 41.24,
+      "spread_10y3m_bp": 39.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1957-11-01",
+      "sp500_close": 40.35,
+      "spread_10y3m_bp": 41.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1957-12-01",
+      "sp500_close": 40.33,
+      "spread_10y3m_bp": 17.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1958-01-01",
+      "sp500_close": 41.12,
+      "spread_10y3m_bp": 65.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1958-02-01",
+      "sp500_close": 41.26,
+      "spread_10y3m_bp": 152.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1958-03-01",
+      "sp500_close": 42.11,
+      "spread_10y3m_bp": 168.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1958-04-01",
+      "sp500_close": 42.34,
+      "spread_10y3m_bp": 175.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1958-05-01",
+      "sp500_close": 43.7,
+      "spread_10y3m_bp": 201.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1958-06-01",
+      "sp500_close": 44.75,
+      "spread_10y3m_bp": 214.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1958-07-01",
+      "sp500_close": 45.98,
+      "spread_10y3m_bp": 229.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1958-08-01",
+      "sp500_close": 47.7,
+      "spread_10y3m_bp": 185.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1958-09-01",
+      "sp500_close": 48.96,
+      "spread_10y3m_bp": 132.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1958-10-01",
+      "sp500_close": 50.95,
+      "spread_10y3m_bp": 117.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1958-11-01",
+      "sp500_close": 52.5,
+      "spread_10y3m_bp": 107.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1958-12-01",
+      "sp500_close": 53.49,
+      "spread_10y3m_bp": 109.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1959-01-01",
+      "sp500_close": 55.62,
+      "spread_10y3m_bp": 120.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1959-02-01",
+      "sp500_close": 54.77,
+      "spread_10y3m_bp": 126.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1959-03-01",
+      "sp500_close": 56.16,
+      "spread_10y3m_bp": 119.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1959-04-01",
+      "sp500_close": 57.1,
+      "spread_10y3m_bp": 117.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1959-05-01",
+      "sp500_close": 57.96,
+      "spread_10y3m_bp": 147.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1959-06-01",
+      "sp500_close": 57.46,
+      "spread_10y3m_bp": 113.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1959-07-01",
+      "sp500_close": 59.74,
+      "spread_10y3m_bp": 120.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1959-08-01",
+      "sp500_close": 59.4,
+      "spread_10y3m_bp": 105.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1959-09-01",
+      "sp500_close": 57.05,
+      "spread_10y3m_bp": 64.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1959-10-01",
+      "sp500_close": 57.0,
+      "spread_10y3m_bp": 48.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1959-11-01",
+      "sp500_close": 57.23,
+      "spread_10y3m_bp": 38.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1959-12-01",
+      "sp500_close": 59.06,
+      "spread_10y3m_bp": 20.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1960-01-01",
+      "sp500_close": 58.03,
+      "spread_10y3m_bp": 37.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1960-02-01",
+      "sp500_close": 55.78,
+      "spread_10y3m_bp": 53.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1960-03-01",
+      "sp500_close": 55.02,
+      "spread_10y3m_bp": 94.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1960-04-01",
+      "sp500_close": 55.73,
+      "spread_10y3m_bp": 105.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1960-05-01",
+      "sp500_close": 55.22,
+      "spread_10y3m_bp": 106.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1960-06-01",
+      "sp500_close": 57.26,
+      "spread_10y3m_bp": 169.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1960-07-01",
+      "sp500_close": 55.84,
+      "spread_10y3m_bp": 160.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1960-08-01",
+      "sp500_close": 56.51,
+      "spread_10y3m_bp": 150.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1960-09-01",
+      "sp500_close": 54.81,
+      "spread_10y3m_bp": 132.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1960-10-01",
+      "sp500_close": 53.73,
+      "spread_10y3m_bp": 159.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1960-11-01",
+      "sp500_close": 55.47,
+      "spread_10y3m_bp": 156.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1960-12-01",
+      "sp500_close": 56.8,
+      "spread_10y3m_bp": 159.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1961-01-01",
+      "sp500_close": 59.72,
+      "spread_10y3m_bp": 160.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1961-02-01",
+      "sp500_close": 62.17,
+      "spread_10y3m_bp": 136.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1961-03-01",
+      "sp500_close": 64.12,
+      "spread_10y3m_bp": 135.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1961-04-01",
+      "sp500_close": 65.83,
+      "spread_10y3m_bp": 149.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1961-05-01",
+      "sp500_close": 66.5,
+      "spread_10y3m_bp": 142.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1961-06-01",
+      "sp500_close": 65.62,
+      "spread_10y3m_bp": 155.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1961-07-01",
+      "sp500_close": 65.44,
+      "spread_10y3m_bp": 168.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1961-08-01",
+      "sp500_close": 67.79,
+      "spread_10y3m_bp": 165.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1961-09-01",
+      "sp500_close": 67.26,
+      "spread_10y3m_bp": 170.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1961-10-01",
+      "sp500_close": 68.0,
+      "spread_10y3m_bp": 162.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1961-11-01",
+      "sp500_close": 71.08,
+      "spread_10y3m_bp": 146.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1961-12-01",
+      "sp500_close": 71.74,
+      "spread_10y3m_bp": 146.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1962-01-01",
+      "sp500_close": 69.07,
+      "spread_10y3m_bp": 136.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1962-02-01",
+      "sp500_close": 70.22,
+      "spread_10y3m_bp": 131.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1962-03-01",
+      "sp500_close": 70.29,
+      "spread_10y3m_bp": 121.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1962-04-01",
+      "sp500_close": 68.05,
+      "spread_10y3m_bp": 111.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1962-05-01",
+      "sp500_close": 62.99,
+      "spread_10y3m_bp": 118.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1962-06-01",
+      "sp500_close": 55.63,
+      "spread_10y3m_bp": 118.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1962-07-01",
+      "sp500_close": 56.97,
+      "spread_10y3m_bp": 109.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1962-08-01",
+      "sp500_close": 58.52,
+      "spread_10y3m_bp": 116.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1962-09-01",
+      "sp500_close": 58.0,
+      "spread_10y3m_bp": 120.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1962-10-01",
+      "sp500_close": 56.17,
+      "spread_10y3m_bp": 119.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1962-11-01",
+      "sp500_close": 60.04,
+      "spread_10y3m_bp": 109.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1962-12-01",
+      "sp500_close": 62.64,
+      "spread_10y3m_bp": 99.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1963-01-01",
+      "sp500_close": 65.06,
+      "spread_10y3m_bp": 92.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1963-02-01",
+      "sp500_close": 65.92,
+      "spread_10y3m_bp": 100.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1963-03-01",
+      "sp500_close": 65.67,
+      "spread_10y3m_bp": 104.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1963-04-01",
+      "sp500_close": 68.76,
+      "spread_10y3m_bp": 107.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1963-05-01",
+      "sp500_close": 70.14,
+      "spread_10y3m_bp": 100.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1963-06-01",
+      "sp500_close": 70.11,
+      "spread_10y3m_bp": 100.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1963-07-01",
+      "sp500_close": 69.07,
+      "spread_10y3m_bp": 84.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1963-08-01",
+      "sp500_close": 70.98,
+      "spread_10y3m_bp": 68.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1963-09-01",
+      "sp500_close": 72.85,
+      "spread_10y3m_bp": 70.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1963-10-01",
+      "sp500_close": 73.03,
+      "spread_10y3m_bp": 66.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1963-11-01",
+      "sp500_close": 72.62,
+      "spread_10y3m_bp": 60.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1963-12-01",
+      "sp500_close": 74.17,
+      "spread_10y3m_bp": 61.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1964-01-01",
+      "sp500_close": 76.45,
+      "spread_10y3m_bp": 65.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1964-02-01",
+      "sp500_close": 77.39,
+      "spread_10y3m_bp": 62.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1964-03-01",
+      "sp500_close": 78.8,
+      "spread_10y3m_bp": 68.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1964-04-01",
+      "sp500_close": 79.94,
+      "spread_10y3m_bp": 76.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1964-05-01",
+      "sp500_close": 80.72,
+      "spread_10y3m_bp": 72.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1964-06-01",
+      "sp500_close": 80.24,
+      "spread_10y3m_bp": 69.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1964-07-01",
+      "sp500_close": 83.22,
+      "spread_10y3m_bp": 73.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1964-08-01",
+      "sp500_close": 82.0,
+      "spread_10y3m_bp": 69.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1964-09-01",
+      "sp500_close": 83.41,
+      "spread_10y3m_bp": 67.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1964-10-01",
+      "sp500_close": 84.85,
+      "spread_10y3m_bp": 62.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1964-11-01",
+      "sp500_close": 85.44,
+      "spread_10y3m_bp": 51.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1964-12-01",
+      "sp500_close": 83.96,
+      "spread_10y3m_bp": 34.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1965-01-01",
+      "sp500_close": 86.12,
+      "spread_10y3m_bp": 38.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1965-02-01",
+      "sp500_close": 86.75,
+      "spread_10y3m_bp": 28.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1965-03-01",
+      "sp500_close": 86.83,
+      "spread_10y3m_bp": 28.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1965-04-01",
+      "sp500_close": 87.97,
+      "spread_10y3m_bp": 27.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1965-05-01",
+      "sp500_close": 89.28,
+      "spread_10y3m_bp": 32.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1965-06-01",
+      "sp500_close": 85.04,
+      "spread_10y3m_bp": 41.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1965-07-01",
+      "sp500_close": 84.91,
+      "spread_10y3m_bp": 36.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1965-08-01",
+      "sp500_close": 86.49,
+      "spread_10y3m_bp": 41.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1965-09-01",
+      "sp500_close": 89.38,
+      "spread_10y3m_bp": 37.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1965-10-01",
+      "sp500_close": 91.39,
+      "spread_10y3m_bp": 32.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1965-11-01",
+      "sp500_close": 92.15,
+      "spread_10y3m_bp": 36.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1965-12-01",
+      "sp500_close": 91.73,
+      "spread_10y3m_bp": 24.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1966-01-01",
+      "sp500_close": 93.32,
+      "spread_10y3m_bp": 2.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1966-02-01",
+      "sp500_close": 92.69,
+      "spread_10y3m_bp": 18.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1966-03-01",
+      "sp500_close": 88.88,
+      "spread_10y3m_bp": 28.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1966-04-01",
+      "sp500_close": 91.6,
+      "spread_10y3m_bp": 13.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1966-05-01",
+      "sp500_close": 86.78,
+      "spread_10y3m_bp": 14.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1966-06-01",
+      "sp500_close": 86.06,
+      "spread_10y3m_bp": 31.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1966-07-01",
+      "sp500_close": 85.84,
+      "spread_10y3m_bp": 22.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1966-08-01",
+      "sp500_close": 80.65,
+      "spread_10y3m_bp": 26.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1966-09-01",
+      "sp500_close": 77.81,
+      "spread_10y3m_bp": -19.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1966-10-01",
+      "sp500_close": 77.13,
+      "spread_10y3m_bp": -34.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1966-11-01",
+      "sp500_close": 80.99,
+      "spread_10y3m_bp": -16.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1966-12-01",
+      "sp500_close": 81.33,
+      "spread_10y3m_bp": -12.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1967-01-01",
+      "sp500_close": 84.45,
+      "spread_10y3m_bp": -14.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1967-02-01",
+      "sp500_close": 87.36,
+      "spread_10y3m_bp": 7.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1967-03-01",
+      "sp500_close": 89.42,
+      "spread_10y3m_bp": 28.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1967-04-01",
+      "sp500_close": 90.96,
+      "spread_10y3m_bp": 75.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1967-05-01",
+      "sp500_close": 92.59,
+      "spread_10y3m_bp": 125.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1967-06-01",
+      "sp500_close": 91.43,
+      "spread_10y3m_bp": 148.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1967-07-01",
+      "sp500_close": 93.01,
+      "spread_10y3m_bp": 95.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1967-08-01",
+      "sp500_close": 94.49,
+      "spread_10y3m_bp": 101.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1967-09-01",
+      "sp500_close": 95.81,
+      "spread_10y3m_bp": 88.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1967-10-01",
+      "sp500_close": 95.66,
+      "spread_10y3m_bp": 92.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1967-11-01",
+      "sp500_close": 92.66,
+      "spread_10y3m_bp": 102.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1967-12-01",
+      "sp500_close": 95.3,
+      "spread_10y3m_bp": 73.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1968-01-01",
+      "sp500_close": 95.04,
+      "spread_10y3m_bp": 53.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1968-02-01",
+      "sp500_close": 90.75,
+      "spread_10y3m_bp": 58.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1968-03-01",
+      "sp500_close": 89.09,
+      "spread_10y3m_bp": 57.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1968-04-01",
+      "sp500_close": 95.67,
+      "spread_10y3m_bp": 26.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1968-05-01",
+      "sp500_close": 97.87,
+      "spread_10y3m_bp": 21.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1968-06-01",
+      "sp500_close": 100.5,
+      "spread_10y3m_bp": 20.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1968-07-01",
+      "sp500_close": 100.3,
+      "spread_10y3m_bp": 19.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1968-08-01",
+      "sp500_close": 98.11,
+      "spread_10y3m_bp": 33.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1968-09-01",
+      "sp500_close": 101.3,
+      "spread_10y3m_bp": 27.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1968-10-01",
+      "sp500_close": 103.8,
+      "spread_10y3m_bp": 23.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1968-11-01",
+      "sp500_close": 105.4,
+      "spread_10y3m_bp": 25.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1968-12-01",
+      "sp500_close": 106.5,
+      "spread_10y3m_bp": 7.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1969-01-01",
+      "sp500_close": 102.0,
+      "spread_10y3m_bp": -10.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1969-02-01",
+      "sp500_close": 101.5,
+      "spread_10y3m_bp": 7.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1969-03-01",
+      "sp500_close": 99.3,
+      "spread_10y3m_bp": 28.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1969-04-01",
+      "sp500_close": 101.3,
+      "spread_10y3m_bp": 6.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1969-05-01",
+      "sp500_close": 104.6,
+      "spread_10y3m_bp": 28.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1969-06-01",
+      "sp500_close": 99.14,
+      "spread_10y3m_bp": 13.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1969-07-01",
+      "sp500_close": 94.71,
+      "spread_10y3m_bp": -28.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1969-08-01",
+      "sp500_close": 94.18,
+      "spread_10y3m_bp": -29.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1969-09-01",
+      "sp500_close": 94.51,
+      "spread_10y3m_bp": 7.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1969-10-01",
+      "sp500_close": 95.52,
+      "spread_10y3m_bp": 10.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1969-11-01",
+      "sp500_close": 96.21,
+      "spread_10y3m_bp": -10.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1969-12-01",
+      "sp500_close": 91.11,
+      "spread_10y3m_bp": -17.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1970-01-01",
+      "sp500_close": 90.31,
+      "spread_10y3m_bp": -8.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1970-02-01",
+      "sp500_close": 87.16,
+      "spread_10y3m_bp": 11.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1970-03-01",
+      "sp500_close": 88.65,
+      "spread_10y3m_bp": 44.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1970-04-01",
+      "sp500_close": 85.95,
+      "spread_10y3m_bp": 88.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1970-05-01",
+      "sp500_close": 76.06,
+      "spread_10y3m_bp": 107.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1970-06-01",
+      "sp500_close": 75.59,
+      "spread_10y3m_bp": 116.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1970-07-01",
+      "sp500_close": 75.72,
+      "spread_10y3m_bp": 101.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1970-08-01",
+      "sp500_close": 77.92,
+      "spread_10y3m_bp": 112.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1970-09-01",
+      "sp500_close": 82.58,
+      "spread_10y3m_bp": 127.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1970-10-01",
+      "sp500_close": 84.37,
+      "spread_10y3m_bp": 142.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1970-11-01",
+      "sp500_close": 84.28,
+      "spread_10y3m_bp": 156.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1970-12-01",
+      "sp500_close": 90.05,
+      "spread_10y3m_bp": 152.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1971-01-01",
+      "sp500_close": 93.49,
+      "spread_10y3m_bp": 180.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1971-02-01",
+      "sp500_close": 97.11,
+      "spread_10y3m_bp": 241.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1971-03-01",
+      "sp500_close": 99.6,
+      "spread_10y3m_bp": 232.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1971-04-01",
+      "sp500_close": 103.0,
+      "spread_10y3m_bp": 197.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1971-05-01",
+      "sp500_close": 101.6,
+      "spread_10y3m_bp": 225.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1971-06-01",
+      "sp500_close": 99.72,
+      "spread_10y3m_bp": 177.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1971-07-01",
+      "sp500_close": 99.0,
+      "spread_10y3m_bp": 133.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1971-08-01",
+      "sp500_close": 97.24,
+      "spread_10y3m_bp": 164.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1971-09-01",
+      "sp500_close": 99.4,
+      "spread_10y3m_bp": 145.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1971-10-01",
+      "sp500_close": 97.29,
+      "spread_10y3m_bp": 147.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1971-11-01",
+      "sp500_close": 92.78,
+      "spread_10y3m_bp": 159.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1971-12-01",
+      "sp500_close": 99.17,
+      "spread_10y3m_bp": 192.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1972-01-01",
+      "sp500_close": 103.3,
+      "spread_10y3m_bp": 257.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1972-02-01",
+      "sp500_close": 105.2,
+      "spread_10y3m_bp": 288.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1972-03-01",
+      "sp500_close": 107.7,
+      "spread_10y3m_bp": 234.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1972-04-01",
+      "sp500_close": 108.8,
+      "spread_10y3m_bp": 248.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1972-05-01",
+      "sp500_close": 107.7,
+      "spread_10y3m_bp": 244.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1972-06-01",
+      "sp500_close": 108.0,
+      "spread_10y3m_bp": 220.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1972-07-01",
+      "sp500_close": 107.2,
+      "spread_10y3m_bp": 213.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1972-08-01",
+      "sp500_close": 111.0,
+      "spread_10y3m_bp": 219.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1972-09-01",
+      "sp500_close": 109.4,
+      "spread_10y3m_bp": 189.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1972-10-01",
+      "sp500_close": 109.6,
+      "spread_10y3m_bp": 174.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1972-11-01",
+      "sp500_close": 115.1,
+      "spread_10y3m_bp": 150.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1972-12-01",
+      "sp500_close": 117.5,
+      "spread_10y3m_bp": 129.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1973-01-01",
+      "sp500_close": 118.4,
+      "spread_10y3m_bp": 105.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1973-02-01",
+      "sp500_close": 114.2,
+      "spread_10y3m_bp": 104.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1973-03-01",
+      "sp500_close": 112.4,
+      "spread_10y3m_bp": 62.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1973-04-01",
+      "sp500_close": 110.3,
+      "spread_10y3m_bp": 41.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1973-05-01",
+      "sp500_close": 107.2,
+      "spread_10y3m_bp": 49.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1973-06-01",
+      "sp500_close": 104.8,
+      "spread_10y3m_bp": -29.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1973-07-01",
+      "sp500_close": 105.8,
+      "spread_10y3m_bp": -88.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1973-08-01",
+      "sp500_close": 103.8,
+      "spread_10y3m_bp": -127.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1973-09-01",
+      "sp500_close": 105.6,
+      "spread_10y3m_bp": -120.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1973-10-01",
+      "sp500_close": 109.8,
+      "spread_10y3m_bp": -43.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1973-11-01",
+      "sp500_close": 102.0,
+      "spread_10y3m_bp": -110.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1973-12-01",
+      "sp500_close": 94.78,
+      "spread_10y3m_bp": -71.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1974-01-01",
+      "sp500_close": 96.11,
+      "spread_10y3m_bp": -78.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1974-02-01",
+      "sp500_close": 93.45,
+      "spread_10y3m_bp": -16.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1974-03-01",
+      "sp500_close": 97.44,
+      "spread_10y3m_bp": -75.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1974-04-01",
+      "sp500_close": 92.46,
+      "spread_10y3m_bp": -82.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1974-05-01",
+      "sp500_close": 89.67,
+      "spread_10y3m_bp": -65.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1974-06-01",
+      "sp500_close": 89.79,
+      "spread_10y3m_bp": -36.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1974-07-01",
+      "sp500_close": 79.31,
+      "spread_10y3m_bp": 26.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1974-08-01",
+      "sp500_close": 76.03,
+      "spread_10y3m_bp": -92.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1974-09-01",
+      "sp500_close": 68.12,
+      "spread_10y3m_bp": -2.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1974-10-01",
+      "sp500_close": 69.44,
+      "spread_10y3m_bp": 44.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1974-11-01",
+      "sp500_close": 71.74,
+      "spread_10y3m_bp": 21.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1974-12-01",
+      "sp500_close": 67.07,
+      "spread_10y3m_bp": 28.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1975-01-01",
+      "sp500_close": 72.56,
+      "spread_10y3m_bp": 124.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1975-02-01",
+      "sp500_close": 80.1,
+      "spread_10y3m_bp": 189.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1975-03-01",
+      "sp500_close": 83.78,
+      "spread_10y3m_bp": 224.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1975-04-01",
+      "sp500_close": 84.72,
+      "spread_10y3m_bp": 262.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1975-05-01",
+      "sp500_close": 90.1,
+      "spread_10y3m_bp": 283.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1975-06-01",
+      "sp500_close": 92.4,
+      "spread_10y3m_bp": 252.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1975-07-01",
+      "sp500_close": 92.49,
+      "spread_10y3m_bp": 193.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1975-08-01",
+      "sp500_close": 85.71,
+      "spread_10y3m_bp": 196.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1975-09-01",
+      "sp500_close": 84.67,
+      "spread_10y3m_bp": 201.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1975-10-01",
+      "sp500_close": 88.57,
+      "spread_10y3m_bp": 218.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1975-11-01",
+      "sp500_close": 90.07,
+      "spread_10y3m_bp": 257.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1975-12-01",
+      "sp500_close": 88.7,
+      "spread_10y3m_bp": 256.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1976-01-01",
+      "sp500_close": 96.86,
+      "spread_10y3m_bp": 287.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1976-02-01",
+      "sp500_close": 100.6,
+      "spread_10y3m_bp": 291.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1976-03-01",
+      "sp500_close": 101.1,
+      "spread_10y3m_bp": 273.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1976-04-01",
+      "sp500_close": 101.9,
+      "spread_10y3m_bp": 270.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1976-05-01",
+      "sp500_close": 101.2,
+      "spread_10y3m_bp": 270.0,
+      "spread_10y2y_bp": null
+    },
+    {
+      "date": "1976-06-01",
+      "sp500_close": 101.8,
+      "spread_10y3m_bp": 245.0,
+      "spread_10y2y_bp": 80.0
+    },
+    {
+      "date": "1976-07-01",
+      "sp500_close": 104.2,
+      "spread_10y3m_bp": 260.0,
+      "spread_10y2y_bp": 98.0
+    },
+    {
+      "date": "1976-08-01",
+      "sp500_close": 103.3,
+      "spread_10y3m_bp": 263.0,
+      "spread_10y2y_bp": 114.0
+    },
+    {
+      "date": "1976-09-01",
+      "sp500_close": 105.5,
+      "spread_10y3m_bp": 251.0,
+      "spread_10y2y_bp": 117.0
+    },
+    {
+      "date": "1976-10-01",
+      "sp500_close": 101.9,
+      "spread_10y3m_bp": 249.0,
+      "spread_10y2y_bp": 143.0
+    },
+    {
+      "date": "1976-11-01",
+      "sp500_close": 101.2,
+      "spread_10y3m_bp": 254.0,
+      "spread_10y2y_bp": 148.0
+    },
+    {
+      "date": "1976-12-01",
+      "sp500_close": 104.7,
+      "spread_10y3m_bp": 252.0,
+      "spread_10y2y_bp": 149.0
+    },
+    {
+      "date": "1977-01-01",
+      "sp500_close": 103.8,
+      "spread_10y3m_bp": 259.0,
+      "spread_10y2y_bp": 131.0
+    },
+    {
+      "date": "1977-02-01",
+      "sp500_close": 101.0,
+      "spread_10y3m_bp": 272.0,
+      "spread_10y2y_bp": 130.0
+    },
+    {
+      "date": "1977-03-01",
+      "sp500_close": 100.6,
+      "spread_10y3m_bp": 286.0,
+      "spread_10y2y_bp": 137.0
+    },
+    {
+      "date": "1977-04-01",
+      "sp500_close": 99.05,
+      "spread_10y3m_bp": 283.0,
+      "spread_10y2y_bp": 141.0
+    },
+    {
+      "date": "1977-05-01",
+      "sp500_close": 98.76,
+      "spread_10y3m_bp": 250.0,
+      "spread_10y2y_bp": 121.0
+    },
+    {
+      "date": "1977-06-01",
+      "sp500_close": 99.29,
+      "spread_10y3m_bp": 226.0,
+      "spread_10y2y_bp": 115.0
+    },
+    {
+      "date": "1977-07-01",
+      "sp500_close": 100.2,
+      "spread_10y3m_bp": 214.0,
+      "spread_10y2y_bp": 106.0
+    },
+    {
+      "date": "1977-08-01",
+      "sp500_close": 97.75,
+      "spread_10y3m_bp": 191.0,
+      "spread_10y2y_bp": 79.0
+    },
+    {
+      "date": "1977-09-01",
+      "sp500_close": 96.23,
+      "spread_10y3m_bp": 153.0,
+      "spread_10y2y_bp": 63.0
+    },
+    {
+      "date": "1977-10-01",
+      "sp500_close": 93.74,
+      "spread_10y3m_bp": 136.0,
+      "spread_10y2y_bp": 41.0
+    },
+    {
+      "date": "1977-11-01",
+      "sp500_close": 94.28,
+      "spread_10y3m_bp": 148.0,
+      "spread_10y2y_bp": 44.0
+    },
+    {
+      "date": "1977-12-01",
+      "sp500_close": 93.82,
+      "spread_10y3m_bp": 162.0,
+      "spread_10y2y_bp": 51.0
+    },
+    {
+      "date": "1978-01-01",
+      "sp500_close": 90.25,
+      "spread_10y3m_bp": 152.0,
+      "spread_10y2y_bp": 47.0
+    },
+    {
+      "date": "1978-02-01",
+      "sp500_close": 88.98,
+      "spread_10y3m_bp": 158.0,
+      "spread_10y2y_bp": 46.0
+    },
+    {
+      "date": "1978-03-01",
+      "sp500_close": 88.82,
+      "spread_10y3m_bp": 175.0,
+      "spread_10y2y_bp": 46.0
+    },
+    {
+      "date": "1978-04-01",
+      "sp500_close": 92.71,
+      "spread_10y3m_bp": 186.0,
+      "spread_10y2y_bp": 41.0
+    },
+    {
+      "date": "1978-05-01",
+      "sp500_close": 97.41,
+      "spread_10y3m_bp": 194.0,
+      "spread_10y2y_bp": 34.0
+    },
+    {
+      "date": "1978-06-01",
+      "sp500_close": 97.66,
+      "spread_10y3m_bp": 173.0,
+      "spread_10y2y_bp": 22.0
+    },
+    {
+      "date": "1978-07-01",
+      "sp500_close": 97.19,
+      "spread_10y3m_bp": 163.0,
+      "spread_10y2y_bp": 15.0
+    },
+    {
+      "date": "1978-08-01",
+      "sp500_close": 103.9,
+      "spread_10y3m_bp": 133.0,
+      "spread_10y2y_bp": 4.0
+    },
+    {
+      "date": "1978-09-01",
+      "sp500_close": 103.9,
+      "spread_10y3m_bp": 57.0,
+      "spread_10y2y_bp": -15.0
+    },
+    {
+      "date": "1978-10-01",
+      "sp500_close": 100.6,
+      "spread_10y3m_bp": 65.0,
+      "spread_10y2y_bp": -21.0
+    },
+    {
+      "date": "1978-11-01",
+      "sp500_close": 94.71,
+      "spread_10y3m_bp": 17.0,
+      "spread_10y2y_bp": -61.0
+    },
+    {
+      "date": "1978-12-01",
+      "sp500_close": 96.11,
+      "spread_10y3m_bp": -7.0,
+      "spread_10y2y_bp": -71.0
+    },
+    {
+      "date": "1979-01-01",
+      "sp500_close": 99.71,
+      "spread_10y3m_bp": -25.0,
+      "spread_10y2y_bp": -76.0
+    },
+    {
+      "date": "1979-02-01",
+      "sp500_close": 98.23,
+      "spread_10y3m_bp": -22.0,
+      "spread_10y2y_bp": -62.0
+    },
+    {
+      "date": "1979-03-01",
+      "sp500_close": 100.1,
+      "spread_10y3m_bp": -36.0,
+      "spread_10y2y_bp": -67.0
+    },
+    {
+      "date": "1979-04-01",
+      "sp500_close": 102.1,
+      "spread_10y3m_bp": -28.0,
+      "spread_10y2y_bp": -60.0
+    },
+    {
+      "date": "1979-05-01",
+      "sp500_close": 99.73,
+      "spread_10y3m_bp": -36.0,
+      "spread_10y2y_bp": -53.0
+    },
+    {
+      "date": "1979-06-01",
+      "sp500_close": 101.7,
+      "spread_10y3m_bp": -15.0,
+      "spread_10y2y_bp": -31.0
+    },
+    {
+      "date": "1979-07-01",
+      "sp500_close": 102.7,
+      "spread_10y3m_bp": -29.0,
+      "spread_10y2y_bp": -19.0
+    },
+    {
+      "date": "1979-08-01",
+      "sp500_close": 107.4,
+      "spread_10y3m_bp": -49.0,
+      "spread_10y2y_bp": -43.0
+    },
+    {
+      "date": "1979-09-01",
+      "sp500_close": 108.6,
+      "spread_10y3m_bp": -93.0,
+      "spread_10y2y_bp": -73.0
+    },
+    {
+      "date": "1979-10-01",
+      "sp500_close": 104.5,
+      "spread_10y3m_bp": -140.0,
+      "spread_10y2y_bp": -119.0
+    },
+    {
+      "date": "1979-11-01",
+      "sp500_close": 103.7,
+      "spread_10y3m_bp": -114.0,
+      "spread_10y2y_bp": -116.0
+    },
+    {
+      "date": "1979-12-01",
+      "sp500_close": 107.8,
+      "spread_10y3m_bp": -165.0,
+      "spread_10y2y_bp": -100.0
+    },
+    {
+      "date": "1980-01-01",
+      "sp500_close": 110.9,
+      "spread_10y3m_bp": -120.0,
+      "spread_10y2y_bp": -70.0
+    },
+    {
+      "date": "1980-02-01",
+      "sp500_close": 115.3,
+      "spread_10y3m_bp": -45.0,
+      "spread_10y2y_bp": -101.0
+    },
+    {
+      "date": "1980-03-01",
+      "sp500_close": 104.7,
+      "spread_10y3m_bp": -245.0,
+      "spread_10y2y_bp": -213.0
+    },
+    {
+      "date": "1980-04-01",
+      "sp500_close": 103.0,
+      "spread_10y3m_bp": -173.0,
+      "spread_10y2y_bp": -103.0
+    },
+    {
+      "date": "1980-05-01",
+      "sp500_close": 107.7,
+      "spread_10y3m_bp": 160.0,
+      "spread_10y2y_bp": 73.0
+    },
+    {
+      "date": "1980-06-01",
+      "sp500_close": 114.6,
+      "spread_10y3m_bp": 271.0,
+      "spread_10y2y_bp": 105.0
+    },
+    {
+      "date": "1980-07-01",
+      "sp500_close": 119.8,
+      "spread_10y3m_bp": 219.0,
+      "spread_10y2y_bp": 122.0
+    },
+    {
+      "date": "1980-08-01",
+      "sp500_close": 123.5,
+      "spread_10y3m_bp": 197.0,
+      "spread_10y2y_bp": 57.0
+    },
+    {
+      "date": "1980-09-01",
+      "sp500_close": 126.5,
+      "spread_10y3m_bp": 124.0,
+      "spread_10y2y_bp": -6.0
+    },
+    {
+      "date": "1980-10-01",
+      "sp500_close": 130.2,
+      "spread_10y3m_bp": 13.0,
+      "spread_10y2y_bp": -34.0
+    },
+    {
+      "date": "1980-11-01",
+      "sp500_close": 135.7,
+      "spread_10y3m_bp": -105.0,
+      "spread_10y2y_bp": -83.0
+    },
+    {
+      "date": "1980-12-01",
+      "sp500_close": 133.5,
+      "spread_10y3m_bp": -265.0,
+      "spread_10y2y_bp": -124.0
+    },
+    {
+      "date": "1981-01-01",
+      "sp500_close": 133.0,
+      "spread_10y3m_bp": -245.0,
+      "spread_10y2y_bp": -69.0
+    },
+    {
+      "date": "1981-02-01",
+      "sp500_close": 128.4,
+      "spread_10y3m_bp": -160.0,
+      "spread_10y2y_bp": -73.0
+    },
+    {
+      "date": "1981-03-01",
+      "sp500_close": 133.2,
+      "spread_10y3m_bp": -24.0,
+      "spread_10y2y_bp": -45.0
+    },
+    {
+      "date": "1981-04-01",
+      "sp500_close": 134.4,
+      "spread_10y3m_bp": -1.0,
+      "spread_10y2y_bp": -47.0
+    },
+    {
+      "date": "1981-05-01",
+      "sp500_close": 131.7,
+      "spread_10y3m_bp": -220.0,
+      "spread_10y2y_bp": -136.0
+    },
+    {
+      "date": "1981-06-01",
+      "sp500_close": 132.3,
+      "spread_10y3m_bp": -126.0,
+      "spread_10y2y_bp": -104.0
+    },
+    {
+      "date": "1981-07-01",
+      "sp500_close": 129.1,
+      "spread_10y3m_bp": -67.0,
+      "spread_10y2y_bp": -107.0
+    },
+    {
+      "date": "1981-08-01",
+      "sp500_close": 129.6,
+      "spread_10y3m_bp": -57.0,
+      "spread_10y2y_bp": -134.0
+    },
+    {
+      "date": "1981-09-01",
+      "sp500_close": 118.3,
+      "spread_10y3m_bp": 62.0,
+      "spread_10y2y_bp": -114.0
+    },
+    {
+      "date": "1981-10-01",
+      "sp500_close": 119.8,
+      "spread_10y3m_bp": 161.0,
+      "spread_10y2y_bp": -39.0
+    },
+    {
+      "date": "1981-11-01",
+      "sp500_close": 122.9,
+      "spread_10y3m_bp": 253.0,
+      "spread_10y2y_bp": 51.0
+    },
+    {
+      "date": "1981-12-01",
+      "sp500_close": 123.8,
+      "spread_10y3m_bp": 287.0,
+      "spread_10y2y_bp": 43.0
+    },
+    {
+      "date": "1982-01-01",
+      "sp500_close": 117.3,
+      "spread_10y3m_bp": 231.0,
+      "spread_10y2y_bp": 2.0
+    },
+    {
+      "date": "1982-02-01",
+      "sp500_close": 114.5,
+      "spread_10y3m_bp": 95.0,
+      "spread_10y2y_bp": -39.0
+    },
+    {
+      "date": "1982-03-01",
+      "sp500_close": 110.8,
+      "spread_10y3m_bp": 118.0,
+      "spread_10y2y_bp": -33.0
+    },
+    {
+      "date": "1982-04-01",
+      "sp500_close": 116.3,
+      "spread_10y3m_bp": 117.0,
+      "spread_10y2y_bp": -33.0
+    },
+    {
+      "date": "1982-05-01",
+      "sp500_close": 116.4,
+      "spread_10y3m_bp": 153.0,
+      "spread_10y2y_bp": -16.0
+    },
+    {
+      "date": "1982-06-01",
+      "sp500_close": 109.7,
+      "spread_10y3m_bp": 183.0,
+      "spread_10y2y_bp": -17.0
+    },
+    {
+      "date": "1982-07-01",
+      "sp500_close": 109.4,
+      "spread_10y3m_bp": 260.0,
+      "spread_10y2y_bp": 15.0
+    },
+    {
+      "date": "1982-08-01",
+      "sp500_close": 109.7,
+      "spread_10y3m_bp": 438.0,
+      "spread_10y2y_bp": 74.0
+    },
+    {
+      "date": "1982-09-01",
+      "sp500_close": 122.4,
+      "spread_10y3m_bp": 442.0,
+      "spread_10y2y_bp": 56.0
+    },
+    {
+      "date": "1982-10-01",
+      "sp500_close": 132.7,
+      "spread_10y3m_bp": 320.0,
+      "spread_10y2y_bp": 72.0
+    },
+    {
+      "date": "1982-11-01",
+      "sp500_close": 138.1,
+      "spread_10y3m_bp": 248.0,
+      "spread_10y2y_bp": 75.0
+    },
+    {
+      "date": "1982-12-01",
+      "sp500_close": 139.4,
+      "spread_10y3m_bp": 260.0,
+      "spread_10y2y_bp": 88.0
+    },
+    {
+      "date": "1983-01-01",
+      "sp500_close": 144.3,
+      "spread_10y3m_bp": 260.0,
+      "spread_10y2y_bp": 113.0
+    },
+    {
+      "date": "1983-02-01",
+      "sp500_close": 146.8,
+      "spread_10y3m_bp": 261.0,
+      "spread_10y2y_bp": 108.0
+    },
+    {
+      "date": "1983-03-01",
+      "sp500_close": 151.9,
+      "spread_10y3m_bp": 216.0,
+      "spread_10y2y_bp": 85.0
+    },
+    {
+      "date": "1983-04-01",
+      "sp500_close": 157.7,
+      "spread_10y3m_bp": 219.0,
+      "spread_10y2y_bp": 83.0
+    },
+    {
+      "date": "1983-05-01",
+      "sp500_close": 164.1,
+      "spread_10y3m_bp": 219.0,
+      "spread_10y2y_bp": 89.0
+    },
+    {
+      "date": "1983-06-01",
+      "sp500_close": 166.4,
+      "spread_10y3m_bp": 206.0,
+      "spread_10y2y_bp": 67.0
+    },
+    {
+      "date": "1983-07-01",
+      "sp500_close": 167.0,
+      "spread_10y3m_bp": 230.0,
+      "spread_10y2y_bp": 69.0
+    },
+    {
+      "date": "1983-08-01",
+      "sp500_close": 162.4,
+      "spread_10y3m_bp": 251.0,
+      "spread_10y2y_bp": 78.0
+    },
+    {
+      "date": "1983-09-01",
+      "sp500_close": 167.2,
+      "spread_10y3m_bp": 265.0,
+      "spread_10y2y_bp": 86.0
+    },
+    {
+      "date": "1983-10-01",
+      "sp500_close": 167.7,
+      "spread_10y3m_bp": 290.0,
+      "spread_10y2y_bp": 97.0
+    },
+    {
+      "date": "1983-11-01",
+      "sp500_close": 165.2,
+      "spread_10y3m_bp": 293.0,
+      "spread_10y2y_bp": 103.0
+    },
+    {
+      "date": "1983-12-01",
+      "sp500_close": 164.4,
+      "spread_10y3m_bp": 283.0,
+      "spread_10y2y_bp": 99.0
+    },
+    {
+      "date": "1984-01-01",
+      "sp500_close": 166.4,
+      "spread_10y3m_bp": 277.0,
+      "spread_10y2y_bp": 103.0
+    },
+    {
+      "date": "1984-02-01",
+      "sp500_close": 157.3,
+      "spread_10y3m_bp": 275.0,
+      "spread_10y2y_bp": 105.0
+    },
+    {
+      "date": "1984-03-01",
+      "sp500_close": 157.4,
+      "spread_10y3m_bp": 280.0,
+      "spread_10y2y_bp": 101.0
+    },
+    {
+      "date": "1984-04-01",
+      "sp500_close": 157.6,
+      "spread_10y3m_bp": 294.0,
+      "spread_10y2y_bp": 94.0
+    },
+    {
+      "date": "1984-05-01",
+      "sp500_close": 156.6,
+      "spread_10y3m_bp": 358.0,
+      "spread_10y2y_bp": 94.0
+    },
+    {
+      "date": "1984-06-01",
+      "sp500_close": 153.1,
+      "spread_10y3m_bp": 369.0,
+      "spread_10y2y_bp": 65.0
+    },
+    {
+      "date": "1984-07-01",
+      "sp500_close": 151.1,
+      "spread_10y3m_bp": 324.0,
+      "spread_10y2y_bp": 48.0
+    },
+    {
+      "date": "1984-08-01",
+      "sp500_close": 164.4,
+      "spread_10y3m_bp": 225.0,
+      "spread_10y2y_bp": 29.0
+    },
+    {
+      "date": "1984-09-01",
+      "sp500_close": 166.1,
+      "spread_10y3m_bp": 215.0,
+      "spread_10y2y_bp": 32.0
+    },
+    {
+      "date": "1984-10-01",
+      "sp500_close": 164.8,
+      "spread_10y3m_bp": 242.0,
+      "spread_10y2y_bp": 56.0
+    },
+    {
+      "date": "1984-11-01",
+      "sp500_close": 166.3,
+      "spread_10y3m_bp": 296.0,
+      "spread_10y2y_bp": 92.0
+    },
+    {
+      "date": "1984-12-01",
+      "sp500_close": 164.5,
+      "spread_10y3m_bp": 344.0,
+      "spread_10y2y_bp": 132.0
+    },
+    {
+      "date": "1985-01-01",
+      "sp500_close": 171.6,
+      "spread_10y3m_bp": 362.0,
+      "spread_10y2y_bp": 145.0
+    },
+    {
+      "date": "1985-02-01",
+      "sp500_close": 180.9,
+      "spread_10y3m_bp": 324.0,
+      "spread_10y2y_bp": 134.0
+    },
+    {
+      "date": "1985-03-01",
+      "sp500_close": 179.4,
+      "spread_10y3m_bp": 334.0,
+      "spread_10y2y_bp": 115.0
+    },
+    {
+      "date": "1985-04-01",
+      "sp500_close": 180.6,
+      "spread_10y3m_bp": 348.0,
+      "spread_10y2y_bp": 134.0
+    },
+    {
+      "date": "1985-05-01",
+      "sp500_close": 184.9,
+      "spread_10y3m_bp": 337.0,
+      "spread_10y2y_bp": 146.0
+    },
+    {
+      "date": "1985-06-01",
+      "sp500_close": 188.9,
+      "spread_10y3m_bp": 321.0,
+      "spread_10y2y_bp": 147.0
+    },
+    {
+      "date": "1985-07-01",
+      "sp500_close": 192.5,
+      "spread_10y3m_bp": 323.0,
+      "spread_10y2y_bp": 154.0
+    },
+    {
+      "date": "1985-08-01",
+      "sp500_close": 188.3,
+      "spread_10y3m_bp": 319.0,
+      "spread_10y2y_bp": 139.0
+    },
+    {
+      "date": "1985-09-01",
+      "sp500_close": 184.1,
+      "spread_10y3m_bp": 327.0,
+      "spread_10y2y_bp": 139.0
+    },
+    {
+      "date": "1985-10-01",
+      "sp500_close": 186.2,
+      "spread_10y3m_bp": 308.0,
+      "spread_10y2y_bp": 138.0
+    },
+    {
+      "date": "1985-11-01",
+      "sp500_close": 197.5,
+      "spread_10y3m_bp": 254.0,
+      "spread_10y2y_bp": 120.0
+    },
+    {
+      "date": "1985-12-01",
+      "sp500_close": 207.3,
+      "spread_10y3m_bp": 216.0,
+      "spread_10y2y_bp": 111.0
+    },
+    {
+      "date": "1986-01-01",
+      "sp500_close": 208.2,
+      "spread_10y3m_bp": 212.0,
+      "spread_10y2y_bp": 105.0
+    },
+    {
+      "date": "1986-02-01",
+      "sp500_close": 219.4,
+      "spread_10y3m_bp": 164.0,
+      "spread_10y2y_bp": 73.0
+    },
+    {
+      "date": "1986-03-01",
+      "sp500_close": 232.3,
+      "spread_10y3m_bp": 122.0,
+      "spread_10y2y_bp": 57.0
+    },
+    {
+      "date": "1986-04-01",
+      "sp500_close": 238.0,
+      "spread_10y3m_bp": 124.0,
+      "spread_10y2y_bp": 60.0
+    },
+    {
+      "date": "1986-05-01",
+      "sp500_close": 238.5,
+      "spread_10y3m_bp": 156.0,
+      "spread_10y2y_bp": 64.0
+    },
+    {
+      "date": "1986-06-01",
+      "sp500_close": 245.3,
+      "spread_10y3m_bp": 159.0,
+      "spread_10y2y_bp": 62.0
+    },
+    {
+      "date": "1986-07-01",
+      "sp500_close": 240.2,
+      "spread_10y3m_bp": 147.0,
+      "spread_10y2y_bp": 63.0
+    },
+    {
+      "date": "1986-08-01",
+      "sp500_close": 245.0,
+      "spread_10y3m_bp": 164.0,
+      "spread_10y2y_bp": 84.0
+    },
+    {
+      "date": "1986-09-01",
+      "sp500_close": 238.3,
+      "spread_10y3m_bp": 224.0,
+      "spread_10y2y_bp": 110.0
+    },
+    {
+      "date": "1986-10-01",
+      "sp500_close": 237.4,
+      "spread_10y3m_bp": 225.0,
+      "spread_10y2y_bp": 115.0
+    },
+    {
+      "date": "1986-11-01",
+      "sp500_close": 245.1,
+      "spread_10y3m_bp": 190.0,
+      "spread_10y2y_bp": 97.0
+    },
+    {
+      "date": "1986-12-01",
+      "sp500_close": 248.6,
+      "spread_10y3m_bp": 158.0,
+      "spread_10y2y_bp": 84.0
+    },
+    {
+      "date": "1987-01-01",
+      "sp500_close": 264.5,
+      "spread_10y3m_bp": 165.0,
+      "spread_10y2y_bp": 85.0
+    },
+    {
+      "date": "1987-02-01",
+      "sp500_close": 280.9,
+      "spread_10y3m_bp": 166.0,
+      "spread_10y2y_bp": 85.0
+    },
+    {
+      "date": "1987-03-01",
+      "sp500_close": 292.5,
+      "spread_10y3m_bp": 166.0,
+      "spread_10y2y_bp": 83.0
+    },
+    {
+      "date": "1987-04-01",
+      "sp500_close": 289.3,
+      "spread_10y3m_bp": 238.0,
+      "spread_10y2y_bp": 100.0
+    },
+    {
+      "date": "1987-05-01",
+      "sp500_close": 289.1,
+      "spread_10y3m_bp": 295.0,
+      "spread_10y2y_bp": 85.0
+    },
+    {
+      "date": "1987-06-01",
+      "sp500_close": 301.4,
+      "spread_10y3m_bp": 273.0,
+      "spread_10y2y_bp": 83.0
+    },
+    {
+      "date": "1987-07-01",
+      "sp500_close": 310.1,
+      "spread_10y3m_bp": 276.0,
+      "spread_10y2y_bp": 101.0
+    },
+    {
+      "date": "1987-08-01",
+      "sp500_close": 329.4,
+      "spread_10y3m_bp": 272.0,
+      "spread_10y2y_bp": 101.0
+    },
+    {
+      "date": "1987-09-01",
+      "sp500_close": 318.7,
+      "spread_10y3m_bp": 302.0,
+      "spread_10y2y_bp": 108.0
+    },
+    {
+      "date": "1987-10-01",
+      "sp500_close": 280.2,
+      "spread_10y3m_bp": 339.0,
+      "spread_10y2y_bp": 112.0
+    },
+    {
+      "date": "1987-11-01",
+      "sp500_close": 245.0,
+      "spread_10y3m_bp": 317.0,
+      "spread_10y2y_bp": 117.0
+    },
+    {
+      "date": "1987-12-01",
+      "sp500_close": 241.0,
+      "spread_10y3m_bp": 322.0,
+      "spread_10y2y_bp": 113.0
+    },
+    {
+      "date": "1988-01-01",
+      "sp500_close": 250.5,
+      "spread_10y3m_bp": 286.0,
+      "spread_10y2y_bp": 104.0
+    },
+    {
+      "date": "1988-02-01",
+      "sp500_close": 258.1,
+      "spread_10y3m_bp": 255.0,
+      "spread_10y2y_bp": 103.0
+    },
+    {
+      "date": "1988-03-01",
+      "sp500_close": 265.7,
+      "spread_10y3m_bp": 267.0,
+      "spread_10y2y_bp": 110.0
+    },
+    {
+      "date": "1988-04-01",
+      "sp500_close": 262.6,
+      "spread_10y3m_bp": 281.0,
+      "spread_10y2y_bp": 113.0
+    },
+    {
+      "date": "1988-05-01",
+      "sp500_close": 256.1,
+      "spread_10y3m_bp": 283.0,
+      "spread_10y2y_bp": 109.0
+    },
+    {
+      "date": "1988-06-01",
+      "sp500_close": 270.7,
+      "spread_10y3m_bp": 246.0,
+      "spread_10y2y_bp": 89.0
+    },
+    {
+      "date": "1988-07-01",
+      "sp500_close": 269.1,
+      "spread_10y3m_bp": 233.0,
+      "spread_10y2y_bp": 78.0
+    },
+    {
+      "date": "1988-08-01",
+      "sp500_close": 263.7,
+      "spread_10y3m_bp": 220.0,
+      "spread_10y2y_bp": 63.0
+    },
+    {
+      "date": "1988-09-01",
+      "sp500_close": 268.0,
+      "spread_10y3m_bp": 174.0,
+      "spread_10y2y_bp": 52.0
+    },
+    {
+      "date": "1988-10-01",
+      "sp500_close": 277.4,
+      "spread_10y3m_bp": 145.0,
+      "spread_10y2y_bp": 45.0
+    },
+    {
+      "date": "1988-11-01",
+      "sp500_close": 271.0,
+      "spread_10y3m_bp": 120.0,
+      "spread_10y2y_bp": 29.0
+    },
+    {
+      "date": "1988-12-01",
+      "sp500_close": 276.5,
+      "spread_10y3m_bp": 104.0,
+      "spread_10y2y_bp": 2.0
+    },
+    {
+      "date": "1989-01-01",
+      "sp500_close": 285.4,
+      "spread_10y3m_bp": 82.0,
+      "spread_10y2y_bp": -9.0
+    },
+    {
+      "date": "1989-02-01",
+      "sp500_close": 294.0,
+      "spread_10y3m_bp": 64.0,
+      "spread_10y2y_bp": -20.0
+    },
+    {
+      "date": "1989-03-01",
+      "sp500_close": 292.7,
+      "spread_10y3m_bp": 54.0,
+      "spread_10y2y_bp": -32.0
+    },
+    {
+      "date": "1989-04-01",
+      "sp500_close": 302.3,
+      "spread_10y3m_bp": 53.0,
+      "spread_10y2y_bp": -27.0
+    },
+    {
+      "date": "1989-05-01",
+      "sp500_close": 313.9,
+      "spread_10y3m_bp": 43.0,
+      "spread_10y2y_bp": -16.0
+    },
+    {
+      "date": "1989-06-01",
+      "sp500_close": 323.7,
+      "spread_10y3m_bp": 13.0,
+      "spread_10y2y_bp": -13.0
+    },
+    {
+      "date": "1989-07-01",
+      "sp500_close": 331.9,
+      "spread_10y3m_bp": 14.0,
+      "spread_10y2y_bp": 20.0
+    },
+    {
+      "date": "1989-08-01",
+      "sp500_close": 346.6,
+      "spread_10y3m_bp": 21.0,
+      "spread_10y2y_bp": -3.0
+    },
+    {
+      "date": "1989-09-01",
+      "sp500_close": 347.3,
+      "spread_10y3m_bp": 44.0,
+      "spread_10y2y_bp": -9.0
+    },
+    {
+      "date": "1989-10-01",
+      "sp500_close": 347.4,
+      "spread_10y3m_bp": 37.0,
+      "spread_10y2y_bp": 3.0
+    },
+    {
+      "date": "1989-11-01",
+      "sp500_close": 340.2,
+      "spread_10y3m_bp": 18.0,
+      "spread_10y2y_bp": 7.0
+    },
+    {
+      "date": "1989-12-01",
+      "sp500_close": 348.6,
+      "spread_10y3m_bp": 21.0,
+      "spread_10y2y_bp": 6.0
+    },
+    {
+      "date": "1990-01-01",
+      "sp500_close": 339.97,
+      "spread_10y3m_bp": 57.0,
+      "spread_10y2y_bp": 12.0
+    },
+    {
+      "date": "1990-02-01",
+      "sp500_close": 330.45,
+      "spread_10y3m_bp": 73.0,
+      "spread_10y2y_bp": 10.0
+    },
+    {
+      "date": "1990-03-01",
+      "sp500_close": 338.46,
+      "spread_10y3m_bp": 69.0,
+      "spread_10y2y_bp": -4.0
+    },
+    {
+      "date": "1990-04-01",
+      "sp500_close": 338.18,
+      "spread_10y3m_bp": 102.0,
+      "spread_10y2y_bp": 7.0
+    },
+    {
+      "date": "1990-05-01",
+      "sp500_close": 350.25,
+      "spread_10y3m_bp": 102.0,
+      "spread_10y2y_bp": 12.0
+    },
+    {
+      "date": "1990-06-01",
+      "sp500_close": 360.39,
+      "spread_10y3m_bp": 75.0,
+      "spread_10y2y_bp": 13.0
+    },
+    {
+      "date": "1990-07-01",
+      "sp500_close": 360.03,
+      "spread_10y3m_bp": 85.0,
+      "spread_10y2y_bp": 31.0
+    },
+    {
+      "date": "1990-08-01",
+      "sp500_close": 330.75,
+      "spread_10y3m_bp": 130.0,
+      "spread_10y2y_bp": 69.0
+    },
+    {
+      "date": "1990-09-01",
+      "sp500_close": 315.41,
+      "spread_10y3m_bp": 153.0,
+      "spread_10y2y_bp": 81.0
+    },
+    {
+      "date": "1990-10-01",
+      "sp500_close": 307.12,
+      "spread_10y3m_bp": 155.0,
+      "spread_10y2y_bp": 84.0
+    },
+    {
+      "date": "1990-11-01",
+      "sp500_close": 315.29,
+      "spread_10y3m_bp": 133.0,
+      "spread_10y2y_bp": 79.0
+    },
+    {
+      "date": "1990-12-01",
+      "sp500_close": 328.75,
+      "spread_10y3m_bp": 134.0,
+      "spread_10y2y_bp": 77.0
+    },
+    {
+      "date": "1991-01-01",
+      "sp500_close": 325.49,
+      "spread_10y3m_bp": 187.0,
+      "spread_10y2y_bp": 96.0
+    },
+    {
+      "date": "1991-02-01",
+      "sp500_close": 362.26,
+      "spread_10y3m_bp": 191.0,
+      "spread_10y2y_bp": 98.0
+    },
+    {
+      "date": "1991-03-01",
+      "sp500_close": 372.28,
+      "spread_10y3m_bp": 220.0,
+      "spread_10y2y_bp": 101.0
+    },
+    {
+      "date": "1991-04-01",
+      "sp500_close": 379.68,
+      "spread_10y3m_bp": 239.0,
+      "spread_10y2y_bp": 109.0
+    },
+    {
+      "date": "1991-05-01",
+      "sp500_close": 377.99,
+      "spread_10y3m_bp": 261.0,
+      "spread_10y2y_bp": 129.0
+    },
+    {
+      "date": "1991-06-01",
+      "sp500_close": 378.29,
+      "spread_10y3m_bp": 271.0,
+      "spread_10y2y_bp": 132.0
+    },
+    {
+      "date": "1991-07-01",
+      "sp500_close": 380.23,
+      "spread_10y3m_bp": 269.0,
+      "spread_10y2y_bp": 135.0
+    },
+    {
+      "date": "1991-08-01",
+      "sp500_close": 389.4,
+      "spread_10y3m_bp": 257.0,
+      "spread_10y2y_bp": 147.0
+    },
+    {
+      "date": "1991-09-01",
+      "sp500_close": 387.2,
+      "spread_10y3m_bp": 243.0,
+      "spread_10y2y_bp": 147.0
+    },
+    {
+      "date": "1991-10-01",
+      "sp500_close": 386.88,
+      "spread_10y3m_bp": 254.0,
+      "spread_10y2y_bp": 162.0
+    },
+    {
+      "date": "1991-11-01",
+      "sp500_close": 385.92,
+      "spread_10y3m_bp": 286.0,
+      "spread_10y2y_bp": 186.0
+    },
+    {
+      "date": "1991-12-01",
+      "sp500_close": 388.51,
+      "spread_10y3m_bp": 302.0,
+      "spread_10y2y_bp": 206.0
+    },
+    {
+      "date": "1992-01-01",
+      "sp500_close": 416.08,
+      "spread_10y3m_bp": 323.0,
+      "spread_10y2y_bp": 207.0
+    },
+    {
+      "date": "1992-02-01",
+      "sp500_close": 412.56,
+      "spread_10y3m_bp": 350.0,
+      "spread_10y2y_bp": 213.0
+    },
+    {
+      "date": "1992-03-01",
+      "sp500_close": 407.36,
+      "spread_10y3m_bp": 350.0,
+      "spread_10y2y_bp": 185.0
+    },
+    {
+      "date": "1992-04-01",
+      "sp500_close": 407.41,
+      "spread_10y3m_bp": 373.0,
+      "spread_10y2y_bp": 214.0
+    },
+    {
+      "date": "1992-05-01",
+      "sp500_close": 414.81,
+      "spread_10y3m_bp": 376.0,
+      "spread_10y2y_bp": 216.0
+    },
+    {
+      "date": "1992-06-01",
+      "sp500_close": 408.27,
+      "spread_10y3m_bp": 360.0,
+      "spread_10y2y_bp": 221.0
+    },
+    {
+      "date": "1992-07-01",
+      "sp500_close": 415.05,
+      "spread_10y3m_bp": 363.0,
+      "spread_10y2y_bp": 248.0
+    },
+    {
+      "date": "1992-08-01",
+      "sp500_close": 417.93,
+      "spread_10y3m_bp": 346.0,
+      "spread_10y2y_bp": 240.0
+    },
+    {
+      "date": "1992-09-01",
+      "sp500_close": 418.48,
+      "spread_10y3m_bp": 351.0,
+      "spread_10y2y_bp": 253.0
+    },
+    {
+      "date": "1992-10-01",
+      "sp500_close": 412.5,
+      "spread_10y3m_bp": 373.0,
+      "spread_10y2y_bp": 251.0
+    },
+    {
+      "date": "1992-11-01",
+      "sp500_close": 422.84,
+      "spread_10y3m_bp": 374.0,
+      "spread_10y2y_bp": 229.0
+    },
+    {
+      "date": "1992-12-01",
+      "sp500_close": 435.64,
+      "spread_10y3m_bp": 355.0,
+      "spread_10y2y_bp": 210.0
+    },
+    {
+      "date": "1993-01-01",
+      "sp500_close": 435.23,
+      "spread_10y3m_bp": 360.0,
+      "spread_10y2y_bp": 221.0
+    },
+    {
+      "date": "1993-02-01",
+      "sp500_close": 441.7,
+      "spread_10y3m_bp": 333.0,
+      "spread_10y2y_bp": 216.0
+    },
+    {
+      "date": "1993-03-01",
+      "sp500_close": 450.16,
+      "spread_10y3m_bp": 303.0,
+      "spread_10y2y_bp": 203.0
+    },
+    {
+      "date": "1993-04-01",
+      "sp500_close": 443.08,
+      "spread_10y3m_bp": 310.0,
+      "spread_10y2y_bp": 213.0
+    },
+    {
+      "date": "1993-05-01",
+      "sp500_close": 445.25,
+      "spread_10y3m_bp": 308.0,
+      "spread_10y2y_bp": 206.0
+    },
+    {
+      "date": "1993-06-01",
+      "sp500_close": 448.06,
+      "spread_10y3m_bp": 289.0,
+      "spread_10y2y_bp": 180.0
+    },
+    {
+      "date": "1993-07-01",
+      "sp500_close": 447.29,
+      "spread_10y3m_bp": 277.0,
+      "spread_10y2y_bp": 174.0
+    },
+    {
+      "date": "1993-08-01",
+      "sp500_close": 454.13,
+      "spread_10y3m_bp": 266.0,
+      "spread_10y2y_bp": 168.0
+    },
+    {
+      "date": "1993-09-01",
+      "sp500_close": 459.24,
+      "spread_10y3m_bp": 241.0,
+      "spread_10y2y_bp": 151.0
+    },
+    {
+      "date": "1993-10-01",
+      "sp500_close": 463.9,
+      "spread_10y3m_bp": 231.0,
+      "spread_10y2y_bp": 146.0
+    },
+    {
+      "date": "1993-11-01",
+      "sp500_close": 462.89,
+      "spread_10y3m_bp": 262.0,
+      "spread_10y2y_bp": 156.0
+    },
+    {
+      "date": "1993-12-01",
+      "sp500_close": 465.95,
+      "spread_10y3m_bp": 271.0,
+      "spread_10y2y_bp": 156.0
+    },
+    {
+      "date": "1994-01-01",
+      "sp500_close": 472.99,
+      "spread_10y3m_bp": 277.0,
+      "spread_10y2y_bp": 161.0
+    },
+    {
+      "date": "1994-02-01",
+      "sp500_close": 471.58,
+      "spread_10y3m_bp": 272.0,
+      "spread_10y2y_bp": 150.0
+    },
+    {
+      "date": "1994-03-01",
+      "sp500_close": 463.81,
+      "spread_10y3m_bp": 298.0,
+      "spread_10y2y_bp": 148.0
+    },
+    {
+      "date": "1994-04-01",
+      "sp500_close": 447.23,
+      "spread_10y3m_bp": 329.0,
+      "spread_10y2y_bp": 142.0
+    },
+    {
+      "date": "1994-05-01",
+      "sp500_close": 450.9,
+      "spread_10y3m_bp": 304.0,
+      "spread_10y2y_bp": 121.0
+    },
+    {
+      "date": "1994-06-01",
+      "sp500_close": 454.83,
+      "spread_10y3m_bp": 296.0,
+      "spread_10y2y_bp": 117.0
+    },
+    {
+      "date": "1994-07-01",
+      "sp500_close": 451.4,
+      "spread_10y3m_bp": 297.0,
+      "spread_10y2y_bp": 117.0
+    },
+    {
+      "date": "1994-08-01",
+      "sp500_close": 464.24,
+      "spread_10y3m_bp": 276.0,
+      "spread_10y2y_bp": 106.0
+    },
+    {
+      "date": "1994-09-01",
+      "sp500_close": 466.96,
+      "spread_10y3m_bp": 284.0,
+      "spread_10y2y_bp": 107.0
+    },
+    {
+      "date": "1994-10-01",
+      "sp500_close": 463.81,
+      "spread_10y3m_bp": 279.0,
+      "spread_10y2y_bp": 101.0
+    },
+    {
+      "date": "1994-11-01",
+      "sp500_close": 461.01,
+      "spread_10y3m_bp": 267.0,
+      "spread_10y2y_bp": 81.0
+    },
+    {
+      "date": "1994-12-01",
+      "sp500_close": 455.19,
+      "spread_10y3m_bp": 221.0,
+      "spread_10y2y_bp": 22.0
+    },
+    {
+      "date": "1995-01-01",
+      "sp500_close": 465.25,
+      "spread_10y3m_bp": 207.0,
+      "spread_10y2y_bp": 27.0
+    },
+    {
+      "date": "1995-02-01",
+      "sp500_close": 481.92,
+      "spread_10y3m_bp": 170.0,
+      "spread_10y2y_bp": 36.0
+    },
+    {
+      "date": "1995-03-01",
+      "sp500_close": 493.15,
+      "spread_10y3m_bp": 147.0,
+      "spread_10y2y_bp": 42.0
+    },
+    {
+      "date": "1995-04-01",
+      "sp500_close": 507.91,
+      "spread_10y3m_bp": 141.0,
+      "spread_10y2y_bp": 49.0
+    },
+    {
+      "date": "1995-05-01",
+      "sp500_close": 523.81,
+      "spread_10y3m_bp": 96.0,
+      "spread_10y2y_bp": 46.0
+    },
+    {
+      "date": "1995-06-01",
+      "sp500_close": 539.35,
+      "spread_10y3m_bp": 70.0,
+      "spread_10y2y_bp": 45.0
+    },
+    {
+      "date": "1995-07-01",
+      "sp500_close": 557.37,
+      "spread_10y3m_bp": 86.0,
+      "spread_10y2y_bp": 50.0
+    },
+    {
+      "date": "1995-08-01",
+      "sp500_close": 559.11,
+      "spread_10y3m_bp": 109.0,
+      "spread_10y2y_bp": 51.0
+    },
+    {
+      "date": "1995-09-01",
+      "sp500_close": 578.77,
+      "spread_10y3m_bp": 92.0,
+      "spread_10y2y_bp": 39.0
+    },
+    {
+      "date": "1995-10-01",
+      "sp500_close": 582.92,
+      "spread_10y3m_bp": 76.0,
+      "spread_10y2y_bp": 34.0
+    },
+    {
+      "date": "1995-11-01",
+      "sp500_close": 595.53,
+      "spread_10y3m_bp": 57.0,
+      "spread_10y2y_bp": 45.0
+    },
+    {
+      "date": "1995-12-01",
+      "sp500_close": 614.57,
+      "spread_10y3m_bp": 57.0,
+      "spread_10y2y_bp": 39.0
+    },
+    {
+      "date": "1996-01-01",
+      "sp500_close": 614.42,
+      "spread_10y3m_bp": 65.0,
+      "spread_10y2y_bp": 54.0
+    },
+    {
+      "date": "1996-02-01",
+      "sp500_close": 649.54,
+      "spread_10y3m_bp": 98.0,
+      "spread_10y2y_bp": 78.0
+    },
+    {
+      "date": "1996-03-01",
+      "sp500_close": 647.07,
+      "spread_10y3m_bp": 131.0,
+      "spread_10y2y_bp": 61.0
+    },
+    {
+      "date": "1996-04-01",
+      "sp500_close": 647.17,
+      "spread_10y3m_bp": 156.0,
+      "spread_10y2y_bp": 55.0
+    },
+    {
+      "date": "1996-05-01",
+      "sp500_close": 661.23,
+      "spread_10y3m_bp": 172.0,
+      "spread_10y2y_bp": 64.0
+    },
+    {
+      "date": "1996-06-01",
+      "sp500_close": 668.5,
+      "spread_10y3m_bp": 182.0,
+      "spread_10y2y_bp": 61.0
+    },
+    {
+      "date": "1996-07-01",
+      "sp500_close": 644.07,
+      "spread_10y3m_bp": 172.0,
+      "spread_10y2y_bp": 60.0
+    },
+    {
+      "date": "1996-08-01",
+      "sp500_close": 662.68,
+      "spread_10y3m_bp": 159.0,
+      "spread_10y2y_bp": 61.0
+    },
+    {
+      "date": "1996-09-01",
+      "sp500_close": 674.88,
+      "spread_10y3m_bp": 174.0,
+      "spread_10y2y_bp": 60.0
+    },
+    {
+      "date": "1996-10-01",
+      "sp500_close": 701.46,
+      "spread_10y3m_bp": 154.0,
+      "spread_10y2y_bp": 62.0
+    },
+    {
+      "date": "1996-11-01",
+      "sp500_close": 735.67,
+      "spread_10y3m_bp": 117.0,
+      "spread_10y2y_bp": 50.0
+    },
+    {
+      "date": "1996-12-01",
+      "sp500_close": 743.25,
+      "spread_10y3m_bp": 139.0,
+      "spread_10y2y_bp": 52.0
+    },
+    {
+      "date": "1997-01-01",
+      "sp500_close": 766.22,
+      "spread_10y3m_bp": 155.0,
+      "spread_10y2y_bp": 57.0
+    },
+    {
+      "date": "1997-02-01",
+      "sp500_close": 798.39,
+      "spread_10y3m_bp": 141.0,
+      "spread_10y2y_bp": 52.0
+    },
+    {
+      "date": "1997-03-01",
+      "sp500_close": 792.16,
+      "spread_10y3m_bp": 155.0,
+      "spread_10y2y_bp": 47.0
+    },
+    {
+      "date": "1997-04-01",
+      "sp500_close": 763.93,
+      "spread_10y3m_bp": 173.0,
+      "spread_10y2y_bp": 44.0
+    },
+    {
+      "date": "1997-05-01",
+      "sp500_close": 833.09,
+      "spread_10y3m_bp": 166.0,
+      "spread_10y2y_bp": 43.0
+    },
+    {
+      "date": "1997-06-01",
+      "sp500_close": 876.29,
+      "spread_10y3m_bp": 156.0,
+      "spread_10y2y_bp": 40.0
+    },
+    {
+      "date": "1997-07-01",
+      "sp500_close": 925.29,
+      "spread_10y3m_bp": 117.0,
+      "spread_10y2y_bp": 33.0
+    },
+    {
+      "date": "1997-08-01",
+      "sp500_close": 927.24,
+      "spread_10y3m_bp": 116.0,
+      "spread_10y2y_bp": 36.0
+    },
+    {
+      "date": "1997-09-01",
+      "sp500_close": 937.02,
+      "spread_10y3m_bp": 126.0,
+      "spread_10y2y_bp": 33.0
+    },
+    {
+      "date": "1997-10-01",
+      "sp500_close": 951.16,
+      "spread_10y3m_bp": 106.0,
+      "spread_10y2y_bp": 26.0
+    },
+    {
+      "date": "1997-11-01",
+      "sp500_close": 938.92,
+      "spread_10y3m_bp": 74.0,
+      "spread_10y2y_bp": 17.0
+    },
+    {
+      "date": "1997-12-01",
+      "sp500_close": 962.37,
+      "spread_10y3m_bp": 65.0,
+      "spread_10y2y_bp": 9.0
+    },
+    {
+      "date": "1998-01-01",
+      "sp500_close": 963.36,
+      "spread_10y3m_bp": 50.0,
+      "spread_10y2y_bp": 18.0
+    },
+    {
+      "date": "1998-02-01",
+      "sp500_close": 1023.74,
+      "spread_10y3m_bp": 48.0,
+      "spread_10y2y_bp": 15.0
+    },
+    {
+      "date": "1998-03-01",
+      "sp500_close": 1076.83,
+      "spread_10y3m_bp": 62.0,
+      "spread_10y2y_bp": 9.0
+    },
+    {
+      "date": "1998-04-01",
+      "sp500_close": 1112.2,
+      "spread_10y3m_bp": 69.0,
+      "spread_10y2y_bp": 8.0
+    },
+    {
+      "date": "1998-05-01",
+      "sp500_close": 1108.42,
+      "spread_10y3m_bp": 65.0,
+      "spread_10y2y_bp": 6.0
+    },
+    {
+      "date": "1998-06-01",
+      "sp500_close": 1108.39,
+      "spread_10y3m_bp": 52.0,
+      "spread_10y2y_bp": -2.0
+    },
+    {
+      "date": "1998-07-01",
+      "sp500_close": 1156.58,
+      "spread_10y3m_bp": 50.0,
+      "spread_10y2y_bp": 0.0
+    },
+    {
+      "date": "1998-08-01",
+      "sp500_close": 1074.62,
+      "spread_10y3m_bp": 44.0,
+      "spread_10y2y_bp": 7.0
+    },
+    {
+      "date": "1998-09-01",
+      "sp500_close": 1020.64,
+      "spread_10y3m_bp": 20.0,
+      "spread_10y2y_bp": 14.0
+    },
+    {
+      "date": "1998-10-01",
+      "sp500_close": 1032.47,
+      "spread_10y3m_bp": 57.0,
+      "spread_10y2y_bp": 44.0
+    },
+    {
+      "date": "1998-11-01",
+      "sp500_close": 1144.43,
+      "spread_10y3m_bp": 42.0,
+      "spread_10y2y_bp": 29.0
+    },
+    {
+      "date": "1998-12-01",
+      "sp500_close": 1190.05,
+      "spread_10y3m_bp": 26.0,
+      "spread_10y2y_bp": 14.0
+    },
+    {
+      "date": "1999-01-01",
+      "sp500_close": 1248.77,
+      "spread_10y3m_bp": 38.0,
+      "spread_10y2y_bp": 10.0
+    },
+    {
+      "date": "1999-02-01",
+      "sp500_close": 1246.58,
+      "spread_10y3m_bp": 56.0,
+      "spread_10y2y_bp": 12.0
+    },
+    {
+      "date": "1999-03-01",
+      "sp500_close": 1281.66,
+      "spread_10y3m_bp": 79.0,
+      "spread_10y2y_bp": 18.0
+    },
+    {
+      "date": "1999-04-01",
+      "sp500_close": 1334.76,
+      "spread_10y3m_bp": 89.0,
+      "spread_10y2y_bp": 20.0
+    },
+    {
+      "date": "1999-05-01",
+      "sp500_close": 1332.07,
+      "spread_10y3m_bp": 104.0,
+      "spread_10y2y_bp": 29.0
+    },
+    {
+      "date": "1999-06-01",
+      "sp500_close": 1322.55,
+      "spread_10y3m_bp": 133.0,
+      "spread_10y2y_bp": 28.0
+    },
+    {
+      "date": "1999-07-01",
+      "sp500_close": 1380.99,
+      "spread_10y3m_bp": 124.0,
+      "spread_10y2y_bp": 24.0
+    },
+    {
+      "date": "1999-08-01",
+      "sp500_close": 1327.49,
+      "spread_10y3m_bp": 122.0,
+      "spread_10y2y_bp": 26.0
+    },
+    {
+      "date": "1999-09-01",
+      "sp500_close": 1318.17,
+      "spread_10y3m_bp": 124.0,
+      "spread_10y2y_bp": 26.0
+    },
+    {
+      "date": "1999-10-01",
+      "sp500_close": 1300.01,
+      "spread_10y3m_bp": 125.0,
+      "spread_10y2y_bp": 25.0
+    },
+    {
+      "date": "1999-11-01",
+      "sp500_close": 1391.0,
+      "spread_10y3m_bp": 96.0,
+      "spread_10y2y_bp": 17.0
+    },
+    {
+      "date": "1999-12-01",
+      "sp500_close": 1428.68,
+      "spread_10y3m_bp": 108.0,
+      "spread_10y2y_bp": 18.0
+    },
+    {
+      "date": "2000-01-01",
+      "sp500_close": 1425.59,
+      "spread_10y3m_bp": 134.0,
+      "spread_10y2y_bp": 22.0
+    },
+    {
+      "date": "2000-02-01",
+      "sp500_close": 1388.87,
+      "spread_10y3m_bp": 97.0,
+      "spread_10y2y_bp": -9.0
+    },
+    {
+      "date": "2000-03-01",
+      "sp500_close": 1442.21,
+      "spread_10y3m_bp": 57.0,
+      "spread_10y2y_bp": -27.0
+    },
+    {
+      "date": "2000-04-01",
+      "sp500_close": 1461.36,
+      "spread_10y3m_bp": 33.0,
+      "spread_10y2y_bp": -41.0
+    },
+    {
+      "date": "2000-05-01",
+      "sp500_close": 1418.48,
+      "spread_10y3m_bp": 65.0,
+      "spread_10y2y_bp": -37.0
+    },
+    {
+      "date": "2000-06-01",
+      "sp500_close": 1461.96,
+      "spread_10y3m_bp": 41.0,
+      "spread_10y2y_bp": -38.0
+    },
+    {
+      "date": "2000-07-01",
+      "sp500_close": 1473.0,
+      "spread_10y3m_bp": 9.0,
+      "spread_10y2y_bp": -29.0
+    },
+    {
+      "date": "2000-08-01",
+      "sp500_close": 1485.46,
+      "spread_10y3m_bp": -26.0,
+      "spread_10y2y_bp": -40.0
+    },
+    {
+      "date": "2000-09-01",
+      "sp500_close": 1468.05,
+      "spread_10y3m_bp": -20.0,
+      "spread_10y2y_bp": -28.0
+    },
+    {
+      "date": "2000-10-01",
+      "sp500_close": 1390.14,
+      "spread_10y3m_bp": -37.0,
+      "spread_10y2y_bp": -17.0
+    },
+    {
+      "date": "2000-11-01",
+      "sp500_close": 1378.04,
+      "spread_10y3m_bp": -45.0,
+      "spread_10y2y_bp": -16.0
+    },
+    {
+      "date": "2000-12-01",
+      "sp500_close": 1330.93,
+      "spread_10y3m_bp": -53.0,
+      "spread_10y2y_bp": -11.0
+    },
+    {
+      "date": "2001-01-01",
+      "sp500_close": 1335.63,
+      "spread_10y3m_bp": 1.0,
+      "spread_10y2y_bp": 40.0
+    },
+    {
+      "date": "2001-02-01",
+      "sp500_close": 1305.75,
+      "spread_10y3m_bp": 22.0,
+      "spread_10y2y_bp": 44.0
+    },
+    {
+      "date": "2001-03-01",
+      "sp500_close": 1185.85,
+      "spread_10y3m_bp": 47.0,
+      "spread_10y2y_bp": 55.0
+    },
+    {
+      "date": "2001-04-01",
+      "sp500_close": 1189.84,
+      "spread_10y3m_bp": 127.0,
+      "spread_10y2y_bp": 91.0
+    },
+    {
+      "date": "2001-05-01",
+      "sp500_close": 1270.37,
+      "spread_10y3m_bp": 177.0,
+      "spread_10y2y_bp": 113.0
+    },
+    {
+      "date": "2001-06-01",
+      "sp500_close": 1238.71,
+      "spread_10y3m_bp": 179.0,
+      "spread_10y2y_bp": 120.0
+    },
+    {
+      "date": "2001-07-01",
+      "sp500_close": 1204.45,
+      "spread_10y3m_bp": 173.0,
+      "spread_10y2y_bp": 120.0
+    },
+    {
+      "date": "2001-08-01",
+      "sp500_close": 1178.5,
+      "spread_10y3m_bp": 161.0,
+      "spread_10y2y_bp": 121.0
+    },
+    {
+      "date": "2001-09-01",
+      "sp500_close": 1044.64,
+      "spread_10y3m_bp": 209.0,
+      "spread_10y2y_bp": 161.0
+    },
+    {
+      "date": "2001-10-01",
+      "sp500_close": 1076.59,
+      "spread_10y3m_bp": 241.0,
+      "spread_10y2y_bp": 184.0
+    },
+    {
+      "date": "2001-11-01",
+      "sp500_close": 1129.68,
+      "spread_10y3m_bp": 278.0,
+      "spread_10y2y_bp": 187.0
+    },
+    {
+      "date": "2001-12-01",
+      "sp500_close": 1144.93,
+      "spread_10y3m_bp": 340.0,
+      "spread_10y2y_bp": 198.0
+    },
+    {
+      "date": "2002-01-01",
+      "sp500_close": 1140.21,
+      "spread_10y3m_bp": 339.0,
+      "spread_10y2y_bp": 201.0
+    },
+    {
+      "date": "2002-02-01",
+      "sp500_close": 1100.67,
+      "spread_10y3m_bp": 319.0,
+      "spread_10y2y_bp": 189.0
+    },
+    {
+      "date": "2002-03-01",
+      "sp500_close": 1153.79,
+      "spread_10y3m_bp": 349.0,
+      "spread_10y2y_bp": 172.0
+    },
+    {
+      "date": "2002-04-01",
+      "sp500_close": 1111.93,
+      "spread_10y3m_bp": 350.0,
+      "spread_10y2y_bp": 179.0
+    },
+    {
+      "date": "2002-05-01",
+      "sp500_close": 1079.25,
+      "spread_10y3m_bp": 343.0,
+      "spread_10y2y_bp": 190.0
+    },
+    {
+      "date": "2002-06-01",
+      "sp500_close": 1014.02,
+      "spread_10y3m_bp": 323.0,
+      "spread_10y2y_bp": 194.0
+    },
+    {
+      "date": "2002-07-01",
+      "sp500_close": 903.59,
+      "spread_10y3m_bp": 297.0,
+      "spread_10y2y_bp": 209.0
+    },
+    {
+      "date": "2002-08-01",
+      "sp500_close": 912.55,
+      "spread_10y3m_bp": 264.0,
+      "spread_10y2y_bp": 213.0
+    },
+    {
+      "date": "2002-09-01",
+      "sp500_close": 867.81,
+      "spread_10y3m_bp": 224.0,
+      "spread_10y2y_bp": 187.0
+    },
+    {
+      "date": "2002-10-01",
+      "sp500_close": 854.63,
+      "spread_10y3m_bp": 236.0,
+      "spread_10y2y_bp": 203.0
+    },
+    {
+      "date": "2002-11-01",
+      "sp500_close": 909.93,
+      "spread_10y3m_bp": 282.0,
+      "spread_10y2y_bp": 213.0
+    },
+    {
+      "date": "2002-12-01",
+      "sp500_close": 899.18,
+      "spread_10y3m_bp": 284.0,
+      "spread_10y2y_bp": 219.0
+    },
+    {
+      "date": "2003-01-01",
+      "sp500_close": 895.84,
+      "spread_10y3m_bp": 288.0,
+      "spread_10y2y_bp": 231.0
+    },
+    {
+      "date": "2003-02-01",
+      "sp500_close": 837.03,
+      "spread_10y3m_bp": 273.0,
+      "spread_10y2y_bp": 227.0
+    },
+    {
+      "date": "2003-03-01",
+      "sp500_close": 846.63,
+      "spread_10y3m_bp": 268.0,
+      "spread_10y2y_bp": 224.0
+    },
+    {
+      "date": "2003-04-01",
+      "sp500_close": 890.03,
+      "spread_10y3m_bp": 283.0,
+      "spread_10y2y_bp": 234.0
+    },
+    {
+      "date": "2003-05-01",
+      "sp500_close": 935.96,
+      "spread_10y3m_bp": 250.0,
+      "spread_10y2y_bp": 215.0
+    },
+    {
+      "date": "2003-06-01",
+      "sp500_close": 988.0,
+      "spread_10y3m_bp": 241.0,
+      "spread_10y2y_bp": 210.0
+    },
+    {
+      "date": "2003-07-01",
+      "sp500_close": 992.54,
+      "spread_10y3m_bp": 308.0,
+      "spread_10y2y_bp": 251.0
+    },
+    {
+      "date": "2003-08-01",
+      "sp500_close": 989.53,
+      "spread_10y3m_bp": 350.0,
+      "spread_10y2y_bp": 259.0
+    },
+    {
+      "date": "2003-09-01",
+      "sp500_close": 1019.44,
+      "spread_10y3m_bp": 333.0,
+      "spread_10y2y_bp": 256.0
+    },
+    {
+      "date": "2003-10-01",
+      "sp500_close": 1038.73,
+      "spread_10y3m_bp": 337.0,
+      "spread_10y2y_bp": 254.0
+    },
+    {
+      "date": "2003-11-01",
+      "sp500_close": 1049.9,
+      "spread_10y3m_bp": 337.0,
+      "spread_10y2y_bp": 237.0
+    },
+    {
+      "date": "2003-12-01",
+      "sp500_close": 1080.64,
+      "spread_10y3m_bp": 337.0,
+      "spread_10y2y_bp": 236.0
+    },
+    {
+      "date": "2004-01-01",
+      "sp500_close": 1132.52,
+      "spread_10y3m_bp": 327.0,
+      "spread_10y2y_bp": 239.0
+    },
+    {
+      "date": "2004-02-01",
+      "sp500_close": 1143.36,
+      "spread_10y3m_bp": 315.0,
+      "spread_10y2y_bp": 234.0
+    },
+    {
+      "date": "2004-03-01",
+      "sp500_close": 1123.98,
+      "spread_10y3m_bp": 289.0,
+      "spread_10y2y_bp": 225.0
+    },
+    {
+      "date": "2004-04-01",
+      "sp500_close": 1133.36,
+      "spread_10y3m_bp": 341.0,
+      "spread_10y2y_bp": 228.0
+    },
+    {
+      "date": "2004-05-01",
+      "sp500_close": 1102.78,
+      "spread_10y3m_bp": 370.0,
+      "spread_10y2y_bp": 219.0
+    },
+    {
+      "date": "2004-06-01",
+      "sp500_close": 1132.76,
+      "spread_10y3m_bp": 346.0,
+      "spread_10y2y_bp": 197.0
+    },
+    {
+      "date": "2004-07-01",
+      "sp500_close": 1105.85,
+      "spread_10y3m_bp": 317.0,
+      "spread_10y2y_bp": 186.0
+    },
+    {
+      "date": "2004-08-01",
+      "sp500_close": 1088.94,
+      "spread_10y3m_bp": 280.0,
+      "spread_10y2y_bp": 177.0
+    },
+    {
+      "date": "2004-09-01",
+      "sp500_close": 1117.66,
+      "spread_10y3m_bp": 248.0,
+      "spread_10y2y_bp": 160.0
+    },
+    {
+      "date": "2004-10-01",
+      "sp500_close": 1117.21,
+      "spread_10y3m_bp": 234.0,
+      "spread_10y2y_bp": 152.0
+    },
+    {
+      "date": "2004-11-01",
+      "sp500_close": 1168.94,
+      "spread_10y3m_bp": 212.0,
+      "spread_10y2y_bp": 134.0
+    },
+    {
+      "date": "2004-12-01",
+      "sp500_close": 1199.21,
+      "spread_10y3m_bp": 204.0,
+      "spread_10y2y_bp": 122.0
+    },
+    {
+      "date": "2005-01-01",
+      "sp500_close": 1181.41,
+      "spread_10y3m_bp": 189.0,
+      "spread_10y2y_bp": 100.0
+    },
+    {
+      "date": "2005-02-01",
+      "sp500_close": 1199.63,
+      "spread_10y3m_bp": 163.0,
+      "spread_10y2y_bp": 79.0
+    },
+    {
+      "date": "2005-03-01",
+      "sp500_close": 1194.9,
+      "spread_10y3m_bp": 176.0,
+      "spread_10y2y_bp": 77.0
+    },
+    {
+      "date": "2005-04-01",
+      "sp500_close": 1164.43,
+      "spread_10y3m_bp": 156.0,
+      "spread_10y2y_bp": 69.0
+    },
+    {
+      "date": "2005-05-01",
+      "sp500_close": 1178.28,
+      "spread_10y3m_bp": 130.0,
+      "spread_10y2y_bp": 50.0
+    },
+    {
+      "date": "2005-06-01",
+      "sp500_close": 1202.25,
+      "spread_10y3m_bp": 103.0,
+      "spread_10y2y_bp": 36.0
+    },
+    {
+      "date": "2005-07-01",
+      "sp500_close": 1222.24,
+      "spread_10y3m_bp": 96.0,
+      "spread_10y2y_bp": 31.0
+    },
+    {
+      "date": "2005-08-01",
+      "sp500_close": 1224.27,
+      "spread_10y3m_bp": 82.0,
+      "spread_10y2y_bp": 22.0
+    },
+    {
+      "date": "2005-09-01",
+      "sp500_close": 1225.92,
+      "spread_10y3m_bp": 78.0,
+      "spread_10y2y_bp": 25.0
+    },
+    {
+      "date": "2005-10-01",
+      "sp500_close": 1191.96,
+      "spread_10y3m_bp": 75.0,
+      "spread_10y2y_bp": 19.0
+    },
+    {
+      "date": "2005-11-01",
+      "sp500_close": 1237.37,
+      "spread_10y3m_bp": 66.0,
+      "spread_10y2y_bp": 12.0
+    },
+    {
+      "date": "2005-12-01",
+      "sp500_close": 1262.07,
+      "spread_10y3m_bp": 58.0,
+      "spread_10y2y_bp": 7.0
+    },
+    {
+      "date": "2006-01-01",
+      "sp500_close": 1278.73,
+      "spread_10y3m_bp": 18.0,
+      "spread_10y2y_bp": 2.0
+    },
+    {
+      "date": "2006-02-01",
+      "sp500_close": 1276.65,
+      "spread_10y3m_bp": 14.0,
+      "spread_10y2y_bp": -10.0
+    },
+    {
+      "date": "2006-03-01",
+      "sp500_close": 1293.74,
+      "spread_10y3m_bp": 21.0,
+      "spread_10y2y_bp": -1.0
+    },
+    {
+      "date": "2006-04-01",
+      "sp500_close": 1302.17,
+      "spread_10y3m_bp": 39.0,
+      "spread_10y2y_bp": 10.0
+    },
+    {
+      "date": "2006-05-01",
+      "sp500_close": 1290.01,
+      "spread_10y3m_bp": 39.0,
+      "spread_10y2y_bp": 14.0
+    },
+    {
+      "date": "2006-06-01",
+      "sp500_close": 1253.17,
+      "spread_10y3m_bp": 32.0,
+      "spread_10y2y_bp": -1.0
+    },
+    {
+      "date": "2006-07-01",
+      "sp500_close": 1260.24,
+      "spread_10y3m_bp": 14.0,
+      "spread_10y2y_bp": -3.0
+    },
+    {
+      "date": "2006-08-01",
+      "sp500_close": 1287.15,
+      "spread_10y3m_bp": -8.0,
+      "spread_10y2y_bp": -2.0
+    },
+    {
+      "date": "2006-09-01",
+      "sp500_close": 1317.74,
+      "spread_10y3m_bp": -9.0,
+      "spread_10y2y_bp": -5.0
+    },
+    {
+      "date": "2006-10-01",
+      "sp500_close": 1363.38,
+      "spread_10y3m_bp": -19.0,
+      "spread_10y2y_bp": -7.0
+    },
+    {
+      "date": "2006-11-01",
+      "sp500_close": 1388.64,
+      "spread_10y3m_bp": -34.0,
+      "spread_10y2y_bp": -14.0
+    },
+    {
+      "date": "2006-12-01",
+      "sp500_close": 1416.42,
+      "spread_10y3m_bp": -29.0,
+      "spread_10y2y_bp": -11.0
+    },
+    {
+      "date": "2007-01-01",
+      "sp500_close": 1424.16,
+      "spread_10y3m_bp": -22.0,
+      "spread_10y2y_bp": -12.0
+    },
+    {
+      "date": "2007-02-01",
+      "sp500_close": 1444.8,
+      "spread_10y3m_bp": -31.0,
+      "spread_10y2y_bp": -13.0
+    },
+    {
+      "date": "2007-03-01",
+      "sp500_close": 1406.95,
+      "spread_10y3m_bp": -38.0,
+      "spread_10y2y_bp": -1.0
+    },
+    {
+      "date": "2007-04-01",
+      "sp500_close": 1463.64,
+      "spread_10y3m_bp": -18.0,
+      "spread_10y2y_bp": 2.0
+    },
+    {
+      "date": "2007-05-01",
+      "sp500_close": 1511.14,
+      "spread_10y3m_bp": 2.0,
+      "spread_10y2y_bp": -2.0
+    },
+    {
+      "date": "2007-06-01",
+      "sp500_close": 1514.19,
+      "spread_10y3m_bp": 49.0,
+      "spread_10y2y_bp": 12.0
+    },
+    {
+      "date": "2007-07-01",
+      "sp500_close": 1520.71,
+      "spread_10y3m_bp": 18.0,
+      "spread_10y2y_bp": 18.0
+    },
+    {
+      "date": "2007-08-01",
+      "sp500_close": 1454.62,
+      "spread_10y3m_bp": 47.0,
+      "spread_10y2y_bp": 36.0
+    },
+    {
+      "date": "2007-09-01",
+      "sp500_close": 1497.12,
+      "spread_10y3m_bp": 63.0,
+      "spread_10y2y_bp": 51.0
+    },
+    {
+      "date": "2007-10-01",
+      "sp500_close": 1539.66,
+      "spread_10y3m_bp": 63.0,
+      "spread_10y2y_bp": 56.0
+    },
+    {
+      "date": "2007-11-01",
+      "sp500_close": 1463.39,
+      "spread_10y3m_bp": 88.0,
+      "spread_10y2y_bp": 81.0
+    },
+    {
+      "date": "2007-12-01",
+      "sp500_close": 1479.22,
+      "spread_10y3m_bp": 110.0,
+      "spread_10y2y_bp": 98.0
+    },
+    {
+      "date": "2008-01-01",
+      "sp500_close": 1378.76,
+      "spread_10y3m_bp": 99.0,
+      "spread_10y2y_bp": 126.0
+    },
+    {
+      "date": "2008-02-01",
+      "sp500_close": 1354.87,
+      "spread_10y3m_bp": 162.0,
+      "spread_10y2y_bp": 177.0
+    },
+    {
+      "date": "2008-03-01",
+      "sp500_close": 1316.94,
+      "spread_10y3m_bp": 225.0,
+      "spread_10y2y_bp": 189.0
+    },
+    {
+      "date": "2008-04-01",
+      "sp500_close": 1370.47,
+      "spread_10y3m_bp": 239.0,
+      "spread_10y2y_bp": 163.0
+    },
+    {
+      "date": "2008-05-01",
+      "sp500_close": 1403.22,
+      "spread_10y3m_bp": 215.0,
+      "spread_10y2y_bp": 143.0
+    },
+    {
+      "date": "2008-06-01",
+      "sp500_close": 1341.25,
+      "spread_10y3m_bp": 224.0,
+      "spread_10y2y_bp": 133.0
+    },
+    {
+      "date": "2008-07-01",
+      "sp500_close": 1257.33,
+      "spread_10y3m_bp": 238.0,
+      "spread_10y2y_bp": 144.0
+    },
+    {
+      "date": "2008-08-01",
+      "sp500_close": 1281.47,
+      "spread_10y3m_bp": 217.0,
+      "spread_10y2y_bp": 147.0
+    },
+    {
+      "date": "2008-09-01",
+      "sp500_close": 1216.95,
+      "spread_10y3m_bp": 256.0,
+      "spread_10y2y_bp": 161.0
+    },
+    {
+      "date": "2008-10-01",
+      "sp500_close": 968.8,
+      "spread_10y3m_bp": 314.0,
+      "spread_10y2y_bp": 220.0
+    },
+    {
+      "date": "2008-11-01",
+      "sp500_close": 883.04,
+      "spread_10y3m_bp": 334.0,
+      "spread_10y2y_bp": 232.0
+    },
+    {
+      "date": "2008-12-01",
+      "sp500_close": 877.56,
+      "spread_10y3m_bp": 239.0,
+      "spread_10y2y_bp": 160.0
+    },
+    {
+      "date": "2009-01-01",
+      "sp500_close": 865.58,
+      "spread_10y3m_bp": 239.0,
+      "spread_10y2y_bp": 171.0
+    },
+    {
+      "date": "2009-02-01",
+      "sp500_close": 805.23,
+      "spread_10y3m_bp": 257.0,
+      "spread_10y2y_bp": 189.0
+    },
+    {
+      "date": "2009-03-01",
+      "sp500_close": 757.13,
+      "spread_10y3m_bp": 261.0,
+      "spread_10y2y_bp": 189.0
+    },
+    {
+      "date": "2009-04-01",
+      "sp500_close": 848.15,
+      "spread_10y3m_bp": 277.0,
+      "spread_10y2y_bp": 200.0
+    },
+    {
+      "date": "2009-05-01",
+      "sp500_close": 902.41,
+      "spread_10y3m_bp": 311.0,
+      "spread_10y2y_bp": 236.0
+    },
+    {
+      "date": "2009-06-01",
+      "sp500_close": 926.12,
+      "spread_10y3m_bp": 354.0,
+      "spread_10y2y_bp": 254.0
+    },
+    {
+      "date": "2009-07-01",
+      "sp500_close": 935.82,
+      "spread_10y3m_bp": 338.0,
+      "spread_10y2y_bp": 254.0
+    },
+    {
+      "date": "2009-08-01",
+      "sp500_close": 1009.73,
+      "spread_10y3m_bp": 342.0,
+      "spread_10y2y_bp": 247.0
+    },
+    {
+      "date": "2009-09-01",
+      "sp500_close": 1044.55,
+      "spread_10y3m_bp": 328.0,
+      "spread_10y2y_bp": 244.0
+    },
+    {
+      "date": "2009-10-01",
+      "sp500_close": 1067.66,
+      "spread_10y3m_bp": 332.0,
+      "spread_10y2y_bp": 244.0
+    },
+    {
+      "date": "2009-11-01",
+      "sp500_close": 1088.07,
+      "spread_10y3m_bp": 335.0,
+      "spread_10y2y_bp": 260.0
+    },
+    {
+      "date": "2009-12-01",
+      "sp500_close": 1110.38,
+      "spread_10y3m_bp": 354.0,
+      "spread_10y2y_bp": 272.0
+    },
+    {
+      "date": "2010-01-01",
+      "sp500_close": 1123.58,
+      "spread_10y3m_bp": 367.0,
+      "spread_10y2y_bp": 280.0
+    },
+    {
+      "date": "2010-02-01",
+      "sp500_close": 1089.16,
+      "spread_10y3m_bp": 358.0,
+      "spread_10y2y_bp": 283.0
+    },
+    {
+      "date": "2010-03-01",
+      "sp500_close": 1152.05,
+      "spread_10y3m_bp": 358.0,
+      "spread_10y2y_bp": 277.0
+    },
+    {
+      "date": "2010-04-01",
+      "sp500_close": 1197.32,
+      "spread_10y3m_bp": 369.0,
+      "spread_10y2y_bp": 279.0
+    },
+    {
+      "date": "2010-05-01",
+      "sp500_close": 1125.06,
+      "spread_10y3m_bp": 326.0,
+      "spread_10y2y_bp": 259.0
+    },
+    {
+      "date": "2010-06-01",
+      "sp500_close": 1083.36,
+      "spread_10y3m_bp": 308.0,
+      "spread_10y2y_bp": 248.0
+    },
+    {
+      "date": "2010-07-01",
+      "sp500_close": 1079.8,
+      "spread_10y3m_bp": 285.0,
+      "spread_10y2y_bp": 239.0
+    },
+    {
+      "date": "2010-08-01",
+      "sp500_close": 1087.28,
+      "spread_10y3m_bp": 254.0,
+      "spread_10y2y_bp": 218.0
+    },
+    {
+      "date": "2010-09-01",
+      "sp500_close": 1122.08,
+      "spread_10y3m_bp": 250.0,
+      "spread_10y2y_bp": 217.0
+    },
+    {
+      "date": "2010-10-01",
+      "sp500_close": 1171.58,
+      "spread_10y3m_bp": 241.0,
+      "spread_10y2y_bp": 216.0
+    },
+    {
+      "date": "2010-11-01",
+      "sp500_close": 1198.89,
+      "spread_10y3m_bp": 262.0,
+      "spread_10y2y_bp": 231.0
+    },
+    {
+      "date": "2010-12-01",
+      "sp500_close": 1241.53,
+      "spread_10y3m_bp": 315.0,
+      "spread_10y2y_bp": 267.0
+    },
+    {
+      "date": "2011-01-01",
+      "sp500_close": 1282.62,
+      "spread_10y3m_bp": 324.0,
+      "spread_10y2y_bp": 278.0
+    },
+    {
+      "date": "2011-02-01",
+      "sp500_close": 1321.12,
+      "spread_10y3m_bp": 345.0,
+      "spread_10y2y_bp": 281.0
+    },
+    {
+      "date": "2011-03-01",
+      "sp500_close": 1304.49,
+      "spread_10y3m_bp": 331.0,
+      "spread_10y2y_bp": 271.0
+    },
+    {
+      "date": "2011-04-01",
+      "sp500_close": 1331.51,
+      "spread_10y3m_bp": 340.0,
+      "spread_10y2y_bp": 273.0
+    },
+    {
+      "date": "2011-05-01",
+      "sp500_close": 1338.31,
+      "spread_10y3m_bp": 313.0,
+      "spread_10y2y_bp": 261.0
+    },
+    {
+      "date": "2011-06-01",
+      "sp500_close": 1287.29,
+      "spread_10y3m_bp": 296.0,
+      "spread_10y2y_bp": 259.0
+    },
+    {
+      "date": "2011-07-01",
+      "sp500_close": 1325.19,
+      "spread_10y3m_bp": 296.0,
+      "spread_10y2y_bp": 259.0
+    },
+    {
+      "date": "2011-08-01",
+      "sp500_close": 1185.31,
+      "spread_10y3m_bp": 228.0,
+      "spread_10y2y_bp": 207.0
+    },
+    {
+      "date": "2011-09-01",
+      "sp500_close": 1173.88,
+      "spread_10y3m_bp": 197.0,
+      "spread_10y2y_bp": 177.0
+    },
+    {
+      "date": "2011-10-01",
+      "sp500_close": 1207.22,
+      "spread_10y3m_bp": 213.0,
+      "spread_10y2y_bp": 187.0
+    },
+    {
+      "date": "2011-11-01",
+      "sp500_close": 1226.42,
+      "spread_10y3m_bp": 200.0,
+      "spread_10y2y_bp": 176.0
+    },
+    {
+      "date": "2011-12-01",
+      "sp500_close": 1243.32,
+      "spread_10y3m_bp": 197.0,
+      "spread_10y2y_bp": 172.0
+    },
+    {
+      "date": "2012-01-01",
+      "sp500_close": 1300.58,
+      "spread_10y3m_bp": 194.0,
+      "spread_10y2y_bp": 173.0
+    },
+    {
+      "date": "2012-02-01",
+      "sp500_close": 1352.49,
+      "spread_10y3m_bp": 188.0,
+      "spread_10y2y_bp": 169.0
+    },
+    {
+      "date": "2012-03-01",
+      "sp500_close": 1389.24,
+      "spread_10y3m_bp": 209.0,
+      "spread_10y2y_bp": 183.0
+    },
+    {
+      "date": "2012-04-01",
+      "sp500_close": 1386.43,
+      "spread_10y3m_bp": 197.0,
+      "spread_10y2y_bp": 176.0
+    },
+    {
+      "date": "2012-05-01",
+      "sp500_close": 1341.27,
+      "spread_10y3m_bp": 171.0,
+      "spread_10y2y_bp": 151.0
+    },
+    {
+      "date": "2012-06-01",
+      "sp500_close": 1323.48,
+      "spread_10y3m_bp": 153.0,
+      "spread_10y2y_bp": 133.0
+    },
+    {
+      "date": "2012-07-01",
+      "sp500_close": 1359.78,
+      "spread_10y3m_bp": 143.0,
+      "spread_10y2y_bp": 128.0
+    },
+    {
+      "date": "2012-08-01",
+      "sp500_close": 1403.45,
+      "spread_10y3m_bp": 158.0,
+      "spread_10y2y_bp": 141.0
+    },
+    {
+      "date": "2012-09-01",
+      "sp500_close": 1443.42,
+      "spread_10y3m_bp": 161.0,
+      "spread_10y2y_bp": 146.0
+    },
+    {
+      "date": "2012-10-01",
+      "sp500_close": 1437.82,
+      "spread_10y3m_bp": 165.0,
+      "spread_10y2y_bp": 147.0
+    },
+    {
+      "date": "2012-11-01",
+      "sp500_close": 1394.51,
+      "spread_10y3m_bp": 156.0,
+      "spread_10y2y_bp": 138.0
+    },
+    {
+      "date": "2012-12-01",
+      "sp500_close": 1422.29,
+      "spread_10y3m_bp": 165.0,
+      "spread_10y2y_bp": 146.0
+    },
+    {
+      "date": "2013-01-01",
+      "sp500_close": 1480.4,
+      "spread_10y3m_bp": 184.0,
+      "spread_10y2y_bp": 164.0
+    },
+    {
+      "date": "2013-02-01",
+      "sp500_close": 1512.31,
+      "spread_10y3m_bp": 188.0,
+      "spread_10y2y_bp": 171.0
+    },
+    {
+      "date": "2013-03-01",
+      "sp500_close": 1550.83,
+      "spread_10y3m_bp": 187.0,
+      "spread_10y2y_bp": 170.0
+    },
+    {
+      "date": "2013-04-01",
+      "sp500_close": 1570.7,
+      "spread_10y3m_bp": 170.0,
+      "spread_10y2y_bp": 153.0
+    },
+    {
+      "date": "2013-05-01",
+      "sp500_close": 1639.84,
+      "spread_10y3m_bp": 189.0,
+      "spread_10y2y_bp": 168.0
+    },
+    {
+      "date": "2013-06-01",
+      "sp500_close": 1618.77,
+      "spread_10y3m_bp": 225.0,
+      "spread_10y2y_bp": 197.0
+    },
+    {
+      "date": "2013-07-01",
+      "sp500_close": 1668.68,
+      "spread_10y3m_bp": 254.0,
+      "spread_10y2y_bp": 224.0
+    },
+    {
+      "date": "2013-08-01",
+      "sp500_close": 1670.09,
+      "spread_10y3m_bp": 270.0,
+      "spread_10y2y_bp": 238.0
+    },
+    {
+      "date": "2013-09-01",
+      "sp500_close": 1687.17,
+      "spread_10y3m_bp": 279.0,
+      "spread_10y2y_bp": 241.0
+    },
+    {
+      "date": "2013-10-01",
+      "sp500_close": 1720.03,
+      "spread_10y3m_bp": 257.0,
+      "spread_10y2y_bp": 228.0
+    },
+    {
+      "date": "2013-11-01",
+      "sp500_close": 1783.54,
+      "spread_10y3m_bp": 265.0,
+      "spread_10y2y_bp": 242.0
+    },
+    {
+      "date": "2013-12-01",
+      "sp500_close": 1807.78,
+      "spread_10y3m_bp": 283.0,
+      "spread_10y2y_bp": 256.0
+    },
+    {
+      "date": "2014-01-01",
+      "sp500_close": 1822.36,
+      "spread_10y3m_bp": 282.0,
+      "spread_10y2y_bp": 247.0
+    },
+    {
+      "date": "2014-02-01",
+      "sp500_close": 1817.04,
+      "spread_10y3m_bp": 266.0,
+      "spread_10y2y_bp": 238.0
+    },
+    {
+      "date": "2014-03-01",
+      "sp500_close": 1863.52,
+      "spread_10y3m_bp": 267.0,
+      "spread_10y2y_bp": 232.0
+    },
+    {
+      "date": "2014-04-01",
+      "sp500_close": 1864.26,
+      "spread_10y3m_bp": 268.0,
+      "spread_10y2y_bp": 229.0
+    },
+    {
+      "date": "2014-05-01",
+      "sp500_close": 1889.77,
+      "spread_10y3m_bp": 253.0,
+      "spread_10y2y_bp": 217.0
+    },
+    {
+      "date": "2014-06-01",
+      "sp500_close": 1947.09,
+      "spread_10y3m_bp": 256.0,
+      "spread_10y2y_bp": 215.0
+    },
+    {
+      "date": "2014-07-01",
+      "sp500_close": 1973.1,
+      "spread_10y3m_bp": 251.0,
+      "spread_10y2y_bp": 203.0
+    },
+    {
+      "date": "2014-08-01",
+      "sp500_close": 1961.53,
+      "spread_10y3m_bp": 239.0,
+      "spread_10y2y_bp": 195.0
+    },
+    {
+      "date": "2014-09-01",
+      "sp500_close": 1993.23,
+      "spread_10y3m_bp": 251.0,
+      "spread_10y2y_bp": 196.0
+    },
+    {
+      "date": "2014-10-01",
+      "sp500_close": 1937.27,
+      "spread_10y3m_bp": 228.0,
+      "spread_10y2y_bp": 185.0
+    },
+    {
+      "date": "2014-11-01",
+      "sp500_close": 2044.57,
+      "spread_10y3m_bp": 231.0,
+      "spread_10y2y_bp": 180.0
+    },
+    {
+      "date": "2014-12-01",
+      "sp500_close": 2054.27,
+      "spread_10y3m_bp": 218.0,
+      "spread_10y2y_bp": 157.0
+    },
+    {
+      "date": "2015-01-01",
+      "sp500_close": 2028.18,
+      "spread_10y3m_bp": 185.0,
+      "spread_10y2y_bp": 133.0
+    },
+    {
+      "date": "2015-02-01",
+      "sp500_close": 2082.2,
+      "spread_10y3m_bp": 196.0,
+      "spread_10y2y_bp": 136.0
+    },
+    {
+      "date": "2015-03-01",
+      "sp500_close": 2079.99,
+      "spread_10y3m_bp": 201.0,
+      "spread_10y2y_bp": 140.0
+    },
+    {
+      "date": "2015-04-01",
+      "sp500_close": 2094.86,
+      "spread_10y3m_bp": 192.0,
+      "spread_10y2y_bp": 140.0
+    },
+    {
+      "date": "2015-05-01",
+      "sp500_close": 2111.94,
+      "spread_10y3m_bp": 218.0,
+      "spread_10y2y_bp": 159.0
+    },
+    {
+      "date": "2015-06-01",
+      "sp500_close": 2099.29,
+      "spread_10y3m_bp": 234.0,
+      "spread_10y2y_bp": 167.0
+    },
+    {
+      "date": "2015-07-01",
+      "sp500_close": 2094.14,
+      "spread_10y3m_bp": 229.0,
+      "spread_10y2y_bp": 165.0
+    },
+    {
+      "date": "2015-08-01",
+      "sp500_close": 2039.87,
+      "spread_10y3m_bp": 210.0,
+      "spread_10y2y_bp": 147.0
+    },
+    {
+      "date": "2015-09-01",
+      "sp500_close": 1944.41,
+      "spread_10y3m_bp": 215.0,
+      "spread_10y2y_bp": 146.0
+    },
+    {
+      "date": "2015-10-01",
+      "sp500_close": 2024.81,
+      "spread_10y3m_bp": 205.0,
+      "spread_10y2y_bp": 143.0
+    },
+    {
+      "date": "2015-11-01",
+      "sp500_close": 2080.62,
+      "spread_10y3m_bp": 214.0,
+      "spread_10y2y_bp": 138.0
+    },
+    {
+      "date": "2015-12-01",
+      "sp500_close": 2054.08,
+      "spread_10y3m_bp": 201.0,
+      "spread_10y2y_bp": 126.0
+    },
+    {
+      "date": "2016-01-01",
+      "sp500_close": 1918.6,
+      "spread_10y3m_bp": 183.0,
+      "spread_10y2y_bp": 119.0
+    },
+    {
+      "date": "2016-02-01",
+      "sp500_close": 1904.42,
+      "spread_10y3m_bp": 147.0,
+      "spread_10y2y_bp": 105.0
+    },
+    {
+      "date": "2016-03-01",
+      "sp500_close": 2021.95,
+      "spread_10y3m_bp": 160.0,
+      "spread_10y2y_bp": 101.0
+    },
+    {
+      "date": "2016-04-01",
+      "sp500_close": 2075.54,
+      "spread_10y3m_bp": 158.0,
+      "spread_10y2y_bp": 104.0
+    },
+    {
+      "date": "2016-05-01",
+      "sp500_close": 2065.55,
+      "spread_10y3m_bp": 154.0,
+      "spread_10y2y_bp": 99.0
+    },
+    {
+      "date": "2016-06-01",
+      "sp500_close": 2083.89,
+      "spread_10y3m_bp": 137.0,
+      "spread_10y2y_bp": 91.0
+    },
+    {
+      "date": "2016-07-01",
+      "sp500_close": 2148.9,
+      "spread_10y3m_bp": 120.0,
+      "spread_10y2y_bp": 83.0
+    },
+    {
+      "date": "2016-08-01",
+      "sp500_close": 2170.95,
+      "spread_10y3m_bp": 126.0,
+      "spread_10y2y_bp": 82.0
+    },
+    {
+      "date": "2016-09-01",
+      "sp500_close": 2157.69,
+      "spread_10y3m_bp": 134.0,
+      "spread_10y2y_bp": 86.0
+    },
+    {
+      "date": "2016-10-01",
+      "sp500_close": 2143.02,
+      "spread_10y3m_bp": 143.0,
+      "spread_10y2y_bp": 92.0
+    },
+    {
+      "date": "2016-11-01",
+      "sp500_close": 2164.99,
+      "spread_10y3m_bp": 169.0,
+      "spread_10y2y_bp": 116.0
+    },
+    {
+      "date": "2016-12-01",
+      "sp500_close": 2246.63,
+      "spread_10y3m_bp": 198.0,
+      "spread_10y2y_bp": 129.0
+    },
+    {
+      "date": "2017-01-01",
+      "sp500_close": 2275.12,
+      "spread_10y3m_bp": 192.0,
+      "spread_10y2y_bp": 122.0
+    },
+    {
+      "date": "2017-02-01",
+      "sp500_close": 2329.91,
+      "spread_10y3m_bp": 190.0,
+      "spread_10y2y_bp": 122.0
+    },
+    {
+      "date": "2017-03-01",
+      "sp500_close": 2366.82,
+      "spread_10y3m_bp": 174.0,
+      "spread_10y2y_bp": 117.0
+    },
+    {
+      "date": "2017-04-01",
+      "sp500_close": 2359.31,
+      "spread_10y3m_bp": 150.0,
+      "spread_10y2y_bp": 106.0
+    },
+    {
+      "date": "2017-05-01",
+      "sp500_close": 2395.35,
+      "spread_10y3m_bp": 141.0,
+      "spread_10y2y_bp": 100.0
+    },
+    {
+      "date": "2017-06-01",
+      "sp500_close": 2433.99,
+      "spread_10y3m_bp": 121.0,
+      "spread_10y2y_bp": 85.0
+    },
+    {
+      "date": "2017-07-01",
+      "sp500_close": 2454.1,
+      "spread_10y3m_bp": 125.0,
+      "spread_10y2y_bp": 95.0
+    },
+    {
+      "date": "2017-08-01",
+      "sp500_close": 2456.22,
+      "spread_10y3m_bp": 120.0,
+      "spread_10y2y_bp": 87.0
+    },
+    {
+      "date": "2017-09-01",
+      "sp500_close": 2492.84,
+      "spread_10y3m_bp": 117.0,
+      "spread_10y2y_bp": 82.0
+    },
+    {
+      "date": "2017-10-01",
+      "sp500_close": 2557.0,
+      "spread_10y3m_bp": 129.0,
+      "spread_10y2y_bp": 81.0
+    },
+    {
+      "date": "2017-11-01",
+      "sp500_close": 2593.61,
+      "spread_10y3m_bp": 112.0,
+      "spread_10y2y_bp": 65.0
+    },
+    {
+      "date": "2017-12-01",
+      "sp500_close": 2664.34,
+      "spread_10y3m_bp": 108.0,
+      "spread_10y2y_bp": 56.0
+    },
+    {
+      "date": "2018-01-01",
+      "sp500_close": 2789.8,
+      "spread_10y3m_bp": 117.0,
+      "spread_10y2y_bp": 55.0
+    },
+    {
+      "date": "2018-02-01",
+      "sp500_close": 2705.16,
+      "spread_10y3m_bp": 129.0,
+      "spread_10y2y_bp": 68.0
+    },
+    {
+      "date": "2018-03-01",
+      "sp500_close": 2702.77,
+      "spread_10y3m_bp": 114.0,
+      "spread_10y2y_bp": 56.0
+    },
+    {
+      "date": "2018-04-01",
+      "sp500_close": 2653.63,
+      "spread_10y3m_bp": 111.0,
+      "spread_10y2y_bp": 49.0
+    },
+    {
+      "date": "2018-05-01",
+      "sp500_close": 2701.49,
+      "spread_10y3m_bp": 112.0,
+      "spread_10y2y_bp": 47.0
+    },
+    {
+      "date": "2018-06-01",
+      "sp500_close": 2754.35,
+      "spread_10y3m_bp": 101.0,
+      "spread_10y2y_bp": 38.0
+    },
+    {
+      "date": "2018-07-01",
+      "sp500_close": 2793.64,
+      "spread_10y3m_bp": 93.0,
+      "spread_10y2y_bp": 28.0
+    },
+    {
+      "date": "2018-08-01",
+      "sp500_close": 2857.82,
+      "spread_10y3m_bp": 86.0,
+      "spread_10y2y_bp": 25.0
+    },
+    {
+      "date": "2018-09-01",
+      "sp500_close": 2901.5,
+      "spread_10y3m_bp": 87.0,
+      "spread_10y2y_bp": 23.0
+    },
+    {
+      "date": "2018-10-01",
+      "sp500_close": 2785.46,
+      "spread_10y3m_bp": 90.0,
+      "spread_10y2y_bp": 29.0
+    },
+    {
+      "date": "2018-11-01",
+      "sp500_close": 2723.23,
+      "spread_10y3m_bp": 79.0,
+      "spread_10y2y_bp": 26.0
+    },
+    {
+      "date": "2018-12-01",
+      "sp500_close": 2567.31,
+      "spread_10y3m_bp": 46.0,
+      "spread_10y2y_bp": 15.0
+    },
+    {
+      "date": "2019-01-01",
+      "sp500_close": 2607.39,
+      "spread_10y3m_bp": 34.0,
+      "spread_10y2y_bp": 17.0
+    },
+    {
+      "date": "2019-02-01",
+      "sp500_close": 2754.86,
+      "spread_10y3m_bp": 29.0,
+      "spread_10y2y_bp": 18.0
+    },
+    {
+      "date": "2019-03-01",
+      "sp500_close": 2803.98,
+      "spread_10y3m_bp": 17.0,
+      "spread_10y2y_bp": 16.0
+    },
+    {
+      "date": "2019-04-01",
+      "sp500_close": 2903.8,
+      "spread_10y3m_bp": 15.0,
+      "spread_10y2y_bp": 19.0
+    },
+    {
+      "date": "2019-05-01",
+      "sp500_close": 2854.71,
+      "spread_10y3m_bp": 5.0,
+      "spread_10y2y_bp": 19.0
+    },
+    {
+      "date": "2019-06-01",
+      "sp500_close": 2890.17,
+      "spread_10y3m_bp": -10.0,
+      "spread_10y2y_bp": 26.0
+    },
+    {
+      "date": "2019-07-01",
+      "sp500_close": 2996.11,
+      "spread_10y3m_bp": -4.0,
+      "spread_10y2y_bp": 22.0
+    },
+    {
+      "date": "2019-08-01",
+      "sp500_close": 2897.5,
+      "spread_10y3m_bp": -32.0,
+      "spread_10y2y_bp": 6.0
+    },
+    {
+      "date": "2019-09-01",
+      "sp500_close": 2982.16,
+      "spread_10y3m_bp": -19.0,
+      "spread_10y2y_bp": 5.0
+    },
+    {
+      "date": "2019-10-01",
+      "sp500_close": 2977.68,
+      "spread_10y3m_bp": 6.0,
+      "spread_10y2y_bp": 16.0
+    },
+    {
+      "date": "2019-11-01",
+      "sp500_close": 3104.9,
+      "spread_10y3m_bp": 27.0,
+      "spread_10y2y_bp": 20.0
+    },
+    {
+      "date": "2019-12-01",
+      "sp500_close": 3176.75,
+      "spread_10y3m_bp": 32.0,
+      "spread_10y2y_bp": 25.0
+    },
+    {
+      "date": "2020-01-01",
+      "sp500_close": 3278.2,
+      "spread_10y3m_bp": 24.0,
+      "spread_10y2y_bp": 24.0
+    },
+    {
+      "date": "2020-02-01",
+      "sp500_close": 3277.31,
+      "spread_10y3m_bp": -2.0,
+      "spread_10y2y_bp": 17.0
+    },
+    {
+      "date": "2020-03-01",
+      "sp500_close": 2652.39,
+      "spread_10y3m_bp": 58.0,
+      "spread_10y2y_bp": 42.0
+    },
+    {
+      "date": "2020-04-01",
+      "sp500_close": 2761.98,
+      "spread_10y3m_bp": 52.0,
+      "spread_10y2y_bp": 44.0
+    },
+    {
+      "date": "2020-05-01",
+      "sp500_close": 2919.61,
+      "spread_10y3m_bp": 54.0,
+      "spread_10y2y_bp": 50.0
+    },
+    {
+      "date": "2020-06-01",
+      "sp500_close": 3104.66,
+      "spread_10y3m_bp": 57.0,
+      "spread_10y2y_bp": 54.0
+    },
+    {
+      "date": "2020-07-01",
+      "sp500_close": 3207.62,
+      "spread_10y3m_bp": 49.0,
+      "spread_10y2y_bp": 47.0
+    },
+    {
+      "date": "2020-08-01",
+      "sp500_close": 3391.71,
+      "spread_10y3m_bp": 55.0,
+      "spread_10y2y_bp": 51.0
+    },
+    {
+      "date": "2020-09-01",
+      "sp500_close": 3365.52,
+      "spread_10y3m_bp": 57.0,
+      "spread_10y2y_bp": 55.0
+    },
+    {
+      "date": "2020-10-01",
+      "sp500_close": 3418.7,
+      "spread_10y3m_bp": 69.0,
+      "spread_10y2y_bp": 64.0
+    },
+    {
+      "date": "2020-11-01",
+      "sp500_close": 3548.99,
+      "spread_10y3m_bp": 78.0,
+      "spread_10y2y_bp": 70.0
+    },
+    {
+      "date": "2020-12-01",
+      "sp500_close": 3695.31,
+      "spread_10y3m_bp": 84.0,
+      "spread_10y2y_bp": 79.0
+    },
+    {
+      "date": "2021-01-01",
+      "sp500_close": 3793.75,
+      "spread_10y3m_bp": 100.0,
+      "spread_10y2y_bp": 95.0
+    },
+    {
+      "date": "2021-02-01",
+      "sp500_close": 3883.43,
+      "spread_10y3m_bp": 122.0,
+      "spread_10y2y_bp": 114.0
+    },
+    {
+      "date": "2021-03-01",
+      "sp500_close": 3910.51,
+      "spread_10y3m_bp": 158.0,
+      "spread_10y2y_bp": 146.0
+    },
+    {
+      "date": "2021-04-01",
+      "sp500_close": 4141.18,
+      "spread_10y3m_bp": 162.0,
+      "spread_10y2y_bp": 148.0
+    },
+    {
+      "date": "2021-05-01",
+      "sp500_close": 4167.85,
+      "spread_10y3m_bp": 160.0,
+      "spread_10y2y_bp": 146.0
+    },
+    {
+      "date": "2021-06-01",
+      "sp500_close": 4238.49,
+      "spread_10y3m_bp": 148.0,
+      "spread_10y2y_bp": 132.0
+    },
+    {
+      "date": "2021-07-01",
+      "sp500_close": 4363.71,
+      "spread_10y3m_bp": 127.0,
+      "spread_10y2y_bp": 110.0
+    },
+    {
+      "date": "2021-08-01",
+      "sp500_close": 4454.21,
+      "spread_10y3m_bp": 123.0,
+      "spread_10y2y_bp": 106.0
+    },
+    {
+      "date": "2021-09-01",
+      "sp500_close": 4445.54,
+      "spread_10y3m_bp": 133.0,
+      "spread_10y2y_bp": 113.0
+    },
+    {
+      "date": "2021-10-01",
+      "sp500_close": 4460.71,
+      "spread_10y3m_bp": 153.0,
+      "spread_10y2y_bp": 119.0
+    },
+    {
+      "date": "2021-11-01",
+      "sp500_close": 4667.39,
+      "spread_10y3m_bp": 151.0,
+      "spread_10y2y_bp": 105.0
+    },
+    {
+      "date": "2021-12-01",
+      "sp500_close": 4674.77,
+      "spread_10y3m_bp": 141.0,
+      "spread_10y2y_bp": 79.0
+    },
+    {
+      "date": "2022-01-01",
+      "sp500_close": 4573.82,
+      "spread_10y3m_bp": 161.0,
+      "spread_10y2y_bp": 78.0
+    },
+    {
+      "date": "2022-02-01",
+      "sp500_close": 4435.98,
+      "spread_10y3m_bp": 160.0,
+      "spread_10y2y_bp": 49.0
+    },
+    {
+      "date": "2022-03-01",
+      "sp500_close": 4391.27,
+      "spread_10y3m_bp": 169.0,
+      "spread_10y2y_bp": 22.0
+    },
+    {
+      "date": "2022-04-01",
+      "sp500_close": 4391.3,
+      "spread_10y3m_bp": 199.0,
+      "spread_10y2y_bp": 21.0
+    },
+    {
+      "date": "2022-05-01",
+      "sp500_close": 4040.36,
+      "spread_10y3m_bp": 192.0,
+      "spread_10y2y_bp": 28.0
+    },
+    {
+      "date": "2022-06-01",
+      "sp500_close": 3898.95,
+      "spread_10y3m_bp": 165.0,
+      "spread_10y2y_bp": 14.0
+    },
+    {
+      "date": "2022-07-01",
+      "sp500_close": 3911.73,
+      "spread_10y3m_bp": 67.0,
+      "spread_10y2y_bp": -14.0
+    },
+    {
+      "date": "2022-08-01",
+      "sp500_close": 4158.56,
+      "spread_10y3m_bp": 27.0,
+      "spread_10y2y_bp": -35.0
+    },
+    {
+      "date": "2022-09-01",
+      "sp500_close": 3850.52,
+      "spread_10y3m_bp": 39.0,
+      "spread_10y2y_bp": -34.0
+    },
+    {
+      "date": "2022-10-01",
+      "sp500_close": 3726.05,
+      "spread_10y3m_bp": 26.0,
+      "spread_10y2y_bp": -40.0
+    },
+    {
+      "date": "2022-11-01",
+      "sp500_close": 3917.49,
+      "spread_10y3m_bp": -26.0,
+      "spread_10y2y_bp": -61.0
+    },
+    {
+      "date": "2022-12-01",
+      "sp500_close": 3912.38,
+      "spread_10y3m_bp": -63.0,
+      "spread_10y2y_bp": -67.0
+    },
+    {
+      "date": "2023-01-01",
+      "sp500_close": 3960.66,
+      "spread_10y3m_bp": -101.0,
+      "spread_10y2y_bp": -68.0
+    },
+    {
+      "date": "2023-02-01",
+      "sp500_close": 4079.68,
+      "spread_10y3m_bp": -90.0,
+      "spread_10y2y_bp": -78.0
+    },
+    {
+      "date": "2023-03-01",
+      "sp500_close": 3968.56,
+      "spread_10y3m_bp": -103.0,
+      "spread_10y2y_bp": -64.0
+    },
+    {
+      "date": "2023-04-01",
+      "sp500_close": 4121.47,
+      "spread_10y3m_bp": -146.0,
+      "spread_10y2y_bp": -56.0
+    },
+    {
+      "date": "2023-05-01",
+      "sp500_close": 4146.17,
+      "spread_10y3m_bp": -157.0,
+      "spread_10y2y_bp": -56.0
+    },
+    {
+      "date": "2023-06-01",
+      "sp500_close": 4345.37,
+      "spread_10y3m_bp": -141.0,
+      "spread_10y2y_bp": -89.0
+    },
+    {
+      "date": "2023-07-01",
+      "sp500_close": 4508.08,
+      "spread_10y3m_bp": -135.0,
+      "spread_10y2y_bp": -93.0
+    },
+    {
+      "date": "2023-08-01",
+      "sp500_close": 4426.24,
+      "spread_10y3m_bp": -113.0,
+      "spread_10y2y_bp": -73.0
+    },
+    {
+      "date": "2023-09-01",
+      "sp500_close": 4409.1,
+      "spread_10y3m_bp": -94.0,
+      "spread_10y2y_bp": -64.0
+    },
+    {
+      "date": "2023-10-01",
+      "sp500_close": 4258.98,
+      "spread_10y3m_bp": -54.0,
+      "spread_10y2y_bp": -27.0
+    },
+    {
+      "date": "2023-11-01",
+      "sp500_close": 4460.06,
+      "spread_10y3m_bp": -77.0,
+      "spread_10y2y_bp": -38.0
+    },
+    {
+      "date": "2023-12-01",
+      "sp500_close": 4685.05,
+      "spread_10y3m_bp": -122.0,
+      "spread_10y2y_bp": -44.0
+    },
+    {
+      "date": "2024-01-01",
+      "sp500_close": 4804.49,
+      "spread_10y3m_bp": -116.0,
+      "spread_10y2y_bp": -26.0
+    },
+    {
+      "date": "2024-02-01",
+      "sp500_close": 5011.96,
+      "spread_10y3m_bp": -103.0,
+      "spread_10y2y_bp": -33.0
+    },
+    {
+      "date": "2024-03-01",
+      "sp500_close": 5170.57,
+      "spread_10y3m_bp": -103.0,
+      "spread_10y2y_bp": -38.0
+    },
+    {
+      "date": "2024-04-01",
+      "sp500_close": 5095.46,
+      "spread_10y3m_bp": -70.0,
+      "spread_10y2y_bp": -33.0
+    },
+    {
+      "date": "2024-05-01",
+      "sp500_close": 5235.23,
+      "spread_10y3m_bp": -77.0,
+      "spread_10y2y_bp": -38.0
+    },
+    {
+      "date": "2024-06-01",
+      "sp500_close": 5415.14,
+      "spread_10y3m_bp": -93.0,
+      "spread_10y2y_bp": -43.0
+    },
+    {
+      "date": "2024-07-01",
+      "sp500_close": 5542.89,
+      "spread_10y3m_bp": -95.0,
+      "spread_10y2y_bp": -25.0
+    },
+    {
+      "date": "2024-08-01",
+      "sp500_close": 5502.17,
+      "spread_10y3m_bp": -118.0,
+      "spread_10y2y_bp": -10.0
+    },
+    {
+      "date": "2024-09-01",
+      "sp500_close": 5626.12,
+      "spread_10y3m_bp": -100.0,
+      "spread_10y2y_bp": 10.0
+    },
+    {
+      "date": "2024-10-01",
+      "sp500_close": 5792.32,
+      "spread_10y3m_bp": -41.0,
+      "spread_10y2y_bp": 13.0
+    },
+    {
+      "date": "2024-11-01",
+      "sp500_close": 5929.92,
+      "spread_10y3m_bp": -6.0,
+      "spread_10y2y_bp": 10.0
+    },
+    {
+      "date": "2024-12-01",
+      "sp500_close": 6010.91,
+      "spread_10y3m_bp": 12.0,
+      "spread_10y2y_bp": 16.0
+    },
+    {
+      "date": "2025-01-01",
+      "sp500_close": 5979.52,
+      "spread_10y3m_bp": 42.0,
+      "spread_10y2y_bp": 36.0
+    },
+    {
+      "date": "2025-02-01",
+      "sp500_close": 6038.69,
+      "spread_10y3m_bp": 23.0,
+      "spread_10y2y_bp": 24.0
+    },
+    {
+      "date": "2025-03-01",
+      "sp500_close": 5683.98,
+      "spread_10y3m_bp": 8.0,
+      "spread_10y2y_bp": 31.0
+    },
+    {
+      "date": "2025-04-01",
+      "sp500_close": 5369.5,
+      "spread_10y3m_bp": 7.0,
+      "spread_10y2y_bp": 50.0
+    },
+    {
+      "date": "2025-05-01",
+      "sp500_close": 5810.92,
+      "spread_10y3m_bp": 17.0,
+      "spread_10y2y_bp": 50.0
+    },
+    {
+      "date": "2025-06-01",
+      "sp500_close": 6029.95,
+      "spread_10y3m_bp": 15.0,
+      "spread_10y2y_bp": 49.0
+    },
+    {
+      "date": "2025-07-01",
+      "sp500_close": 6296.5,
+      "spread_10y3m_bp": 14.0,
+      "spread_10y2y_bp": 51.0
+    },
+    {
+      "date": "2025-08-01",
+      "sp500_close": 6408.95,
+      "spread_10y3m_bp": 14.0,
+      "spread_10y2y_bp": 56.0
+    },
+    {
+      "date": "2025-09-01",
+      "sp500_close": 6584.02,
+      "spread_10y3m_bp": 20.0,
+      "spread_10y2y_bp": 55.0
+    },
+    {
+      "date": "2025-10-01",
+      "sp500_close": 6735.69,
+      "spread_10y3m_bp": 24.0,
+      "spread_10y2y_bp": 54.0
+    },
+    {
+      "date": "2025-11-01",
+      "sp500_close": 6740.89,
+      "spread_10y3m_bp": 31.0,
+      "spread_10y2y_bp": 54.0
+    },
+    {
+      "date": "2025-12-01",
+      "sp500_close": 6853.03,
+      "spread_10y3m_bp": 55.0,
+      "spread_10y2y_bp": 64.0
+    },
+    {
+      "date": "2026-01-01",
+      "sp500_close": 6929.12,
+      "spread_10y3m_bp": 64.0,
+      "spread_10y2y_bp": 67.0
+    },
+    {
+      "date": "2026-02-01",
+      "sp500_close": 6893.81,
+      "spread_10y3m_bp": 53.0,
+      "spread_10y2y_bp": 66.0
+    },
+    {
+      "date": "2026-03-01",
+      "sp500_close": 6654.42,
+      "spread_10y3m_bp": 64.0,
+      "spread_10y2y_bp": 54.0
+    },
+    {
+      "date": "2026-04-01",
+      "sp500_close": 6957.01,
+      "spread_10y3m_bp": 71.0,
+      "spread_10y2y_bp": 52.0
+    },
+    {
+      "date": "2026-05-01",
+      "sp500_close": 7412.55,
+      "spread_10y3m_bp": 88.0,
+      "spread_10y2y_bp": 48.0
+    },
+    {
+      "date": "2026-06-01",
+      "sp500_close": 7450.03,
+      "spread_10y3m_bp": 81.0,
+      "spread_10y2y_bp": 36.0
+    },
+    {
+      "date": "2026-07-01",
+      "sp500_close": 7513.5,
+      "spread_10y3m_bp": 87.0,
+      "spread_10y2y_bp": 38.0
+    },
+    {
+      "date": "2026-09-01",
+      "sp500_close": 7700.57,
+      "spread_10y3m_bp": null,
+      "spread_10y2y_bp": null
+    }
+  ]
+}

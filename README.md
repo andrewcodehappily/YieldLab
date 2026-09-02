@@ -10,9 +10,9 @@ YieldLab 是一個互動式固定收益分析、殖利率曲線建模、因子�
 
 後端使用 FastAPI，前端保持零框架原生瀏覽器介面。Treasury collector 讀取美國財政部官方 XML 資料，將最新曲線與歷史交易日資料原子寫入本地 JSON；Web API 只讀本地資料，因此上游暫時故障時不會把整個網站一起拖下水。
 
-### v0.4 功能
+### v0.4.1 功能
 
-v0.4 在 v0.3 的 scenario / portfolio risk engine 上加入真正的曲線模型與歷史因子分析：
+v0.4.1 在 v0.4 的曲線模型與因子分析上，再加入 1950～2026 的長期市場倒掛視覺化：
 
 - 美國國債票面殖利率曲線資料擷取與本地快取
 - 歷史殖利率曲線持久化與日期查詢
@@ -30,6 +30,10 @@ v0.4 在 v0.3 的 scenario / portfolio risk engine 上加入真正的曲線模�
 - PCA 因子 explained variance、loading、最新 factor score 與 σ
 - **PCA factor shock**，可把 Level / Slope / Curvature 的 σ 衝擊轉回整條殖利率曲線
 - PCA factor shock 可直接送進投資組合壓力測試
+- **1950～2026 S&P 500 長期圖**，使用對數縱軸
+- 倒掛期間以全高紅色區帶標示，未倒掛為綠色，利率資料尚未開始的區間為灰色
+- 可切換 `10Y−3M` 與 `10Y−2Y` 倒掛定義
+- S&P 500 月度歷史資料與 Federal Reserve H.15 月均利率資料使用獨立本地快取
 - 利率情境衝擊引擎：全曲線平移 + 任意期限節點 shock 線性插值
 - 內建 Parallel ±100 bp、Bull/Bear Steepener、Bull/Bear Flattener 情境
 - 多債券投資組合壓力測試
@@ -77,6 +81,20 @@ python -m app.collectors.treasury --months 6
 ```
 
 若美國財政部網站暫時無法使用或限流，collector 會保留最後一次成功資料，不覆蓋正常快取。
+
+更新 S&P 500 與長期倒掛歷史：
+
+```bash
+python -m app.collectors.market_history
+```
+
+這個 collector 使用 Multpl 的月度 S&P 500 歷史價格，搭配 Federal Reserve Board H.15 的月均 Treasury series，成功後才原子更新 `data/sp500_inversion_history.json`。
+
+### v0.4.1 API
+
+#### `GET /api/market/sp500-inversions`
+
+回傳 1950 起的月度 S&P 500 價格，以及可用期間內的 `10Y−3M` 與 `10Y−2Y` 利差。前端用這份資料繪製紅／綠／灰倒掛 regime 背景。
 
 ### v0.4 API
 
@@ -162,6 +180,7 @@ YieldLab 會利用歷史 factor score 的標準差與 PCA loading，把 σ 單�
 - `GET /api/curves/history`
 - `GET /api/spread`
 - `GET /api/curve/compare`
+- `GET /api/market/sp500-inversions`
 - `GET /api/scenarios/presets`
 - `POST /api/scenarios/curve`
 - `POST /api/portfolio/stress`
@@ -197,6 +216,7 @@ YieldLab/
 │   ├── main.py
 │   ├── models.py
 │   ├── collectors/
+│   │   ├── market_history.py
 │   │   └── treasury.py
 │   └── services/
 │       ├── bonds.py
@@ -204,9 +224,11 @@ YieldLab/
 │       ├── factors.py
 │       ├── fitting.py
 │       ├── history.py
+│       ├── market_history.py
 │       ├── scenarios.py
 │       └── treasury.py
 ├── data/
+│   ├── sp500_inversion_history.json
 │   ├── treasury_curve.json
 │   └── treasury_history.json
 ├── static/
@@ -238,9 +260,9 @@ YieldLab is an interactive fixed-income analytics, yield-curve modelling, factor
 
 The backend uses FastAPI while the frontend stays framework-free. A Treasury collector reads the official U.S. Department of the Treasury XML feed and atomically stores the latest curve plus historical trading-day curves in local JSON files. The web API reads local data only, so upstream outages do not block normal user requests.
 
-### v0.4 Features
+### v0.4.1 Features
 
-v0.4 adds quantitative curve modelling and historical factor analysis on top of the v0.3 scenario and portfolio risk engine:
+v0.4.1 adds a 1950–2026 long-run inversion view on top of the v0.4 curve-model and factor-analysis engine:
 
 - U.S. Treasury par yield-curve ingestion with local caching
 - Persistent historical yield curves with date lookup
@@ -258,6 +280,10 @@ v0.4 adds quantitative curve modelling and historical factor analysis on top of 
 - Explained variance, loadings, latest factor scores, and sigma values
 - **PCA factor shocks** converted back into basis-point shocks across the curve
 - Direct PCA-factor-to-portfolio stress testing
+- **1950–2026 S&P 500 long-run chart** with a logarithmic y-axis
+- Full-height red inversion regimes, green non-inverted regimes, and gray pre-data periods
+- Switchable `10Y−3M` and `10Y−2Y` inversion definitions
+- Separate cached monthly S&P 500 and Federal Reserve H.15 historical rate data
 - Interest-rate scenario engine with parallel shifts and interpolated maturity-anchor shocks
 - Built-in Parallel ±100 bp and bull/bear steepener/flattener scenarios
 - Multi-bond portfolio stress testing
@@ -295,6 +321,20 @@ Or request a larger history window:
 ```bash
 python -m app.collectors.treasury --months 6
 ```
+
+Refresh the long-run S&P 500 / inversion cache:
+
+```bash
+python -m app.collectors.market_history
+```
+
+The market-history collector uses Multpl monthly S&P 500 historical prices plus the Federal Reserve Board H.15 monthly Treasury package, and atomically replaces the cache only after a successful refresh.
+
+### v0.4.1 API
+
+#### `GET /api/market/sp500-inversions`
+
+Returns monthly S&P 500 history from 1950 together with available `10Y−3M` and `10Y−2Y` spreads. The frontend uses these values to render red, green, and unavailable inversion regimes.
 
 ### v0.4 API
 
@@ -362,6 +402,7 @@ Historical factor-score volatility and PCA loadings are used to reconstruct a ma
 - `GET /api/curves/history`
 - `GET /api/spread`
 - `GET /api/curve/compare`
+- `GET /api/market/sp500-inversions`
 - `GET /api/scenarios/presets`
 - `POST /api/scenarios/curve`
 - `POST /api/portfolio/stress`
@@ -397,6 +438,7 @@ YieldLab/
 │   ├── main.py
 │   ├── models.py
 │   ├── collectors/
+│   │   ├── market_history.py
 │   │   └── treasury.py
 │   └── services/
 │       ├── bonds.py
@@ -404,9 +446,11 @@ YieldLab/
 │       ├── factors.py
 │       ├── fitting.py
 │       ├── history.py
+│       ├── market_history.py
 │       ├── scenarios.py
 │       └── treasury.py
 ├── data/
+│   ├── sp500_inversion_history.json
 │   ├── treasury_curve.json
 │   └── treasury_history.json
 ├── static/

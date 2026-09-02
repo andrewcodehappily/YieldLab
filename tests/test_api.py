@@ -12,7 +12,7 @@ def test_health() -> None:
     assert response.json() == {
         "status": "ok",
         "service": "yieldlab",
-        "version": "0.4.0",
+        "version": "0.4.1",
     }
 
 
@@ -115,6 +115,15 @@ def test_factor_shock_endpoint() -> None:
     payload = response.json()
     assert payload["scenario"]["name"] == "pca_factor_shock"
     assert payload["shock_result"]["points"]
+
+
+def test_sp500_inversion_history_endpoint() -> None:
+    response = client.get("/api/market/sp500-inversions")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["start_date"].startswith("1950-")
+    assert payload["end_date"].startswith("2026-")
+    assert len(payload["points"]) > 900
 
 
 def test_bond_analysis_endpoint() -> None:

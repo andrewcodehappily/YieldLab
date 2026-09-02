@@ -142,7 +142,19 @@ const TRANSLATIONS = {
     factorStressPortfolio: "用此因子衝擊壓力測試組合",
     factorShockedCurve: "PCA 衝擊後曲線",
     factorGenericError: "PCA 因子分析暫時無法完成。",
-    footer: "YieldLab v0.4 · 現在曲線不只會動，還會被拆成因子研究。",
+    marketHistoryLab: "市場歷史實驗室",
+    marketHistoryTitle: "S&P 500 與殖利率曲線倒掛",
+    inversionDefinition: "倒掛定義",
+    tenThreeDefinition: "10年 − 3月（10Y−3M）",
+    tenTwoDefinition: "10年 − 2年（10Y−2Y）",
+    nonInverted: "未倒掛",
+    invertedPeriod: "倒掛",
+    unavailableData: "無資料",
+    marketChartAria: "1950 至 2026 S&P 500 與殖利率曲線倒掛區間圖",
+    marketMethodology: "紅色代表所選「長端 − 短端」利差小於 0；綠色代表大於等於 0；灰色代表該期限資料尚未開始。S&P 500 使用月度價格，縱軸採對數刻度。",
+    marketSource: (sp500, rates) => `S&P 500：${sp500} · 利率：${rates}`,
+    marketGenericError: "長期市場歷史資料暫時無法載入。",
+    footer: "YieldLab v0.4.1 · 連 1950 年的市場都被拖進來對質了。",
     noData: "無資料",
     shapeNormal: "正常",
     shapeFlat: "平坦",
@@ -298,7 +310,19 @@ const TRANSLATIONS = {
     factorStressPortfolio: "Stress portfolio with this factor shock",
     factorShockedCurve: "PCA-shocked curve",
     factorGenericError: "PCA factor analysis is temporarily unavailable.",
-    footer: "YieldLab v0.4 · the curve can now be decomposed into factors instead of merely being stared at.",
+    marketHistoryLab: "MARKET HISTORY LAB",
+    marketHistoryTitle: "S&P 500 and yield-curve inversions",
+    inversionDefinition: "Inversion definition",
+    tenThreeDefinition: "10-year − 3-month (10Y−3M)",
+    tenTwoDefinition: "10-year − 2-year (10Y−2Y)",
+    nonInverted: "Not inverted",
+    invertedPeriod: "Inverted",
+    unavailableData: "Unavailable",
+    marketChartAria: "S&P 500 from 1950 to 2026 with yield-curve inversion regimes",
+    marketMethodology: "Red marks months when the selected long-minus-short spread is below zero; green marks non-inverted months; gray means the required Treasury series did not yet exist. S&P 500 prices are monthly and the y-axis is logarithmic.",
+    marketSource: (sp500, rates) => `S&P 500: ${sp500} · Rates: ${rates}`,
+    marketGenericError: "Long-run market history is temporarily unavailable.",
+    footer: "YieldLab v0.4.1 · even the 1950 market has now been dragged in for questioning.",
     noData: "n/a",
     shapeNormal: "Normal",
     shapeFlat: "Flat",
@@ -334,6 +358,7 @@ let latestForwardQuote = null;
 let pcaAnalysis = null;
 let factorShockResult = null;
 let factorShockedCurve = null;
+let marketHistory = null;
 
 function t(key) {
   return TRANSLATIONS[currentLanguage][key];
@@ -368,6 +393,7 @@ function applyLanguage(language) {
   refreshPortfolioRowLabels();
   renderModelState();
   renderFactorState();
+  renderMarketHistory();
 }
 
 function fmtBp(value) {
@@ -753,6 +779,125 @@ async function applyPcaFactorShock() {
     renderFactorState();
   } catch (_) {
     error.textContent = t("factorGenericError");
+    error.hidden = false;
+  }
+}
+
+function marketSpreadKey() {
+  return $("marketSpread")?.value === "10y2y" ? "spread_10y2y_bp" : "spread_10y3m_bp";
+}
+
+function marketRegime(point, spreadKey) {
+  const spread = point[spreadKey];
+  if (spread === null || spread === undefined) return "unavailable";
+  return spread < 0 ? "inverted" : "normal";
+}
+
+function renderMarketHistory() {
+  const host = $("marketChart");
+  if (!host || !marketHistory?.points?.length) return;
+
+  const points = marketHistory.points;
+  const spreadKey = marketSpreadKey();
+  const width = Math.max(host.clientWidth || 1040, 620);
+  const height = 430;
+  const margin = { top: 24, right: 22, bottom: 46, left: 66 };
+  const innerW = width - margin.left - margin.right;
+  const innerH = height - margin.top - margin.bottom;
+
+  const timestamps = points.map((point) => Date.parse(`${point.date}T00:00:00Z`));
+  const minTime = timestamps[0];
+  const maxTime = timestamps[timestamps.length - 1];
+  const prices = points.map((point) => point.sp500_close);
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
+  const minLog = Math.log10(minPrice);
+  const maxLog = Math.log10(maxPrice);
+
+  const x = (timestamp) => margin.left + ((timestamp - minTime) / (maxTime - minTime || 1)) * innerW;
+  const y = (price) => margin.top + ((maxLog - Math.log10(price)) / (maxLog - minLog || 1)) * innerH;
+
+  const segments = [];
+  let segmentStart = 0;
+  let segmentStatus = marketRegime(points[0], spreadKey);
+  for (let index = 1; index <= points.length; index += 1) {
+    const status = index < points.length ? marketRegime(points[index], spreadKey) : null;
+    if (status !== segmentStatus) {
+      segments.push({ start: segmentStart, end: index - 1, status: segmentStatus });
+      segmentStart = index;
+      segmentStatus = status;
+    }
+  }
+
+  const regimeRects = segments.map((segment) => {
+    const startTime = timestamps[segment.start];
+    const endTime = timestamps[segment.end];
+    const leftTime = segment.start === 0
+      ? minTime
+      : (timestamps[segment.start - 1] + startTime) / 2;
+    const rightTime = segment.end === points.length - 1
+      ? maxTime
+      : (endTime + timestamps[segment.end + 1]) / 2;
+    const left = x(leftTime);
+    const right = x(rightTime);
+    return `<rect class="market-regime market-regime-${segment.status}" x="${left}" y="${margin.top}" width="${Math.max(right - left, 0.5)}" height="${innerH}"/>`;
+  }).join("");
+
+  const yCandidates = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000];
+  const yTicks = yCandidates
+    .filter((value) => value >= minPrice * 0.9 && value <= maxPrice * 1.1)
+    .map((value) => {
+      const yy = y(value);
+      const label = new Intl.NumberFormat(currentLanguage === "zh-Hant" ? "zh-TW" : "en-US").format(value);
+      return `<line class="market-grid" x1="${margin.left}" x2="${margin.left + innerW}" y1="${yy}" y2="${yy}"/><text x="8" y="${yy + 4}">${label}</text>`;
+    }).join("");
+
+  const years = [];
+  const firstYear = Number(points[0].date.slice(0, 4));
+  const lastYear = Number(points[points.length - 1].date.slice(0, 4));
+  for (let year = Math.ceil(firstYear / 10) * 10; year <= lastYear; year += 10) years.push(year);
+  if (!years.includes(firstYear)) years.unshift(firstYear);
+  if (!years.includes(lastYear)) years.push(lastYear);
+  const xTicks = years.map((year) => {
+    const timestamp = Date.UTC(year, 0, 1);
+    const xx = x(Math.min(Math.max(timestamp, minTime), maxTime));
+    return `<line class="market-year-grid" x1="${xx}" x2="${xx}" y1="${margin.top}" y2="${margin.top + innerH}"/><text text-anchor="middle" x="${xx}" y="${height - 14}">${year}</text>`;
+  }).join("");
+
+  const line = points.map((point, index) => `${x(timestamps[index])},${y(point.sp500_close)}`).join(" ");
+  const hoverPoints = points.map((point, index) => {
+    if (index % 12 !== 0 && index !== points.length - 1) return "";
+    const spread = point[spreadKey];
+    const spreadText = spread === null || spread === undefined ? t("unavailableData") : `${spread.toFixed(1)} bp`;
+    return `<circle class="market-hover-point" cx="${x(timestamps[index])}" cy="${y(point.sp500_close)}" r="7"><title>${point.date} · S&P 500 ${point.sp500_close.toFixed(2)} · ${spreadText}</title></circle>`;
+  }).join("");
+
+  host.innerHTML = `
+    <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">
+      <g class="market-regimes">${regimeRects}</g>
+      ${yTicks}
+      ${xTicks}
+      <polyline class="market-sp500-line" points="${line}"/>
+      ${hoverPoints}
+    </svg>`;
+
+  $("marketSource").textContent = t("marketSource")(
+    marketHistory.sp500_source,
+    marketHistory.rates_source,
+  );
+}
+
+async function loadMarketHistory() {
+  const error = $("marketError");
+  if (!error) return;
+  error.hidden = true;
+  try {
+    const response = await fetch("/api/market/sp500-inversions");
+    if (!response.ok) throw new Error("market-history-failed");
+    marketHistory = await response.json();
+    renderMarketHistory();
+  } catch (_) {
+    error.textContent = t("marketGenericError");
     error.hidden = false;
   }
 }
@@ -1175,6 +1320,7 @@ document.querySelectorAll("[data-lang]").forEach((button) => {
 
 $("spreadCalculate").addEventListener("click", calculateSpread);
 $("historyCompare").addEventListener("click", compareHistory);
+$("marketSpread").addEventListener("change", renderMarketHistory);
 $("fitCurve").addEventListener("click", loadCurveFit);
 $("queryFittedYield").addEventListener("click", queryFittedYield);
 $("calculateForward").addEventListener("click", calculateForwardRate);
@@ -1220,6 +1366,7 @@ window.addEventListener("resize", () => {
   if (latestCurveFit) renderFitChart(latestCurveFit);
   if (pcaAnalysis) renderFactorChart(pcaAnalysis);
   if (latestCurve && factorShockedCurve) renderComparisonChart(latestCurve, factorShockedCurve, "factorShockChart");
+  if (marketHistory) renderMarketHistory();
 });
 
 applyLanguage(currentLanguage);
@@ -1228,7 +1375,7 @@ async function initialize() {
   try {
     await loadCurve();
     seedPortfolio();
-    await Promise.all([loadScenarioPresets(), loadCurveFit(), loadPca()]);
+    await Promise.all([loadScenarioPresets(), loadCurveFit(), loadPca(), loadMarketHistory()]);
     await Promise.all([queryFittedYield(), calculateForwardRate(), applyPcaFactorShock()]);
     await applyScenario();
     await calculateSpread();
