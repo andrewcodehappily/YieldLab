@@ -152,3 +152,72 @@ class PortfolioScenarioResult(BaseModel):
     weighted_modified_duration: float
     weighted_convexity: float
     positions: list[PositionScenarioResult]
+
+
+class CurveFitPoint(BaseModel):
+    maturity_years: float
+    observed_yield_pct: float | None = None
+    fitted_yield_pct: float
+
+
+class CurveFitResult(BaseModel):
+    as_of: str
+    model: str
+    rmse_bp: float
+    parameters: dict[str, float]
+    points: list[CurveFitPoint]
+
+
+class FittedYieldQuote(BaseModel):
+    as_of: str
+    model: str
+    maturity_years: float
+    fitted_yield_pct: float
+    rmse_bp: float
+
+
+class ForwardRateQuote(BaseModel):
+    as_of: str
+    model: str
+    start_years: float
+    end_years: float
+    start_yield_pct: float
+    end_yield_pct: float
+    forward_rate_pct: float
+    methodology: str
+
+
+class PcaFactorSummary(BaseModel):
+    name: str
+    explained_variance_pct: float
+    latest_score_bp: float
+    score_std_bp: float
+    latest_sigma: float
+
+
+class PcaLoadingPoint(BaseModel):
+    maturity_years: float
+    label: str
+    level: float
+    slope: float
+    curvature: float
+
+
+class PcaAnalysis(BaseModel):
+    start_date: str
+    end_date: str
+    trading_days: int
+    change_observations: int
+    factors: list[PcaFactorSummary]
+    loadings: list[PcaLoadingPoint]
+
+
+class FactorShockRequest(BaseModel):
+    level_sigma: float = Field(default=0.0, ge=-10, le=10)
+    slope_sigma: float = Field(default=0.0, ge=-10, le=10)
+    curvature_sigma: float = Field(default=0.0, ge=-10, le=10)
+
+
+class FactorShockResult(BaseModel):
+    scenario: CurveScenario
+    shock_result: CurveShockResult

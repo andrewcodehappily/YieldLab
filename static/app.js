@@ -110,7 +110,39 @@ const TRANSLATIONS = {
     yieldBeforeAfter: "殖利率 前 → 後",
     remove: "移除",
     portfolioGenericError: "投資組合壓力測試失敗，請檢查部位資料。",
-    footer: "YieldLab v0.3 · 現在可以把整個投資組合丟進利率風暴裡。",
+    modelLab: "曲線模型實驗室",
+    modelTitle: "Nelson–Siegel / Svensson 曲線擬合",
+    modelHint: "只在觀測期限範圍內插值",
+    curveModel: "曲線模型",
+    fitCurve: "重新擬合",
+    queryMaturity: "查詢期限（年）",
+    queryYield: "查詢擬合殖利率",
+    forwardStart: "Forward 起點（年）",
+    forwardEnd: "Forward 終點（年）",
+    calculateForward: "計算 Forward",
+    observedCurve: "Treasury 觀測點",
+    fittedCurve: "擬合曲線",
+    fitChartAria: "殖利率曲線模型擬合圖",
+    fitRmse: "擬合 RMSE",
+    fittedYield: "擬合殖利率",
+    forwardRate: "近似 Forward Rate",
+    modelParameters: "模型參數",
+    forwardApproximation: "Forward Rate 將擬合後的 Treasury par-yield 曲線視為連續複利零息曲線，只是研究用近似，不是完整 coupon bootstrap。",
+    modelGenericError: "曲線模型暫時無法計算，請檢查期限或稍後再試。",
+    factorLab: "PCA 因子實驗室",
+    factorTitle: "Level / Slope / Curvature",
+    factorChartAria: "PCA 因子 loading 圖",
+    factorShockChartAria: "PCA 因子衝擊曲線圖",
+    factorWindow: (days, start, end) => `${days} 個交易日 · ${start} → ${end}`,
+    factorScore: (score, sigma) => `最新 ${score} bp · ${sigma}σ`,
+    levelShock: "Level 衝擊（σ）",
+    slopeShock: "Slope 衝擊（σ）",
+    curvatureShock: "Curvature 衝擊（σ）",
+    applyFactorShock: "套用 PCA 衝擊",
+    factorStressPortfolio: "用此因子衝擊壓力測試組合",
+    factorShockedCurve: "PCA 衝擊後曲線",
+    factorGenericError: "PCA 因子分析暫時無法完成。",
+    footer: "YieldLab v0.4 · 現在曲線不只會動，還會被拆成因子研究。",
     noData: "無資料",
     shapeNormal: "正常",
     shapeFlat: "平坦",
@@ -234,7 +266,39 @@ const TRANSLATIONS = {
     yieldBeforeAfter: "Yield before → after",
     remove: "Remove",
     portfolioGenericError: "Portfolio stress test failed. Please check the position data.",
-    footer: "YieldLab v0.3 · the whole portfolio can now be thrown into an interest-rate storm.",
+    modelLab: "CURVE MODEL LAB",
+    modelTitle: "Nelson–Siegel / Svensson curve fitting",
+    modelHint: "Interpolation only inside the observed maturity range",
+    curveModel: "Curve model",
+    fitCurve: "Refit curve",
+    queryMaturity: "Query maturity (years)",
+    queryYield: "Query fitted yield",
+    forwardStart: "Forward start (years)",
+    forwardEnd: "Forward end (years)",
+    calculateForward: "Calculate forward",
+    observedCurve: "Treasury observations",
+    fittedCurve: "Fitted curve",
+    fitChartAria: "Yield-curve model fit chart",
+    fitRmse: "Fit RMSE",
+    fittedYield: "Fitted yield",
+    forwardRate: "Approx. forward rate",
+    modelParameters: "Model parameters",
+    forwardApproximation: "The forward-rate view treats the fitted Treasury par-yield curve as a continuously compounded zero curve. It is a research approximation, not a full coupon bootstrap.",
+    modelGenericError: "Curve modelling is temporarily unavailable. Check the maturity inputs or try again later.",
+    factorLab: "PCA FACTOR LAB",
+    factorTitle: "Level / Slope / Curvature",
+    factorChartAria: "PCA factor loading chart",
+    factorShockChartAria: "PCA factor shock curve chart",
+    factorWindow: (days, start, end) => `${days} trading days · ${start} → ${end}`,
+    factorScore: (score, sigma) => `Latest ${score} bp · ${sigma}σ`,
+    levelShock: "Level shock (σ)",
+    slopeShock: "Slope shock (σ)",
+    curvatureShock: "Curvature shock (σ)",
+    applyFactorShock: "Apply PCA shock",
+    factorStressPortfolio: "Stress portfolio with this factor shock",
+    factorShockedCurve: "PCA-shocked curve",
+    factorGenericError: "PCA factor analysis is temporarily unavailable.",
+    footer: "YieldLab v0.4 · the curve can now be decomposed into factors instead of merely being stared at.",
     noData: "n/a",
     shapeNormal: "Normal",
     shapeFlat: "Flat",
@@ -264,6 +328,12 @@ let scenarioPresets = [];
 let latestScenarioResult = null;
 let scenarioShockedCurve = null;
 let latestPortfolioResult = null;
+let latestCurveFit = null;
+let latestFittedYieldQuote = null;
+let latestForwardQuote = null;
+let pcaAnalysis = null;
+let factorShockResult = null;
+let factorShockedCurve = null;
 
 function t(key) {
   return TRANSLATIONS[currentLanguage][key];
@@ -296,6 +366,8 @@ function applyLanguage(language) {
   renderScenarioState();
   renderPortfolioResult();
   refreshPortfolioRowLabels();
+  renderModelState();
+  renderFactorState();
 }
 
 function fmtBp(value) {
@@ -470,6 +542,219 @@ function renderComparisonChart(fromCurve, toCurve, hostId = "compareChart") {
       ${dotsFor(toCurve, "compare-to-point")}
       ${labels}
     </svg>`;
+}
+
+function renderFitChart(result) {
+  const host = $("fitChart");
+  if (!host || !result) return;
+
+  const width = Math.max(host.clientWidth || 900, 520);
+  const height = 390;
+  const margin = { top: 28, right: 26, bottom: 50, left: 54 };
+  const innerW = width - margin.left - margin.right;
+  const innerH = height - margin.top - margin.bottom;
+  const fitted = result.points;
+  const observed = result.points.filter((point) => point.observed_yield_pct !== null);
+  const maturities = fitted.map((point) => point.maturity_years);
+  const yields = fitted.map((point) => point.fitted_yield_pct).concat(observed.map((point) => point.observed_yield_pct));
+  const minMaturity = Math.min(...maturities);
+  const maxMaturity = Math.max(...maturities);
+  const minLog = Math.log(minMaturity);
+  const maxLog = Math.log(maxMaturity);
+  const yMinRaw = Math.min(...yields);
+  const yMaxRaw = Math.max(...yields);
+  const pad = Math.max((yMaxRaw - yMinRaw) * 0.25, 0.15);
+  const yMin = Math.floor((yMinRaw - pad) * 10) / 10;
+  const yMax = Math.ceil((yMaxRaw + pad) * 10) / 10;
+  const x = (maturity) => margin.left + ((Math.log(maturity) - minLog) / (maxLog - minLog || 1)) * innerW;
+  const y = (value) => margin.top + ((yMax - value) / (yMax - yMin || 1)) * innerH;
+
+  const grid = Array.from({ length: 5 }, (_, i) => {
+    const value = yMax - ((yMax - yMin) * i) / 4;
+    const yy = y(value);
+    return `<line class="grid" x1="${margin.left}" x2="${margin.left + innerW}" y1="${yy}" y2="${yy}"/><text x="8" y="${yy + 4}">${value.toFixed(2)}%</text>`;
+  }).join("");
+
+  const fitLine = fitted.map((point) => `${x(point.maturity_years)},${y(point.fitted_yield_pct)}`).join(" ");
+  const labelMap = new Map((latestCurve?.points || []).map((point) => [Number(point.maturity_years.toFixed(12)), point.label]));
+  const dots = observed.map((point) => `
+    <circle class="fit-observed-point" cx="${x(point.maturity_years)}" cy="${y(point.observed_yield_pct)}" r="5">
+      <title>${labelMap.get(Number(point.maturity_years.toFixed(12))) || point.maturity_years}: ${point.observed_yield_pct.toFixed(2)}%</title>
+    </circle>`).join("");
+  const labels = observed.map((point) => `<text text-anchor="middle" x="${x(point.maturity_years)}" y="${height - 14}">${labelMap.get(Number(point.maturity_years.toFixed(12))) || `${point.maturity_years.toFixed(1)}Y`}</text>`).join("");
+
+  host.innerHTML = `
+    <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">
+      ${grid}
+      <polyline class="model-fit-line" points="${fitLine}"/>
+      ${dots}
+      ${labels}
+    </svg>`;
+}
+
+function renderModelState() {
+  if (latestCurveFit) {
+    $("fitRmse").textContent = `${latestCurveFit.rmse_bp.toFixed(2)} bp`;
+    $("modelParameters").textContent = Object.entries(latestCurveFit.parameters)
+      .map(([key, value]) => `${key}=${Number(value).toFixed(4)}`)
+      .join(" · ");
+    renderFitChart(latestCurveFit);
+  }
+  if (latestFittedYieldQuote) {
+    $("fittedYieldValue").textContent = `${latestFittedYieldQuote.fitted_yield_pct.toFixed(3)}%`;
+    $("fittedYieldMaturity").textContent = `${latestFittedYieldQuote.maturity_years.toFixed(2)} ${t("yearSuffix")}`;
+  }
+  if (latestForwardQuote) {
+    $("forwardRateValue").textContent = `${latestForwardQuote.forward_rate_pct.toFixed(3)}%`;
+    $("forwardWindow").textContent = `${latestForwardQuote.start_years.toFixed(2)}Y → ${latestForwardQuote.end_years.toFixed(2)}Y`;
+  }
+}
+
+async function loadCurveFit() {
+  const error = $("modelError");
+  error.hidden = true;
+  try {
+    const model = $("curveModel").value;
+    const response = await fetch(`/api/curve/fit?model=${encodeURIComponent(model)}&grid_points=140`);
+    if (!response.ok) throw new Error("fit-failed");
+    latestCurveFit = await response.json();
+    renderModelState();
+  } catch (_) {
+    error.textContent = t("modelGenericError");
+    error.hidden = false;
+  }
+}
+
+async function queryFittedYield() {
+  const error = $("modelError");
+  error.hidden = true;
+  try {
+    const model = $("curveModel").value;
+    const maturity = Number($("fitMaturity").value);
+    const response = await fetch(`/api/curve/fitted-yield?model=${encodeURIComponent(model)}&maturity=${encodeURIComponent(maturity)}`);
+    if (!response.ok) throw new Error("fitted-yield-failed");
+    latestFittedYieldQuote = await response.json();
+    renderModelState();
+  } catch (_) {
+    error.textContent = t("modelGenericError");
+    error.hidden = false;
+  }
+}
+
+async function calculateForwardRate() {
+  const error = $("modelError");
+  error.hidden = true;
+  try {
+    const model = $("curveModel").value;
+    const start = Number($("forwardStart").value);
+    const end = Number($("forwardEnd").value);
+    if (!(start > 0 && end > start && end <= 30)) throw new Error("forward-input");
+    const response = await fetch(`/api/curve/forward?model=${encodeURIComponent(model)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`);
+    if (!response.ok) throw new Error("forward-failed");
+    latestForwardQuote = await response.json();
+    renderModelState();
+  } catch (_) {
+    error.textContent = t("modelGenericError");
+    error.hidden = false;
+  }
+}
+
+function renderFactorChart(analysis) {
+  const host = $("factorChart");
+  if (!host || !analysis?.loadings?.length) return;
+  const width = Math.max(host.clientWidth || 900, 520);
+  const height = 390;
+  const margin = { top: 28, right: 26, bottom: 50, left: 54 };
+  const innerW = width - margin.left - margin.right;
+  const innerH = height - margin.top - margin.bottom;
+  const points = analysis.loadings;
+  const minLog = Math.log(Math.min(...points.map((point) => point.maturity_years)));
+  const maxLog = Math.log(Math.max(...points.map((point) => point.maturity_years)));
+  const allValues = points.flatMap((point) => [point.level, point.slope, point.curvature]);
+  const maxAbs = Math.max(...allValues.map((value) => Math.abs(value)), 0.1) * 1.15;
+  const x = (maturity) => margin.left + ((Math.log(maturity) - minLog) / (maxLog - minLog || 1)) * innerW;
+  const y = (value) => margin.top + ((maxAbs - value) / (2 * maxAbs)) * innerH;
+  const zeroY = y(0);
+  const line = (key) => points.map((point) => `${x(point.maturity_years)},${y(point[key])}`).join(" ");
+  const labels = points.map((point) => `<text text-anchor="middle" x="${x(point.maturity_years)}" y="${height - 14}">${point.label}</text>`).join("");
+
+  host.innerHTML = `
+    <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">
+      <line class="grid factor-zero" x1="${margin.left}" x2="${margin.left + innerW}" y1="${zeroY}" y2="${zeroY}"/>
+      <text x="8" y="${zeroY + 4}">0</text>
+      <polyline class="factor-line factor-level" points="${line("level")}"/>
+      <polyline class="factor-line factor-slope" points="${line("slope")}"/>
+      <polyline class="factor-line factor-curvature" points="${line("curvature")}"/>
+      ${labels}
+    </svg>`;
+}
+
+function renderFactorState() {
+  if (pcaAnalysis) {
+    $("factorWindow").textContent = t("factorWindow")(pcaAnalysis.trading_days, pcaAnalysis.start_date, pcaAnalysis.end_date);
+    const factors = Object.fromEntries(pcaAnalysis.factors.map((factor) => [factor.name, factor]));
+    for (const name of ["level", "slope", "curvature"]) {
+      const factor = factors[name];
+      if (!factor) continue;
+      $(`${name}Variance`).textContent = `${factor.explained_variance_pct.toFixed(1)}%`;
+      $(`${name}Score`).textContent = t("factorScore")(factor.latest_score_bp.toFixed(2), factor.latest_sigma.toFixed(2));
+      $(`${name}Bar`).style.width = `${Math.min(100, factor.explained_variance_pct)}%`;
+    }
+    renderFactorChart(pcaAnalysis);
+  }
+  if (factorShockResult && latestCurve && factorShockedCurve) {
+    renderComparisonChart(latestCurve, factorShockedCurve, "factorShockChart");
+  }
+}
+
+async function loadPca() {
+  const error = $("factorError");
+  error.hidden = true;
+  try {
+    const response = await fetch("/api/factors/pca?limit=180");
+    if (!response.ok) throw new Error("pca-failed");
+    pcaAnalysis = await response.json();
+    renderFactorState();
+  } catch (_) {
+    error.textContent = t("factorGenericError");
+    error.hidden = false;
+  }
+}
+
+function factorShockRequest() {
+  return {
+    level_sigma: Number($("levelSigma").value || 0),
+    slope_sigma: Number($("slopeSigma").value || 0),
+    curvature_sigma: Number($("curvatureSigma").value || 0),
+  };
+}
+
+async function applyPcaFactorShock() {
+  const error = $("factorError");
+  error.hidden = true;
+  try {
+    const response = await fetch("/api/factors/shock?limit=180", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(factorShockRequest()),
+    });
+    if (!response.ok) throw new Error("factor-shock-failed");
+    factorShockResult = await response.json();
+    const shock = factorShockResult.shock_result;
+    factorShockedCurve = {
+      as_of: shock.as_of,
+      source: factorShockResult.scenario.name,
+      points: shock.points.map((point) => ({
+        maturity_years: point.maturity_years,
+        label: point.label,
+        yield_pct: point.shocked_yield_pct,
+      })),
+    };
+    renderFactorState();
+  } catch (_) {
+    error.textContent = t("factorGenericError");
+    error.hidden = false;
+  }
 }
 
 function renderDynamicText() {
@@ -761,7 +1046,7 @@ function renderPortfolioResult() {
     </tr>`).join("");
 }
 
-async function stressPortfolio() {
+async function stressPortfolio(scenario = null) {
   const error = $("portfolioError");
   error.hidden = true;
   try {
@@ -770,7 +1055,7 @@ async function stressPortfolio() {
     const response = await fetch("/api/portfolio/stress", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ positions, scenario: scenarioFromControls() }),
+      body: JSON.stringify({ positions, scenario: scenario || scenarioFromControls() }),
     });
     if (!response.ok) throw new Error("portfolio-failed");
     latestPortfolioResult = await response.json();
@@ -890,11 +1175,26 @@ document.querySelectorAll("[data-lang]").forEach((button) => {
 
 $("spreadCalculate").addEventListener("click", calculateSpread);
 $("historyCompare").addEventListener("click", compareHistory);
+$("fitCurve").addEventListener("click", loadCurveFit);
+$("queryFittedYield").addEventListener("click", queryFittedYield);
+$("calculateForward").addEventListener("click", calculateForwardRate);
+$("curveModel").addEventListener("change", async () => {
+  latestFittedYieldQuote = null;
+  latestForwardQuote = null;
+  await loadCurveFit();
+  await queryFittedYield();
+  await calculateForwardRate();
+});
+$("applyFactorShock").addEventListener("click", applyPcaFactorShock);
+$("factorStressPortfolio").addEventListener("click", async () => {
+  if (!factorShockResult) await applyPcaFactorShock();
+  if (factorShockResult) await stressPortfolio(factorShockResult.scenario);
+});
 $("applyScenario").addEventListener("click", async () => {
   await applyScenario();
   if (latestPortfolioResult) await stressPortfolio();
 });
-$("stressPortfolio").addEventListener("click", stressPortfolio);
+$("stressPortfolio").addEventListener("click", () => stressPortfolio());
 $("addPosition").addEventListener("click", () => addPortfolioRow());
 $("portfolioBody").addEventListener("click", (event) => {
   const button = event.target.closest(".remove-position");
@@ -917,6 +1217,9 @@ window.addEventListener("resize", () => {
   if (latestCurve) renderCurve(latestCurve);
   if (comparedFromCurve && comparedToCurve) renderComparisonChart(comparedFromCurve, comparedToCurve);
   if (latestCurve && scenarioShockedCurve) renderComparisonChart(latestCurve, scenarioShockedCurve, "scenarioChart");
+  if (latestCurveFit) renderFitChart(latestCurveFit);
+  if (pcaAnalysis) renderFactorChart(pcaAnalysis);
+  if (latestCurve && factorShockedCurve) renderComparisonChart(latestCurve, factorShockedCurve, "factorShockChart");
 });
 
 applyLanguage(currentLanguage);
@@ -925,7 +1228,8 @@ async function initialize() {
   try {
     await loadCurve();
     seedPortfolio();
-    await loadScenarioPresets();
+    await Promise.all([loadScenarioPresets(), loadCurveFit(), loadPca()]);
+    await Promise.all([queryFittedYield(), calculateForwardRate(), applyPcaFactorShock()]);
     await applyScenario();
     await calculateSpread();
     await loadHistory();

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Literal
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,10 +13,16 @@ from app.models import (
     BondAnalytics,
     BondRequest,
     CurveComparison,
+    CurveFitResult,
     CurveHistory,
     CurveMetrics,
     CurveScenario,
     CurveShockResult,
+    FactorShockRequest,
+    FactorShockResult,
+    FittedYieldQuote,
+    ForwardRateQuote,
+    PcaAnalysis,
     PortfolioScenarioRequest,
     PortfolioScenarioResult,
     ScenarioPreset,
@@ -24,18 +31,21 @@ from app.models import (
 )
 from app.services.bonds import analyze_bond
 from app.services.curve import analyze_curve, calculate_spread, compare_curves
+from app.services.factors import analyze_pca, factor_shock
+from app.services.fitting import fit_curve, fitted_yield_quote, forward_rate_quote
 from app.services.history import get_curve_by_date, load_history, merge_history
 from app.services.scenarios import get_presets, shock_curve, stress_portfolio
 from app.services.treasury import get_current_curve
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / "static"
-VERSION = "0.3.0"
+VERSION = "0.4.0"
+CurveModel = Literal["nelson_siegel", "svensson"]
 
 app = FastAPI(
     title="YieldLab",
     version=VERSION,
-    description="Fixed-income analytics, yield-curve research, and interest-rate stress testing lab",
+    description="Fixed-income analytics, yield-curve modelling, factor analysis, and interest-rate stress testing lab",
 )
 
 app.add_middleware(
@@ -64,6 +74,13 @@ def _curve_for_date(as_of: str | None) -> YieldCurve:
     if curve is None:
         raise HTTPException(status_code=404, detail=f"No curve available for {as_of}")
     return curve
+
+
+def _history_window(limit: int) -> list[YieldCurve]:
+    history = _available_history()
+    if len(history) < 4:
+        raise HTTPException(status_code=422, detail="At least four trading days are required for PCA")
+    return history[-limit:]
 
 
 @app.get("/", include_in_schema=False)
@@ -123,6 +140,70 @@ def get_curve_comparison(
 
     try:
         return compare_curves(from_curve, to_curve, short, long)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.get("/api/curve/fit", response_model=CurveFitResult)
+def get_curve_fit(
+    model: CurveModel = "svensson",
+    as_of: str | None = None,
+    grid_points: int = Query(default=121, ge=20, le=400),
+) -> CurveFitResult:
+    try:
+        return fit_curve(_curve_for_date(as_of), model=model, grid_points=grid_points)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.get("/api/curve/fitted-yield", response_model=FittedYieldQuote)
+def get_fitted_yield(
+    maturity: float = Query(gt=0, le=30),
+    model: CurveModel = "svensson",
+    as_of: str | None = None,
+) -> FittedYieldQuote:
+    try:
+        return fitted_yield_quote(_curve_for_date(as_of), maturity_years=maturity, model=model)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.get("/api/curve/forward", response_model=ForwardRateQuote)
+def get_forward_rate(
+    start: float = Query(gt=0, le=30),
+    end: float = Query(gt=0, le=30),
+    model: CurveModel = "svensson",
+    as_of: str | None = None,
+) -> ForwardRateQuote:
+    try:
+        return forward_rate_quote(
+            _curve_for_date(as_of),
+            start_years=start,
+            end_years=end,
+            model=model,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.get("/api/factors/pca", response_model=PcaAnalysis)
+def get_pca_analysis(
+    limit: int = Query(default=180, ge=4, le=1000),
+) -> PcaAnalysis:
+    try:
+        return analyze_pca(_history_window(limit))
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.post("/api/factors/shock", response_model=FactorShockResult)
+def apply_factor_shock(
+    request: FactorShockRequest,
+    as_of: str | None = None,
+    limit: int = Query(default=180, ge=4, le=1000),
+) -> FactorShockResult:
+    try:
+        return factor_shock(_history_window(limit), _curve_for_date(as_of), request)
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 

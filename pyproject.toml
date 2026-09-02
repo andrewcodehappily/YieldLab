@@ -1,6 +1,6 @@
 [project]
 name = "yieldlab"
-version = "0.3.0"
+version = "0.4.0"
 description = "Interactive fixed-income analytics and yield-curve research lab"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -8,6 +8,8 @@ dependencies = [
   "fastapi>=0.116,<1",
   "uvicorn[standard]>=0.35,<1",
   "pydantic>=2.11,<3",
+  "numpy>=2.1,<3",
+  "scipy>=1.14,<2",
 ]
 
 [project.optional-dependencies]

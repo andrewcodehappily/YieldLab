@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="YieldLab 固定收益分析與殖利率曲線研究實驗室 / fixed-income analytics and yield-curve research lab" />
   <title>YieldLab</title>
-  <link rel="stylesheet" href="/static/styles.css?v=0.3.0" />
+  <link rel="stylesheet" href="/static/styles.css?v=0.4.0" />
 </head>
 <body>
   <main class="shell">
@@ -98,6 +98,79 @@
         </div>
       </div>
       <p id="historyError" class="error" hidden></p>
+    </section>
+
+    <section class="panel model-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow" data-i18n="modelLab">曲線模型實驗室</p>
+          <h2 data-i18n="modelTitle">Nelson–Siegel / Svensson 曲線擬合</h2>
+        </div>
+        <span class="pill" data-i18n="modelHint">只在觀測期限範圍內插值</span>
+      </div>
+
+      <div class="model-controls">
+        <label><span data-i18n="curveModel">曲線模型</span><select id="curveModel"><option value="svensson">Svensson</option><option value="nelson_siegel">Nelson–Siegel</option></select></label>
+        <button type="button" id="fitCurve" data-i18n="fitCurve">重新擬合</button>
+        <label><span data-i18n="queryMaturity">查詢期限（年）</span><input id="fitMaturity" type="number" value="12.5" min="0.083333" max="30" step="0.25"></label>
+        <button type="button" id="queryFittedYield" data-i18n="queryYield">查詢擬合殖利率</button>
+        <label><span data-i18n="forwardStart">Forward 起點（年）</span><input id="forwardStart" type="number" value="5" min="0.083333" max="30" step="0.25"></label>
+        <label><span data-i18n="forwardEnd">Forward 終點（年）</span><input id="forwardEnd" type="number" value="10" min="0.083333" max="30" step="0.25"></label>
+        <button type="button" id="calculateForward" data-i18n="calculateForward">計算 Forward</button>
+      </div>
+
+      <div class="comparison-legend model-legend">
+        <span><i class="legend-dot observed-dot"></i><strong data-i18n="observedCurve">Treasury 觀測點</strong></span>
+        <span><i class="legend-dot fitted-dot"></i><strong data-i18n="fittedCurve">擬合曲線</strong></span>
+      </div>
+      <div id="fitChart" class="chart fit-chart" role="img" data-i18n-aria-label="fitChartAria" aria-label="曲線擬合圖"></div>
+
+      <div class="result-grid model-results">
+        <article><span data-i18n="fitRmse">擬合 RMSE</span><strong id="fitRmse">—</strong></article>
+        <article><span data-i18n="fittedYield">擬合殖利率</span><strong id="fittedYieldValue">—</strong><small id="fittedYieldMaturity">—</small></article>
+        <article><span data-i18n="forwardRate">近似 Forward Rate</span><strong id="forwardRateValue">—</strong><small id="forwardWindow">—</small></article>
+        <article class="model-parameter-card"><span data-i18n="modelParameters">模型參數</span><small id="modelParameters">—</small></article>
+      </div>
+      <p class="notice compact-notice" data-i18n="forwardApproximation">Forward Rate 將擬合後的 Treasury par-yield 曲線視為連續複利零息曲線，只是研究用近似，不是完整 coupon bootstrap。</p>
+      <p id="modelError" class="error" hidden></p>
+    </section>
+
+    <section class="panel factor-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow" data-i18n="factorLab">PCA 因子實驗室</p>
+          <h2 data-i18n="factorTitle">Level / Slope / Curvature</h2>
+        </div>
+        <span id="factorWindow" class="pill">—</span>
+      </div>
+
+      <div class="result-grid factor-summary">
+        <article><span>Level</span><strong id="levelVariance">—</strong><small id="levelScore">—</small><div class="factor-bar"><i id="levelBar"></i></div></article>
+        <article><span>Slope</span><strong id="slopeVariance">—</strong><small id="slopeScore">—</small><div class="factor-bar"><i id="slopeBar"></i></div></article>
+        <article><span>Curvature</span><strong id="curvatureVariance">—</strong><small id="curvatureScore">—</small><div class="factor-bar"><i id="curvatureBar"></i></div></article>
+      </div>
+
+      <div class="comparison-legend factor-legend">
+        <span><i class="legend-dot level-dot"></i><strong>Level</strong></span>
+        <span><i class="legend-dot slope-dot"></i><strong>Slope</strong></span>
+        <span><i class="legend-dot curvature-dot"></i><strong>Curvature</strong></span>
+      </div>
+      <div id="factorChart" class="chart factor-chart" role="img" data-i18n-aria-label="factorChartAria" aria-label="PCA 因子 loading 圖"></div>
+
+      <div class="factor-controls">
+        <label><span data-i18n="levelShock">Level 衝擊（σ）</span><input id="levelSigma" type="number" value="1" min="-10" max="10" step="0.25"></label>
+        <label><span data-i18n="slopeShock">Slope 衝擊（σ）</span><input id="slopeSigma" type="number" value="0" min="-10" max="10" step="0.25"></label>
+        <label><span data-i18n="curvatureShock">Curvature 衝擊（σ）</span><input id="curvatureSigma" type="number" value="0" min="-10" max="10" step="0.25"></label>
+        <button type="button" id="applyFactorShock" data-i18n="applyFactorShock">套用 PCA 衝擊</button>
+        <button type="button" class="secondary-button" id="factorStressPortfolio" data-i18n="factorStressPortfolio">用此因子衝擊壓力測試組合</button>
+      </div>
+
+      <div class="comparison-legend factor-shock-legend">
+        <span><i class="legend-dot from-dot"></i><strong data-i18n="baseCurve">原始曲線</strong></span>
+        <span><i class="legend-dot factor-shock-dot"></i><strong data-i18n="factorShockedCurve">PCA 衝擊後曲線</strong></span>
+      </div>
+      <div id="factorShockChart" class="chart compare-chart" role="img" data-i18n-aria-label="factorShockChartAria" aria-label="PCA 因子衝擊曲線圖"></div>
+      <p id="factorError" class="error" hidden></p>
     </section>
 
     <section class="panel scenario-panel">
@@ -219,8 +292,8 @@
       <p id="bondError" class="error" hidden></p>
     </section>
 
-    <footer data-i18n="footer">YieldLab v0.3 · 現在可以把整個投資組合丟進利率風暴裡。</footer>
+    <footer data-i18n="footer">YieldLab v0.4 · 現在曲線不只會動，還會被拆成因子研究。</footer>
   </main>
-  <script src="/static/app.js?v=0.3.0" defer></script>
+  <script src="/static/app.js?v=0.4.0" defer></script>
 </body>
 </html>

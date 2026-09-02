@@ -12,7 +12,7 @@ def test_health() -> None:
     assert response.json() == {
         "status": "ok",
         "service": "yieldlab",
-        "version": "0.3.0",
+        "version": "0.4.0",
     }
 
 
@@ -77,6 +77,44 @@ def test_portfolio_stress_endpoint() -> None:
     assert payload["market_value_after"] < payload["market_value_before"]
     assert payload["pnl"] < 0
     assert payload["positions"][0]["shock_bp"] == 100
+
+
+def test_curve_fit_endpoint() -> None:
+    response = client.get("/api/curve/fit", params={"model": "svensson", "grid_points": 80})
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["model"] == "svensson"
+    assert payload["rmse_bp"] >= 0
+    assert len(payload["points"]) >= 80
+
+
+def test_forward_rate_endpoint() -> None:
+    response = client.get("/api/curve/forward", params={"start": 5, "end": 10, "model": "svensson"})
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["start_years"] == 5
+    assert payload["end_years"] == 10
+    assert "approximation" in payload["methodology"]
+
+
+def test_pca_endpoint() -> None:
+    response = client.get("/api/factors/pca", params={"limit": 180})
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["trading_days"] >= 4
+    assert {factor["name"] for factor in payload["factors"]} == {"level", "slope", "curvature"}
+
+
+def test_factor_shock_endpoint() -> None:
+    response = client.post(
+        "/api/factors/shock",
+        params={"limit": 180},
+        json={"level_sigma": 1, "slope_sigma": 0, "curvature_sigma": 0},
+    )
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["scenario"]["name"] == "pca_factor_shock"
+    assert payload["shock_result"]["points"]
 
 
 def test_bond_analysis_endpoint() -> None:
