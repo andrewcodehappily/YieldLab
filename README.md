@@ -10,9 +10,9 @@ YieldLab 是一個互動式固定收益分析、殖利率曲線建模、因子�
 
 後端使用 FastAPI，前端保持零框架原生瀏覽器介面。Treasury collector 讀取美國財政部官方 XML 資料，將最新曲線與歷史交易日資料原子寫入本地 JSON；Web API 只讀本地資料，因此上游暫時故障時不會把整個網站一起拖下水。
 
-### v0.4.1 功能
+### v0.4.2 功能
 
-v0.4.1 在 v0.4 的曲線模型與因子分析上，再加入 1950～2026 的長期市場倒掛視覺化：
+v0.4.2 在 v0.4 的曲線模型與因子分析上，加入 1950～2026 的長期市場視覺化，並把倒掛定義改成 ACM 預期短率／期限溢酬分解條件：
 
 - 美國國債票面殖利率曲線資料擷取與本地快取
 - 歷史殖利率曲線持久化與日期查詢
@@ -32,8 +32,11 @@ v0.4.1 在 v0.4 的曲線模型與因子分析上，再加入 1950～2026 的長
 - PCA factor shock 可直接送進投資組合壓力測試
 - **1950～2026 S&P 500 長期圖**，使用對數縱軸
 - 倒掛期間以全高紅色區帶標示，未倒掛為綠色，利率資料尚未開始的區間為灰色
-- 可切換 `10Y−3M` 與 `10Y−2Y` 倒掛定義
-- S&P 500 月度歷史資料與 Federal Reserve H.15 月均利率資料使用獨立本地快取
+- 倒掛定義改為 `Eavg(T₂) − Eavg(T₁) < L(T₁) − L(T₂)`，其中 `Eavg` 使用 ACM risk-neutral yield、`L(T)` 使用 ACM term premium
+- `T₁` / `T₂` 可自由選擇 1Y～10Y 的 ACM 整數期限，並要求 `T₁ < T₂`
+- 可自由選擇 1950～2026 的圖表年份區間；1961 前因 ACM 尚無資料顯示灰色
+- 圖表同時顯示預期短率平均差、期限溢酬門檻、ACM fitted-yield spread 與最新倒掛狀態
+- S&P 500 月度歷史資料與 New York Fed ACM monthly term-premium Excel 使用獨立本地快取
 - 利率情境衝擊引擎：全曲線平移 + 任意期限節點 shock 線性插值
 - 內建 Parallel ±100 bp、Bull/Bear Steepener、Bull/Bear Flattener 情境
 - 多債券投資組合壓力測試
@@ -88,13 +91,26 @@ python -m app.collectors.treasury --months 6
 python -m app.collectors.market_history
 ```
 
-這個 collector 使用 Multpl 的月度 S&P 500 歷史價格，搭配 Federal Reserve Board H.15 的月均 Treasury series，成功後才原子更新 `data/sp500_inversion_history.json`。
+這個 collector 使用 Multpl 的月度 S&P 500 歷史價格，搭配 Federal Reserve Bank of New York 的 `ACMTermPremium.xls` 月資料。ACM 提供 1Y～10Y fitted yield、term premium 與 expected average short rate；成功後才原子更新 `data/sp500_inversion_history.json`。
 
-### v0.4.1 API
+### v0.4.2 API
 
 #### `GET /api/market/sp500-inversions`
 
-回傳 1950 起的月度 S&P 500 價格，以及可用期間內的 `10Y−3M` 與 `10Y−2Y` 利差。前端用這份資料繪製紅／綠／灰倒掛 regime 背景。
+支援 `t1`、`t2`、`start_year`、`end_year`。例如：
+
+```text
+/api/market/sp500-inversions?t1=2&t2=10&start_year=1961&end_year=2026
+```
+
+對每個 ACM 月份回傳：
+
+- `expected_path_difference_bp = Eavg(T₂) − Eavg(T₁)`
+- `term_premium_threshold_bp = L(T₁) − L(T₂)`
+- `fitted_yield_spread_bp = ACMY(T₂) − ACMY(T₁)`
+- `inverted = expected_path_difference_bp < term_premium_threshold_bp`
+
+因為 `ACMY(T)=ACMRNY(T)+ACMTP(T)`，這個條件與 ACM fitted-yield spread 小於 0 完全等價。1961 前保留 S&P 500，但 inversion 欄位為空，前端顯示灰色。
 
 ### v0.4 API
 
@@ -260,9 +276,9 @@ YieldLab is an interactive fixed-income analytics, yield-curve modelling, factor
 
 The backend uses FastAPI while the frontend stays framework-free. A Treasury collector reads the official U.S. Department of the Treasury XML feed and atomically stores the latest curve plus historical trading-day curves in local JSON files. The web API reads local data only, so upstream outages do not block normal user requests.
 
-### v0.4.1 Features
+### v0.4.2 Features
 
-v0.4.1 adds a 1950–2026 long-run inversion view on top of the v0.4 curve-model and factor-analysis engine:
+v0.4.2 adds a 1950–2026 long-run market view and replaces simple yield-spread inversion flags with an ACM expected-rate / term-premium decomposition condition:
 
 - U.S. Treasury par yield-curve ingestion with local caching
 - Persistent historical yield curves with date lookup
@@ -282,8 +298,11 @@ v0.4.1 adds a 1950–2026 long-run inversion view on top of the v0.4 curve-model
 - Direct PCA-factor-to-portfolio stress testing
 - **1950–2026 S&P 500 long-run chart** with a logarithmic y-axis
 - Full-height red inversion regimes, green non-inverted regimes, and gray pre-data periods
-- Switchable `10Y−3M` and `10Y−2Y` inversion definitions
-- Separate cached monthly S&P 500 and Federal Reserve H.15 historical rate data
+- Inversion condition: `Eavg(T₂) − Eavg(T₁) < L(T₁) − L(T₂)`, using ACM risk-neutral yields for `Eavg` and ACM term premia for `L(T)`
+- Freely selectable integer ACM maturities from 1Y to 10Y with `T₁ < T₂`
+- Freely selectable chart window from 1950 to 2026; pre-1961 months are gray because ACM data do not exist
+- Latest decomposition cards show the expected-rate difference, term-premium threshold, ACM fitted-yield spread, and inversion state
+- Separate cached monthly S&P 500 and New York Fed ACM term-premium data
 - Interest-rate scenario engine with parallel shifts and interpolated maturity-anchor shocks
 - Built-in Parallel ±100 bp and bull/bear steepener/flattener scenarios
 - Multi-bond portfolio stress testing
@@ -328,13 +347,19 @@ Refresh the long-run S&P 500 / inversion cache:
 python -m app.collectors.market_history
 ```
 
-The market-history collector uses Multpl monthly S&P 500 historical prices plus the Federal Reserve Board H.15 monthly Treasury package, and atomically replaces the cache only after a successful refresh.
+The market-history collector uses Multpl monthly S&P 500 historical prices plus the Federal Reserve Bank of New York `ACMTermPremium.xls` monthly data. ACM provides fitted yields, term premia, and expected average short rates for 1Y–10Y maturities. The cache is atomically replaced only after a successful refresh.
 
-### v0.4.1 API
+### v0.4.2 API
 
 #### `GET /api/market/sp500-inversions`
 
-Returns monthly S&P 500 history from 1950 together with available `10Y−3M` and `10Y−2Y` spreads. The frontend uses these values to render red, green, and unavailable inversion regimes.
+Supports `t1`, `t2`, `start_year`, and `end_year`. Example:
+
+```text
+/api/market/sp500-inversions?t1=2&t2=10&start_year=1961&end_year=2026
+```
+
+For each ACM month it returns the expected-rate path difference, the reverse term-premium difference, the ACM fitted-yield spread, and the resulting inversion flag. Since `ACMY(T)=ACMRNY(T)+ACMTP(T)`, the requested inequality is algebraically equivalent to a negative ACM fitted-yield spread.
 
 ### v0.4 API
 

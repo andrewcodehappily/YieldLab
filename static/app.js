@@ -143,18 +143,27 @@ const TRANSLATIONS = {
     factorShockedCurve: "PCA 衝擊後曲線",
     factorGenericError: "PCA 因子分析暫時無法完成。",
     marketHistoryLab: "市場歷史實驗室",
-    marketHistoryTitle: "S&P 500 與殖利率曲線倒掛",
-    inversionDefinition: "倒掛定義",
-    tenThreeDefinition: "10年 − 3月（10Y−3M）",
-    tenTwoDefinition: "10年 − 2年（10Y−2Y）",
+    marketHistoryTitle: "S&P 500 與 ACM 倒掛條件",
+    marketFormulaAria: "ACM 倒掛條件：長期限預期平均短率減短期限預期平均短率，小於短期限期限溢酬減長期限期限溢酬",
+    marketT1: "短端 T₁",
+    marketT2: "長端 T₂",
+    marketStartYear: "起始年",
+    marketEndYear: "結束年",
+    marketApply: "更新圖表",
     nonInverted: "未倒掛",
     invertedPeriod: "倒掛",
-    unavailableData: "無資料",
-    marketChartAria: "1950 至 2026 S&P 500 與殖利率曲線倒掛區間圖",
-    marketMethodology: "紅色代表所選「長端 − 短端」利差小於 0；綠色代表大於等於 0；灰色代表該期限資料尚未開始。S&P 500 使用月度價格，縱軸採對數刻度。",
-    marketSource: (sp500, rates) => `S&P 500：${sp500} · 利率：${rates}`,
-    marketGenericError: "長期市場歷史資料暫時無法載入。",
-    footer: "YieldLab v0.4.1 · 連 1950 年的市場都被拖進來對質了。",
+    unavailableData: "無 ACM 資料",
+    expectedPathDifference: "預期短率平均差",
+    termPremiumThreshold: "期限溢酬門檻",
+    acmFittedSpread: "ACM 擬合殖利率差",
+    marketCurrentState: "最新狀態",
+    marketStateInverted: "倒掛",
+    marketStateNormal: "未倒掛",
+    marketChartAria: "S&P 500 與 ACM 倒掛區間圖",
+    marketMethodology: "紅色月份滿足 Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂)。Eavg 使用 ACM risk-neutral yield（預期平均短率），L(T) 使用 ACM term premium。1961 前無 ACM 資料顯示灰色；S&P 500 採月度價格與對數縱軸。",
+    marketSource: (sp500, rates) => `S&P 500：${sp500} · 分解模型：${rates}`,
+    marketGenericError: "長期市場歷史資料暫時無法載入，或選擇的期限／年份區間無效。",
+    footer: "YieldLab v0.4.2 · 倒掛現在連預期短率和期限溢酬都得分開交代。",
     noData: "無資料",
     shapeNormal: "正常",
     shapeFlat: "平坦",
@@ -311,18 +320,27 @@ const TRANSLATIONS = {
     factorShockedCurve: "PCA-shocked curve",
     factorGenericError: "PCA factor analysis is temporarily unavailable.",
     marketHistoryLab: "MARKET HISTORY LAB",
-    marketHistoryTitle: "S&P 500 and yield-curve inversions",
-    inversionDefinition: "Inversion definition",
-    tenThreeDefinition: "10-year − 3-month (10Y−3M)",
-    tenTwoDefinition: "10-year − 2-year (10Y−2Y)",
+    marketHistoryTitle: "S&P 500 and the ACM inversion condition",
+    marketFormulaAria: "ACM inversion condition: the difference in expected average short rates is below the reverse difference in term premia",
+    marketT1: "Short end T₁",
+    marketT2: "Long end T₂",
+    marketStartYear: "Start year",
+    marketEndYear: "End year",
+    marketApply: "Update chart",
     nonInverted: "Not inverted",
     invertedPeriod: "Inverted",
-    unavailableData: "Unavailable",
-    marketChartAria: "S&P 500 from 1950 to 2026 with yield-curve inversion regimes",
-    marketMethodology: "Red marks months when the selected long-minus-short spread is below zero; green marks non-inverted months; gray means the required Treasury series did not yet exist. S&P 500 prices are monthly and the y-axis is logarithmic.",
-    marketSource: (sp500, rates) => `S&P 500: ${sp500} · Rates: ${rates}`,
-    marketGenericError: "Long-run market history is temporarily unavailable.",
-    footer: "YieldLab v0.4.1 · even the 1950 market has now been dragged in for questioning.",
+    unavailableData: "No ACM data",
+    expectedPathDifference: "Expected-rate path difference",
+    termPremiumThreshold: "Term-premium threshold",
+    acmFittedSpread: "ACM fitted-yield spread",
+    marketCurrentState: "Latest state",
+    marketStateInverted: "Inverted",
+    marketStateNormal: "Not inverted",
+    marketChartAria: "S&P 500 with ACM inversion regimes",
+    marketMethodology: "Red months satisfy Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂). Eavg is the ACM risk-neutral yield, interpreted as the expected average short rate, and L(T) is the ACM term premium. Pre-1961 months are gray because ACM data do not exist. S&P 500 prices are monthly and shown on a logarithmic y-axis.",
+    marketSource: (sp500, rates) => `S&P 500: ${sp500} · Decomposition model: ${rates}`,
+    marketGenericError: "Long-run market history is unavailable, or the selected maturity/year range is invalid.",
+    footer: "YieldLab v0.4.2 · inversions now have to explain both expected short rates and term premia.",
     noData: "n/a",
     shapeNormal: "Normal",
     shapeFlat: "Flat",
@@ -783,14 +801,25 @@ async function applyPcaFactorShock() {
   }
 }
 
-function marketSpreadKey() {
-  return $("marketSpread")?.value === "10y2y" ? "spread_10y2y_bp" : "spread_10y3m_bp";
+function populateMarketMaturityControls() {
+  const t1 = $("marketT1");
+  const t2 = $("marketT2");
+  if (!t1 || !t2) return;
+  t1.innerHTML = Array.from({ length: 9 }, (_, index) => {
+    const maturity = index + 1;
+    return `<option value="${maturity}">${maturity}Y</option>`;
+  }).join("");
+  t2.innerHTML = Array.from({ length: 9 }, (_, index) => {
+    const maturity = index + 2;
+    return `<option value="${maturity}">${maturity}Y</option>`;
+  }).join("");
+  t1.value = "2";
+  t2.value = "10";
 }
 
-function marketRegime(point, spreadKey) {
-  const spread = point[spreadKey];
-  if (spread === null || spread === undefined) return "unavailable";
-  return spread < 0 ? "inverted" : "normal";
+function marketRegime(point) {
+  if (point.inverted === null || point.inverted === undefined) return "unavailable";
+  return point.inverted ? "inverted" : "normal";
 }
 
 function renderMarketHistory() {
@@ -798,7 +827,6 @@ function renderMarketHistory() {
   if (!host || !marketHistory?.points?.length) return;
 
   const points = marketHistory.points;
-  const spreadKey = marketSpreadKey();
   const width = Math.max(host.clientWidth || 1040, 620);
   const height = 430;
   const margin = { top: 24, right: 22, bottom: 46, left: 66 };
@@ -819,9 +847,9 @@ function renderMarketHistory() {
 
   const segments = [];
   let segmentStart = 0;
-  let segmentStatus = marketRegime(points[0], spreadKey);
+  let segmentStatus = marketRegime(points[0]);
   for (let index = 1; index <= points.length; index += 1) {
-    const status = index < points.length ? marketRegime(points[index], spreadKey) : null;
+    const status = index < points.length ? marketRegime(points[index]) : null;
     if (status !== segmentStatus) {
       segments.push({ start: segmentStart, end: index - 1, status: segmentStatus });
       segmentStart = index;
@@ -855,7 +883,9 @@ function renderMarketHistory() {
   const years = [];
   const firstYear = Number(points[0].date.slice(0, 4));
   const lastYear = Number(points[points.length - 1].date.slice(0, 4));
-  for (let year = Math.ceil(firstYear / 10) * 10; year <= lastYear; year += 10) years.push(year);
+  const spanYears = Math.max(lastYear - firstYear, 1);
+  const tickStep = spanYears > 50 ? 10 : spanYears > 20 ? 5 : spanYears > 8 ? 2 : 1;
+  for (let year = Math.ceil(firstYear / tickStep) * tickStep; year <= lastYear; year += tickStep) years.push(year);
   if (!years.includes(firstYear)) years.unshift(firstYear);
   if (!years.includes(lastYear)) years.push(lastYear);
   const xTicks = years.map((year) => {
@@ -866,10 +896,11 @@ function renderMarketHistory() {
 
   const line = points.map((point, index) => `${x(timestamps[index])},${y(point.sp500_close)}`).join(" ");
   const hoverPoints = points.map((point, index) => {
-    if (index % 12 !== 0 && index !== points.length - 1) return "";
-    const spread = point[spreadKey];
-    const spreadText = spread === null || spread === undefined ? t("unavailableData") : `${spread.toFixed(1)} bp`;
-    return `<circle class="market-hover-point" cx="${x(timestamps[index])}" cy="${y(point.sp500_close)}" r="7"><title>${point.date} · S&P 500 ${point.sp500_close.toFixed(2)} · ${spreadText}</title></circle>`;
+    if (index % Math.max(1, Math.round(points.length / 80)) !== 0 && index !== points.length - 1) return "";
+    const componentText = point.inverted === null || point.inverted === undefined
+      ? t("unavailableData")
+      : `EΔ ${point.expected_path_difference_bp.toFixed(1)} bp · Lgap ${point.term_premium_threshold_bp.toFixed(1)} bp · ACM ΔY ${point.fitted_yield_spread_bp.toFixed(1)} bp`;
+    return `<circle class="market-hover-point" cx="${x(timestamps[index])}" cy="${y(point.sp500_close)}" r="7"><title>${point.date} · S&P 500 ${point.sp500_close.toFixed(2)} · ${componentText}</title></circle>`;
   }).join("");
 
   host.innerHTML = `
@@ -881,6 +912,20 @@ function renderMarketHistory() {
       ${hoverPoints}
     </svg>`;
 
+  const valid = points.filter((point) => point.inverted !== null && point.inverted !== undefined);
+  const latest = valid[valid.length - 1];
+  if (latest) {
+    $("marketExpectedDiff").textContent = fmtBpUnit(latest.expected_path_difference_bp);
+    $("marketPremiumGap").textContent = fmtBpUnit(latest.term_premium_threshold_bp);
+    $("marketFittedSpread").textContent = fmtBpUnit(latest.fitted_yield_spread_bp);
+    $("marketCurrentState").textContent = latest.inverted ? t("marketStateInverted") : t("marketStateNormal");
+    $("marketLatestDate").textContent = latest.date;
+    setSignedClass($("marketFittedSpread"), latest.fitted_yield_spread_bp);
+    $("marketCurrentState").classList.toggle("negative", latest.inverted);
+    $("marketCurrentState").classList.toggle("positive", !latest.inverted);
+  }
+
+  $("marketRangePill").textContent = `${marketHistory.start_date.slice(0, 4)} → ${marketHistory.end_date.slice(0, 4)}`;
   $("marketSource").textContent = t("marketSource")(
     marketHistory.sp500_source,
     marketHistory.rates_source,
@@ -891,8 +936,24 @@ async function loadMarketHistory() {
   const error = $("marketError");
   if (!error) return;
   error.hidden = true;
+  const t1 = Number($("marketT1").value);
+  const t2 = Number($("marketT2").value);
+  const startYear = Number($("marketStartYear").value);
+  const endYear = Number($("marketEndYear").value);
+  if (!(t1 >= 1 && t2 <= 10 && t1 < t2 && startYear >= 1950 && endYear <= 2026 && startYear <= endYear)) {
+    error.textContent = t("marketGenericError");
+    error.hidden = false;
+    return;
+  }
+
   try {
-    const response = await fetch("/api/market/sp500-inversions");
+    const params = new URLSearchParams({
+      t1: String(t1),
+      t2: String(t2),
+      start_year: String(startYear),
+      end_year: String(endYear),
+    });
+    const response = await fetch(`/api/market/sp500-inversions?${params}`);
     if (!response.ok) throw new Error("market-history-failed");
     marketHistory = await response.json();
     renderMarketHistory();
@@ -1320,7 +1381,7 @@ document.querySelectorAll("[data-lang]").forEach((button) => {
 
 $("spreadCalculate").addEventListener("click", calculateSpread);
 $("historyCompare").addEventListener("click", compareHistory);
-$("marketSpread").addEventListener("change", renderMarketHistory);
+$("marketApply").addEventListener("click", loadMarketHistory);
 $("fitCurve").addEventListener("click", loadCurveFit);
 $("queryFittedYield").addEventListener("click", queryFittedYield);
 $("calculateForward").addEventListener("click", calculateForwardRate);
@@ -1375,6 +1436,7 @@ async function initialize() {
   try {
     await loadCurve();
     seedPortfolio();
+    populateMarketMaturityControls();
     await Promise.all([loadScenarioPresets(), loadCurveFit(), loadPca(), loadMarketHistory()]);
     await Promise.all([queryFittedYield(), calculateForwardRate(), applyPcaFactorShock()]);
     await applyScenario();

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="YieldLab 固定收益分析與殖利率曲線研究實驗室 / fixed-income analytics and yield-curve research lab" />
   <title>YieldLab</title>
-  <link rel="stylesheet" href="/static/styles.css?v=0.4.1" />
+  <link rel="stylesheet" href="/static/styles.css?v=0.4.2" />
 </head>
 <body>
   <main class="shell">
@@ -296,34 +296,51 @@
       <div class="panel-heading market-history-heading">
         <div>
           <p class="eyebrow" data-i18n="marketHistoryLab">市場歷史實驗室</p>
-          <h2 data-i18n="marketHistoryTitle">S&amp;P 500 與殖利率曲線倒掛</h2>
+          <h2 data-i18n="marketHistoryTitle">S&amp;P 500 與 ACM 倒掛條件</h2>
         </div>
-        <span class="pill">1950 → 2026</span>
+        <span id="marketRangePill" class="pill">1950 → 2026</span>
       </div>
 
-      <div class="market-history-controls">
-        <label>
-          <span data-i18n="inversionDefinition">倒掛定義</span>
-          <select id="marketSpread">
-            <option value="10y3m" data-i18n="tenThreeDefinition">10年 − 3月（10Y−3M）</option>
-            <option value="10y2y" data-i18n="tenTwoDefinition">10年 − 2年（10Y−2Y）</option>
-          </select>
-        </label>
-        <div class="market-legend">
-          <span><i class="market-swatch market-normal"></i><b data-i18n="nonInverted">未倒掛</b></span>
-          <span><i class="market-swatch market-inverted"></i><b data-i18n="invertedPeriod">倒掛</b></span>
-          <span><i class="market-swatch market-unavailable"></i><b data-i18n="unavailableData">無資料</b></span>
-        </div>
+      <div class="market-formula" data-i18n-aria-label="marketFormulaAria" aria-label="ACM 倒掛條件公式">
+        <span class="formula-frac"><i>1</i><b>T₂</b></span>
+        <span class="formula-integral">∫<sub>0</sub><sup>T₂</sup></span><span>E[r(t)] dt</span>
+        <span>−</span>
+        <span class="formula-frac"><i>1</i><b>T₁</b></span>
+        <span class="formula-integral">∫<sub>0</sub><sup>T₁</sup></span><span>E[r(t)] dt</span>
+        <strong>&lt;</strong>
+        <span>L(T₁) − L(T₂)</span>
       </div>
 
-      <div id="marketChart" class="market-chart" role="img" data-i18n-aria-label="marketChartAria" aria-label="1950 至 2026 S&amp;P 500 與殖利率曲線倒掛區間圖"></div>
-      <p class="notice compact-notice" data-i18n="marketMethodology">紅色代表所選「長端 − 短端」利差小於 0；綠色代表大於等於 0；灰色代表該期限資料尚未開始。S&amp;P 500 使用月度價格，縱軸採對數刻度。</p>
+      <div class="market-history-controls market-acm-controls">
+        <label><span data-i18n="marketT1">短端 T₁</span><select id="marketT1"></select></label>
+        <label><span data-i18n="marketT2">長端 T₂</span><select id="marketT2"></select></label>
+        <label><span data-i18n="marketStartYear">起始年</span><input id="marketStartYear" type="number" value="1950" min="1950" max="2026" step="1"></label>
+        <label><span data-i18n="marketEndYear">結束年</span><input id="marketEndYear" type="number" value="2026" min="1950" max="2026" step="1"></label>
+        <button type="button" id="marketApply" data-i18n="marketApply">更新圖表</button>
+      </div>
+
+      <div class="market-legend">
+        <span><i class="market-swatch market-normal"></i><b data-i18n="nonInverted">未倒掛</b></span>
+        <span><i class="market-swatch market-inverted"></i><b data-i18n="invertedPeriod">倒掛</b></span>
+        <span><i class="market-swatch market-unavailable"></i><b data-i18n="unavailableData">無 ACM 資料</b></span>
+      </div>
+
+      <div id="marketChart" class="market-chart" role="img" data-i18n-aria-label="marketChartAria" aria-label="S&amp;P 500 與 ACM 倒掛區間圖"></div>
+
+      <div class="result-grid market-decomposition-results">
+        <article><span data-i18n="expectedPathDifference">預期短率平均差</span><strong id="marketExpectedDiff">—</strong><small id="marketLatestDate">—</small></article>
+        <article><span data-i18n="termPremiumThreshold">期限溢酬門檻</span><strong id="marketPremiumGap">—</strong></article>
+        <article><span data-i18n="acmFittedSpread">ACM 擬合殖利率差</span><strong id="marketFittedSpread">—</strong></article>
+        <article><span data-i18n="marketCurrentState">最新狀態</span><strong id="marketCurrentState">—</strong></article>
+      </div>
+
+      <p class="notice compact-notice" data-i18n="marketMethodology">紅色月份滿足 Eavg(T₂)−Eavg(T₁) &lt; L(T₁)−L(T₂)。Eavg 使用 ACM risk-neutral yield（預期平均短率），L(T) 使用 ACM term premium。1961 前無 ACM 資料顯示灰色；S&amp;P 500 採月度價格與對數縱軸。</p>
       <p id="marketSource" class="market-source">—</p>
       <p id="marketError" class="error" hidden></p>
     </section>
 
-    <footer data-i18n="footer">YieldLab v0.4.1 · 連 1950 年的市場都被拖進來對質了。</footer>
+    <footer data-i18n="footer">YieldLab v0.4.2 · 倒掛現在連預期短率和期限溢酬都得分開交代。</footer>
   </main>
-  <script src="/static/app.js?v=0.4.1" defer></script>
+  <script src="/static/app.js?v=0.4.2" defer></script>
 </body>
 </html>

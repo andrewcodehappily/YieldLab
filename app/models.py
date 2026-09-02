@@ -226,8 +226,9 @@ class FactorShockResult(BaseModel):
 class MarketHistoryPoint(BaseModel):
     date: str
     sp500_close: float
-    spread_10y3m_bp: float | None = None
-    spread_10y2y_bp: float | None = None
+    acm_fitted_yields_pct: list[float] | None = None
+    acm_term_premia_pct: list[float] | None = None
+    acm_expected_avg_short_rates_pct: list[float] | None = None
 
 
 class MarketHistoryData(BaseModel):
@@ -235,4 +236,25 @@ class MarketHistoryData(BaseModel):
     end_date: str
     sp500_source: str
     rates_source: str
+    acm_maturities_years: list[int]
     points: list[MarketHistoryPoint]
+
+
+class MarketInversionPoint(BaseModel):
+    date: str
+    sp500_close: float
+    expected_path_difference_bp: float | None = None
+    term_premium_threshold_bp: float | None = None
+    fitted_yield_spread_bp: float | None = None
+    inverted: bool | None = None
+
+
+class MarketInversionData(BaseModel):
+    start_date: str
+    end_date: str
+    t1_years: int
+    t2_years: int
+    sp500_source: str
+    rates_source: str
+    methodology: str
+    points: list[MarketInversionPoint]

@@ -1,25 +1,24 @@
 from __future__ import annotations
 
-import csv
 from datetime import datetime
 from html.parser import HTMLParser
-import io
 import json
 from pathlib import Path
 from tempfile import NamedTemporaryFile
-from urllib.parse import urlencode
 from urllib.request import Request, urlopen
+
+import xlrd
 
 from app.models import MarketHistoryData, MarketHistoryPoint
 from app.services.market_history import MARKET_HISTORY_FILE
 
 MULTPL_URL = "https://www.multpl.com/s-p-500-historical-prices/table/by-month"
-FED_H15_OUTPUT_URL = "https://www.federalreserve.gov/datadownload/Output.aspx"
-FED_H15_MONTHLY_PACKAGE = "d7e27b7b09a3a7feae95b9c61781fcd8"
+ACM_XLS_URL = "https://www.newyorkfed.org/medialibrary/media/research/data_indicators/ACMTermPremium.xls"
 USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
 )
+ACM_MATURITIES = list(range(1, 11))
 
 
 class _TableParser(HTMLParser):
@@ -58,7 +57,7 @@ class _TableParser(HTMLParser):
             self.in_table = False
 
 
-def _fetch_bytes(url: str, timeout: float = 30.0, attempts: int = 3) -> bytes:
+def _fetch_bytes(url: str, timeout: float = 35.0, attempts: int = 3) -> bytes:
     last_error: Exception | None = None
     for _ in range(attempts):
         request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "*/*"})
@@ -90,86 +89,72 @@ def _fetch_sp500_monthly() -> dict[str, tuple[str, float]]:
     return monthly
 
 
-def _parse_float(value: str | None) -> float | None:
-    if value is None:
-        return None
-    value = value.strip()
-    if value in {"", ".", "NA", "N/A"}:
-        return None
-    return float(value)
+def _date_from_acm_cell(value: object, datemode: int) -> datetime:
+    if isinstance(value, (int, float)):
+        return xlrd.xldate_as_datetime(value, datemode)
+    raw = str(value).strip()
+    for fmt in ("%d-%b-%Y", "%Y-%m-%d", "%m/%d/%Y"):
+        try:
+            return datetime.strptime(raw, fmt)
+        except ValueError:
+            pass
+    raise ValueError(f"Unsupported ACM date: {raw}")
 
 
-def _fetch_h15_monthly() -> tuple[dict[str, float], dict[str, float], dict[str, float]]:
-    today = datetime.now().date()
-    params = urlencode(
-        {
-            "rel": "H15",
-            "series": FED_H15_MONTHLY_PACKAGE,
-            "lastobs": "",
-            "from": "01/01/1950",
-            "to": today.strftime("%m/%d/%Y"),
-            "filetype": "csv",
-            "label": "include",
-            "layout": "seriescolumn",
-            "type": "package",
-        }
-    )
-    payload = _fetch_bytes(f"{FED_H15_OUTPUT_URL}?{params}").decode("utf-8-sig")
-    rows = list(csv.reader(io.StringIO(payload)))
-    header_index = next(
-        (index for index, row in enumerate(rows) if row and row[0] == "Time Period"),
-        None,
-    )
-    if header_index is None:
-        raise RuntimeError("Federal Reserve H.15 CSV did not contain a Time Period header")
-
-    header = rows[header_index]
+def _fetch_acm_monthly() -> dict[str, tuple[list[float], list[float], list[float]]]:
+    payload = _fetch_bytes(ACM_XLS_URL)
+    workbook = xlrd.open_workbook(file_contents=payload)
+    sheet = workbook.sheet_by_name("ACM Monthly")
+    header = [str(value).strip() for value in sheet.row_values(0)]
     column_index = {name: index for index, name in enumerate(header)}
-    required = {
-        "3m": "RIFSGFSM03_N.M",
-        "2y": "RIFLGFCY02_N.M",
-        "10y": "RIFLGFCY10_N.M",
-    }
-    if any(series not in column_index for series in required.values()):
-        raise RuntimeError("Federal Reserve H.15 CSV is missing required Treasury series")
 
-    series_data: dict[str, dict[str, float]] = {key: {} for key in required}
-    for row in rows[header_index + 1 :]:
-        if not row or len(row) <= max(column_index[series] for series in required.values()):
+    fitted_columns = [column_index[f"ACMY{maturity:02d}"] for maturity in ACM_MATURITIES]
+    premium_columns = [column_index[f"ACMTP{maturity:02d}"] for maturity in ACM_MATURITIES]
+    expected_columns = [column_index[f"ACMRNY{maturity:02d}"] for maturity in ACM_MATURITIES]
+
+    monthly: dict[str, tuple[list[float], list[float], list[float]]] = {}
+    for row_index in range(1, sheet.nrows):
+        row = sheet.row_values(row_index)
+        try:
+            date = _date_from_acm_cell(row[0], workbook.datemode)
+            fitted = [round(float(row[index]), 8) for index in fitted_columns]
+            premia = [round(float(row[index]), 8) for index in premium_columns]
+            expected = [round(float(row[index]), 8) for index in expected_columns]
+        except (ValueError, TypeError, IndexError):
             continue
-        month = row[0].strip()
-        if len(month) != 7 or month[4] != "-":
+
+        # Sanity check the ACM identity: fitted yield = expected-average short rate + term premium.
+        if any(abs(fitted[i] - (expected[i] + premia[i])) > 1e-5 for i in range(10)):
             continue
-        for key, series in required.items():
-            value = _parse_float(row[column_index[series]])
-            if value is not None:
-                series_data[key][month] = value
 
-    return series_data["10y"], series_data["3m"], series_data["2y"]
+        monthly[f"{date.year:04d}-{date.month:02d}"] = (fitted, premia, expected)
 
-
-def _subtract_series(long_series: dict[str, float], short_series: dict[str, float]) -> dict[str, float]:
-    return {
-        month: round((long_series[month] - short_series[month]) * 100, 4)
-        for month in long_series.keys() & short_series.keys()
-    }
+    if not monthly:
+        raise RuntimeError("No monthly ACM term-premium observations were parsed")
+    return monthly
 
 
 def build_market_history() -> MarketHistoryData:
     sp500 = _fetch_sp500_monthly()
-    ten_year, three_month, two_year = _fetch_h15_monthly()
-    spread_10y3m = _subtract_series(ten_year, three_month)
-    spread_10y2y = _subtract_series(ten_year, two_year)
+    acm = _fetch_acm_monthly()
 
-    points = [
-        MarketHistoryPoint(
-            date=date,
-            sp500_close=round(close, 4),
-            spread_10y3m_bp=spread_10y3m.get(month),
-            spread_10y2y_bp=spread_10y2y.get(month),
+    points: list[MarketHistoryPoint] = []
+    for month, (date, close) in sorted(sp500.items()):
+        components = acm.get(month)
+        if components is None:
+            fitted = premia = expected = None
+        else:
+            fitted, premia, expected = components
+        points.append(
+            MarketHistoryPoint(
+                date=date,
+                sp500_close=round(close, 4),
+                acm_fitted_yields_pct=fitted,
+                acm_term_premia_pct=premia,
+                acm_expected_avg_short_rates_pct=expected,
+            )
         )
-        for month, (date, close) in sorted(sp500.items())
-    ]
+
     if not points:
         raise RuntimeError("No S&P 500 observations were downloaded")
 
@@ -177,7 +162,8 @@ def build_market_history() -> MarketHistoryData:
         start_date=points[0].date,
         end_date=points[-1].date,
         sp500_source="Multpl monthly S&P 500 historical prices (Standard & Poor's / Robert Shiller)",
-        rates_source="Board of Governors of the Federal Reserve System H.15 monthly averages",
+        rates_source="Federal Reserve Bank of New York Adrian-Crump-Moench (ACM) Treasury Term Premia",
+        acm_maturities_years=ACM_MATURITIES,
         points=points,
     )
 
@@ -200,12 +186,10 @@ def save_market_history(data: MarketHistoryData, path: Path = MARKET_HISTORY_FIL
 def main() -> int:
     data = build_market_history()
     save_market_history(data)
-    available_10y3m = sum(point.spread_10y3m_bp is not None for point in data.points)
-    available_10y2y = sum(point.spread_10y2y_bp is not None for point in data.points)
+    available_acm = sum(point.acm_fitted_yields_pct is not None for point in data.points)
     print(
         f"Market history refreshed: {data.start_date} -> {data.end_date} "
-        f"({len(data.points)} monthly S&P observations; "
-        f"10Y-3M={available_10y3m}, 10Y-2Y={available_10y2y})"
+        f"({len(data.points)} monthly S&P observations; ACM={available_acm}, maturities=1Y-10Y)"
     )
     return 0
 
