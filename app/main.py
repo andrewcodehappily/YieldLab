@@ -14,21 +14,28 @@ from app.models import (
     CurveComparison,
     CurveHistory,
     CurveMetrics,
+    CurveScenario,
+    CurveShockResult,
+    PortfolioScenarioRequest,
+    PortfolioScenarioResult,
+    ScenarioPreset,
     SpreadQuote,
     YieldCurve,
 )
 from app.services.bonds import analyze_bond
 from app.services.curve import analyze_curve, calculate_spread, compare_curves
 from app.services.history import get_curve_by_date, load_history, merge_history
+from app.services.scenarios import get_presets, shock_curve, stress_portfolio
 from app.services.treasury import get_current_curve
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / "static"
+VERSION = "0.3.0"
 
 app = FastAPI(
     title="YieldLab",
-    version="0.2.0",
-    description="Fixed-income analytics and yield-curve research lab",
+    version=VERSION,
+    description="Fixed-income analytics, yield-curve research, and interest-rate stress testing lab",
 )
 
 app.add_middleware(
@@ -66,7 +73,7 @@ def index() -> FileResponse:
 
 @app.get("/api/health")
 def health() -> dict[str, str]:
-    return {"status": "ok", "service": "yieldlab", "version": "0.2.0"}
+    return {"status": "ok", "service": "yieldlab", "version": VERSION}
 
 
 @app.get("/api/curve", response_model=YieldCurve)
@@ -116,6 +123,27 @@ def get_curve_comparison(
 
     try:
         return compare_curves(from_curve, to_curve, short, long)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.get("/api/scenarios/presets", response_model=list[ScenarioPreset])
+def get_scenario_presets() -> list[ScenarioPreset]:
+    return list(get_presets())
+
+
+@app.post("/api/scenarios/curve", response_model=CurveShockResult)
+def apply_curve_scenario(
+    scenario: CurveScenario,
+    as_of: str | None = None,
+) -> CurveShockResult:
+    return shock_curve(_curve_for_date(as_of), scenario)
+
+
+@app.post("/api/portfolio/stress", response_model=PortfolioScenarioResult)
+def portfolio_stress_test(request: PortfolioScenarioRequest) -> PortfolioScenarioResult:
+    try:
+        return stress_portfolio(request)
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 

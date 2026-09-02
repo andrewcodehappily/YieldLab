@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="YieldLab 固定收益分析與殖利率曲線研究實驗室 / fixed-income analytics and yield-curve research lab" />
   <title>YieldLab</title>
-  <link rel="stylesheet" href="/static/styles.css?v=0.2.0" />
+  <link rel="stylesheet" href="/static/styles.css?v=0.3.0" />
 </head>
 <body>
   <main class="shell">
@@ -100,6 +100,97 @@
       <p id="historyError" class="error" hidden></p>
     </section>
 
+    <section class="panel scenario-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow" data-i18n="scenarioLab">情境實驗室</p>
+          <h2 data-i18n="scenarioTitle">扭曲整條殖利率曲線</h2>
+        </div>
+        <span class="pill" data-i18n="scenarioHint">平移 + 節點插值</span>
+      </div>
+
+      <div class="scenario-controls">
+        <label><span data-i18n="presetScenario">預設情境</span><select id="scenarioPreset"></select></label>
+        <label><span data-i18n="parallelShock">全曲線平移（bp）</span><input id="parallelShock" type="number" value="0" step="5"></label>
+        <label><span data-i18n="shock2Y">2年衝擊（bp）</span><input id="shock2Y" type="number" value="0" step="5"></label>
+        <label><span data-i18n="shock10Y">10年衝擊（bp）</span><input id="shock10Y" type="number" value="0" step="5"></label>
+        <label><span data-i18n="shock30Y">30年衝擊（bp）</span><input id="shock30Y" type="number" value="0" step="5"></label>
+        <button type="button" id="applyScenario" data-i18n="applyScenario">套用情境</button>
+      </div>
+
+      <div class="comparison-legend scenario-legend">
+        <span><i class="legend-dot from-dot"></i><strong data-i18n="baseCurve">原始曲線</strong></span>
+        <span><i class="legend-dot to-dot"></i><strong data-i18n="shockedCurve">衝擊後曲線</strong></span>
+      </div>
+      <div id="scenarioChart" class="chart compare-chart" role="img" data-i18n-aria-label="scenarioChartAria" aria-label="利率情境衝擊曲線圖"></div>
+
+      <div class="result-grid scenario-results">
+        <article><span data-i18n="scenarioMovement">曲線動態</span><strong id="scenarioMovement">—</strong></article>
+        <article><span data-i18n="baseTwoTen">原始 2s10s</span><strong id="scenarioBaseSpread">—</strong></article>
+        <article><span data-i18n="shockedTwoTen">衝擊後 2s10s</span><strong id="scenarioShockedSpread">—</strong></article>
+        <article><span data-i18n="twoTenChange">2s10s 變化</span><strong id="scenarioSpreadChange">—</strong></article>
+      </div>
+      <p id="scenarioError" class="error" hidden></p>
+    </section>
+
+    <section class="panel portfolio-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow" data-i18n="portfolioLab">投資組合實驗室</p>
+          <h2 data-i18n="portfolioStressTitle">把整個債券組合丟進壓力測試</h2>
+        </div>
+        <span class="pill" data-i18n="exactRepricing">逐筆現金流重新定價</span>
+      </div>
+
+      <div class="portfolio-toolbar">
+        <button type="button" class="secondary-button" id="addPosition" data-i18n="addPosition">＋ 新增部位</button>
+        <button type="button" id="stressPortfolio" data-i18n="runStressTest">執行壓力測試</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="portfolio-table">
+          <thead>
+            <tr>
+              <th data-i18n="positionName">名稱</th>
+              <th data-i18n="faceValue">面額</th>
+              <th data-i18n="couponRate">票面利率 %</th>
+              <th data-i18n="ytm">到期殖利率 %</th>
+              <th data-i18n="maturityYears">到期年限（年）</th>
+              <th data-i18n="paymentsPerYear">每年付息次數</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="portfolioBody"></tbody>
+        </table>
+      </div>
+
+      <div class="result-grid portfolio-summary">
+        <article><span data-i18n="marketValueBefore">衝擊前市值</span><strong id="portfolioBefore">—</strong></article>
+        <article><span data-i18n="marketValueAfter">衝擊後市值</span><strong id="portfolioAfter">—</strong></article>
+        <article><span data-i18n="portfolioPnl">損益</span><strong id="portfolioPnl">—</strong><small id="portfolioPnlPct">—</small></article>
+        <article><span data-i18n="portfolioDv01">組合 DV01</span><strong id="portfolioDv01">—</strong></article>
+        <article><span data-i18n="portfolioDuration">加權修正存續期間</span><strong id="portfolioDuration">—</strong></article>
+        <article><span data-i18n="portfolioConvexity">加權凸性</span><strong id="portfolioConvexity">—</strong></article>
+      </div>
+
+      <div class="table-wrap result-table-wrap">
+        <table class="portfolio-table result-table">
+          <thead>
+            <tr>
+              <th data-i18n="positionName">名稱</th>
+              <th data-i18n="shockApplied">衝擊</th>
+              <th data-i18n="yieldBeforeAfter">殖利率 前 → 後</th>
+              <th data-i18n="marketValueBefore">衝擊前市值</th>
+              <th data-i18n="marketValueAfter">衝擊後市值</th>
+              <th data-i18n="portfolioPnl">損益</th>
+            </tr>
+          </thead>
+          <tbody id="portfolioResults"></tbody>
+        </table>
+      </div>
+      <p id="portfolioError" class="error" hidden></p>
+    </section>
+
     <section class="panel calculator-panel">
       <div class="panel-heading">
         <div>
@@ -128,8 +219,8 @@
       <p id="bondError" class="error" hidden></p>
     </section>
 
-    <footer data-i18n="footer">YieldLab v0.2 · 現在不只看今天，還能把昨天抓回來對質。</footer>
+    <footer data-i18n="footer">YieldLab v0.3 · 現在可以把整個投資組合丟進利率風暴裡。</footer>
   </main>
-  <script src="/static/app.js?v=0.2.0" defer></script>
+  <script src="/static/app.js?v=0.3.0" defer></script>
 </body>
 </html>

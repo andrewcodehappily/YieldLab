@@ -74,3 +74,81 @@ class CurveMetrics(BaseModel):
     five_thirty_spread_bp: float | None
     front_back_spread_bp: float
     shape: str
+
+
+class ShockPoint(BaseModel):
+    maturity_years: float = Field(gt=0)
+    shock_bp: float = Field(ge=-2000, le=2000)
+
+
+class CurveScenario(BaseModel):
+    name: str = Field(default="custom", min_length=1, max_length=80)
+    parallel_bp: float = Field(default=0.0, ge=-2000, le=2000)
+    shocks: list[ShockPoint] = Field(default_factory=list, max_length=32)
+
+    @model_validator(mode="after")
+    def unique_shock_maturities(self) -> "CurveScenario":
+        maturities = [round(point.maturity_years, 12) for point in self.shocks]
+        if len(maturities) != len(set(maturities)):
+            raise ValueError("scenario shock maturities must be unique")
+        return self
+
+
+class ScenarioPreset(BaseModel):
+    key: str
+    scenario: CurveScenario
+
+
+class ShockedYieldPoint(BaseModel):
+    maturity_years: float
+    label: str
+    base_yield_pct: float
+    shock_bp: float
+    shocked_yield_pct: float
+
+
+class CurveShockResult(BaseModel):
+    as_of: str
+    scenario_name: str
+    points: list[ShockedYieldPoint]
+    base_two_ten_spread_bp: float | None
+    shocked_two_ten_spread_bp: float | None
+    two_ten_spread_change_bp: float | None
+    movement: str | None
+
+
+class PortfolioPosition(BondRequest):
+    name: str = Field(min_length=1, max_length=80)
+
+
+class PortfolioScenarioRequest(BaseModel):
+    positions: list[PortfolioPosition] = Field(min_length=1, max_length=100)
+    scenario: CurveScenario
+
+
+class PositionScenarioResult(BaseModel):
+    name: str
+    maturity_years: float
+    face_value: float
+    base_yield_pct: float
+    shock_bp: float
+    shocked_yield_pct: float
+    market_value_before: float
+    market_value_after: float
+    pnl: float
+    pnl_pct: float
+    dv01: float
+    modified_duration: float
+    convexity: float
+
+
+class PortfolioScenarioResult(BaseModel):
+    scenario_name: str
+    market_value_before: float
+    market_value_after: float
+    pnl: float
+    pnl_pct: float
+    dv01: float
+    weighted_modified_duration: float
+    weighted_convexity: float
+    positions: list[PositionScenarioResult]

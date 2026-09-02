@@ -12,7 +12,7 @@ def test_health() -> None:
     assert response.json() == {
         "status": "ok",
         "service": "yieldlab",
-        "version": "0.2.0",
+        "version": "0.3.0",
     }
 
 
@@ -33,6 +33,50 @@ def test_history_endpoint_contains_current_curve() -> None:
     assert curves
     current = client.get("/api/curve").json()
     assert curves[-1]["as_of"] == current["as_of"]
+
+
+def test_scenario_presets_endpoint() -> None:
+    response = client.get("/api/scenarios/presets")
+    assert response.status_code == 200
+    keys = {item["key"] for item in response.json()}
+    assert "bull_steepener" in keys
+    assert "parallel_up_100" in keys
+
+
+def test_curve_scenario_endpoint() -> None:
+    response = client.post(
+        "/api/scenarios/curve",
+        json={"name": "up25", "parallel_bp": 25, "shocks": []},
+    )
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["scenario_name"] == "up25"
+    assert payload["points"]
+    assert all(point["shock_bp"] == 25 for point in payload["points"])
+
+
+def test_portfolio_stress_endpoint() -> None:
+    response = client.post(
+        "/api/portfolio/stress",
+        json={
+            "scenario": {"name": "up100", "parallel_bp": 100, "shocks": []},
+            "positions": [
+                {
+                    "name": "10Y",
+                    "face_value": 100000,
+                    "coupon_rate_pct": 5,
+                    "yield_to_maturity_pct": 5,
+                    "maturity_years": 10,
+                    "payments_per_year": 2,
+                }
+            ],
+        },
+    )
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["market_value_after"] < payload["market_value_before"]
+    assert payload["pnl"] < 0
+    assert payload["positions"][0]["shock_bp"] == 100
 
 
 def test_bond_analysis_endpoint() -> None:

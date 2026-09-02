@@ -76,12 +76,43 @@ h2 { margin: 0; font-size: clamp(1.35rem, 3vw, 2rem); letter-spacing: -.035em; }
 .chart .compare-point { fill: #0a0d12; stroke-width: 3; }
 .chart .compare-from-point { stroke: var(--accent-2); }
 .chart .compare-to-point { stroke: var(--accent); }
+.scenario-controls { display: grid; grid-template-columns: 1.25fr repeat(4, 1fr) auto; gap: 10px; align-items: end; }
+.scenario-controls label { display: grid; gap: 7px; color: var(--muted); font-size: .77rem; }
+.scenario-controls input, .scenario-controls select,
+.portfolio-table input, .portfolio-table select { width: 100%; min-width: 0; color: #eff5f8; background: #0d1219; border: 1px solid var(--border); border-radius: 10px; padding: 10px 11px; outline: none; }
+.scenario-controls input:focus, .scenario-controls select:focus,
+.portfolio-table input:focus, .portfolio-table select:focus { border-color: rgba(158,231,200,.55); box-shadow: 0 0 0 3px rgba(158,231,200,.08); }
+.scenario-controls button, .portfolio-toolbar button { border: 0; border-radius: 12px; padding: 12px 18px; background: var(--accent); color: #06110c; font-weight: 800; cursor: pointer; white-space: nowrap; }
+.scenario-controls button:hover, .portfolio-toolbar button:hover { filter: brightness(1.06); }
+.scenario-legend { margin-top: 24px; }
+.scenario-results { grid-template-columns: repeat(4, 1fr); }
+.portfolio-toolbar { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 14px; }
+.secondary-button { background: rgba(255,255,255,.055) !important; color: #dce7ef !important; border: 1px solid var(--border) !important; }
+.secondary-button:hover { border-color: rgba(158,231,200,.45) !important; }
+.table-wrap { width: 100%; overflow-x: auto; border: 1px solid var(--border); border-radius: 14px; }
+.portfolio-table { width: 100%; min-width: 900px; border-collapse: collapse; background: rgba(0,0,0,.08); }
+.portfolio-table th, .portfolio-table td { padding: 10px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.portfolio-table th { color: var(--muted); font-size: .72rem; font-weight: 700; background: rgba(255,255,255,.025); white-space: nowrap; }
+.portfolio-table td { font-size: .8rem; color: #dce7ef; }
+.portfolio-table tbody tr:last-child td { border-bottom: 0; }
+.portfolio-table .position-name { min-width: 130px; }
+.portfolio-table .position-face { min-width: 115px; }
+.portfolio-table .remove-position { padding: 9px 11px; border-radius: 9px; cursor: pointer; }
+.portfolio-summary { grid-template-columns: repeat(3, 1fr); margin-top: 16px; }
+.portfolio-summary small { color: #687584; }
+.result-table-wrap { margin-top: 14px; }
+.result-table { min-width: 820px; }
+.positive { color: #9ee7c8 !important; }
+.negative { color: #ffaaa8 !important; }
+
 footer { color: #65717d; text-align: center; font-size: .78rem; padding: 18px 0 0; }
 
 @media (max-width: 900px) {
   .metric-grid { grid-template-columns: repeat(2, 1fr); }
   .bond-form, .history-controls { grid-template-columns: repeat(2, 1fr); }
   .spread-builder { grid-template-columns: 1fr 1fr; }
+  .scenario-controls { grid-template-columns: repeat(2, 1fr); }
+  .portfolio-summary { grid-template-columns: repeat(2, 1fr); }
   .operator { display: none; }
   .bond-form button, .history-controls button, .spread-builder button { min-height: 43px; }
   .result-grid { grid-template-columns: repeat(2, 1fr); }
@@ -93,7 +124,9 @@ footer { color: #65717d; text-align: center; font-size: .78rem; padding: 18px 0 
   .hero-actions { width: 100%; justify-content: space-between; }
   .metric-grid { grid-template-columns: 1fr 1fr; }
   .panel { padding: 18px; border-radius: 18px; }
-  .bond-form, .result-grid, .history-controls, .spread-builder { grid-template-columns: 1fr; }
+  .bond-form, .result-grid, .history-controls, .spread-builder, .scenario-controls, .portfolio-summary { grid-template-columns: 1fr; }
+  .portfolio-toolbar { justify-content: stretch; flex-direction: column; }
+  .portfolio-toolbar button { width: 100%; }
   .comparison-legend { margin-left: 0; flex-wrap: wrap; }
   .chart, .chart svg { min-height: 320px; height: 320px; }
 }

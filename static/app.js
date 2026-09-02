@@ -70,7 +70,47 @@ const TRANSLATIONS = {
     modifiedDuration: "修正存續期間",
     convexity: "凸性",
     dv01: "每基點價格變動（DV01）",
-    footer: "YieldLab v0.2 · 現在不只看今天，還能把昨天抓回來對質。",
+    scenarioLab: "情境實驗室",
+    scenarioTitle: "扭曲整條殖利率曲線",
+    scenarioHint: "平移 + 節點插值",
+    presetScenario: "預設情境",
+    parallelShock: "全曲線平移（bp）",
+    shock2Y: "2年衝擊（bp）",
+    shock10Y: "10年衝擊（bp）",
+    shock30Y: "30年衝擊（bp）",
+    applyScenario: "套用情境",
+    baseCurve: "原始曲線",
+    shockedCurve: "衝擊後曲線",
+    scenarioChartAria: "利率情境衝擊曲線圖",
+    scenarioMovement: "曲線動態",
+    baseTwoTen: "原始 2s10s",
+    shockedTwoTen: "衝擊後 2s10s",
+    twoTenChange: "2s10s 變化",
+    customScenario: "自訂情境",
+    presetParallelUp100: "全曲線 +100 bp",
+    presetParallelDown100: "全曲線 −100 bp",
+    presetBullSteepener: "牛市陡峭化",
+    presetBullFlattener: "牛市平坦化",
+    presetBearSteepener: "熊市陡峭化",
+    presetBearFlattener: "熊市平坦化",
+    scenarioGenericError: "利率情境暫時無法計算。",
+    portfolioLab: "投資組合實驗室",
+    portfolioStressTitle: "把整個債券組合丟進壓力測試",
+    exactRepricing: "逐筆現金流重新定價",
+    addPosition: "＋ 新增部位",
+    runStressTest: "執行壓力測試",
+    positionName: "名稱",
+    marketValueBefore: "衝擊前市值",
+    marketValueAfter: "衝擊後市值",
+    portfolioPnl: "損益",
+    portfolioDv01: "組合 DV01",
+    portfolioDuration: "加權修正存續期間",
+    portfolioConvexity: "加權凸性",
+    shockApplied: "衝擊",
+    yieldBeforeAfter: "殖利率 前 → 後",
+    remove: "移除",
+    portfolioGenericError: "投資組合壓力測試失敗，請檢查部位資料。",
+    footer: "YieldLab v0.3 · 現在可以把整個投資組合丟進利率風暴裡。",
     noData: "無資料",
     shapeNormal: "正常",
     shapeFlat: "平坦",
@@ -154,7 +194,47 @@ const TRANSLATIONS = {
     modifiedDuration: "Modified duration",
     convexity: "Convexity",
     dv01: "Price change per bp (DV01)",
-    footer: "YieldLab v0.2 · today is no longer the only curve invited to the party.",
+    scenarioLab: "SCENARIO LAB",
+    scenarioTitle: "Twist the entire yield curve",
+    scenarioHint: "Parallel shift + anchor interpolation",
+    presetScenario: "Preset scenario",
+    parallelShock: "Parallel shift (bp)",
+    shock2Y: "2Y shock (bp)",
+    shock10Y: "10Y shock (bp)",
+    shock30Y: "30Y shock (bp)",
+    applyScenario: "Apply scenario",
+    baseCurve: "Base curve",
+    shockedCurve: "Shocked curve",
+    scenarioChartAria: "Interest-rate scenario shock chart",
+    scenarioMovement: "Curve movement",
+    baseTwoTen: "Base 2s10s",
+    shockedTwoTen: "Shocked 2s10s",
+    twoTenChange: "2s10s change",
+    customScenario: "Custom scenario",
+    presetParallelUp100: "Parallel +100 bp",
+    presetParallelDown100: "Parallel −100 bp",
+    presetBullSteepener: "Bull steepener",
+    presetBullFlattener: "Bull flattener",
+    presetBearSteepener: "Bear steepener",
+    presetBearFlattener: "Bear flattener",
+    scenarioGenericError: "The interest-rate scenario is temporarily unavailable.",
+    portfolioLab: "PORTFOLIO LAB",
+    portfolioStressTitle: "Throw the bond portfolio into a stress test",
+    exactRepricing: "Exact cash-flow repricing",
+    addPosition: "+ Add position",
+    runStressTest: "Run stress test",
+    positionName: "Name",
+    marketValueBefore: "Market value before",
+    marketValueAfter: "Market value after",
+    portfolioPnl: "P/L",
+    portfolioDv01: "Portfolio DV01",
+    portfolioDuration: "Weighted modified duration",
+    portfolioConvexity: "Weighted convexity",
+    shockApplied: "Shock",
+    yieldBeforeAfter: "Yield before → after",
+    remove: "Remove",
+    portfolioGenericError: "Portfolio stress test failed. Please check the position data.",
+    footer: "YieldLab v0.3 · the whole portfolio can now be thrown into an interest-rate storm.",
     noData: "n/a",
     shapeNormal: "Normal",
     shapeFlat: "Flat",
@@ -180,6 +260,10 @@ let historyCurves = [];
 let latestComparison = null;
 let comparedFromCurve = null;
 let comparedToCurve = null;
+let scenarioPresets = [];
+let latestScenarioResult = null;
+let scenarioShockedCurve = null;
+let latestPortfolioResult = null;
 
 function t(key) {
   return TRANSLATIONS[currentLanguage][key];
@@ -208,6 +292,10 @@ function applyLanguage(language) {
   renderDynamicText();
   renderSpreadResult();
   renderHistoryState();
+  populateScenarioPresetOptions();
+  renderScenarioState();
+  renderPortfolioResult();
+  refreshPortfolioRowLabels();
 }
 
 function fmtBp(value) {
@@ -254,6 +342,32 @@ function translateMovement(movement) {
     neutral_parallel: "neutralParallel",
   };
   return keys[movement] ? t(keys[movement]) : movement;
+}
+
+function scenarioPresetLabel(key) {
+  const keys = {
+    parallel_up_100: "presetParallelUp100",
+    parallel_down_100: "presetParallelDown100",
+    bull_steepener: "presetBullSteepener",
+    bull_flattener: "presetBullFlattener",
+    bear_steepener: "presetBearSteepener",
+    bear_flattener: "presetBearFlattener",
+  };
+  return keys[key] ? t(keys[key]) : key;
+}
+
+function fmtMoney(value) {
+  if (value === null || value === undefined || !Number.isFinite(Number(value))) return t("noData");
+  return new Intl.NumberFormat(currentLanguage === "zh-Hant" ? "zh-TW" : "en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 2,
+  }).format(Number(value));
+}
+
+function setSignedClass(element, value) {
+  element.classList.toggle("positive", value > 0);
+  element.classList.toggle("negative", value < 0);
 }
 
 function renderCurve(curve) {
@@ -305,8 +419,8 @@ function renderCurve(curve) {
     </svg>`;
 }
 
-function renderComparisonChart(fromCurve, toCurve) {
-  const host = $("compareChart");
+function renderComparisonChart(fromCurve, toCurve, hostId = "compareChart") {
+  const host = $(hostId);
   if (!fromCurve || !toCurve) return;
 
   const width = Math.max(host.clientWidth || 900, 520);
@@ -446,6 +560,227 @@ function populateHistoryControls() {
   }
 }
 
+function populateScenarioPresetOptions() {
+  const select = $("scenarioPreset");
+  if (!select) return;
+  const previous = select.value || "custom";
+  const options = [
+    `<option value="custom">${t("customScenario")}</option>`,
+    ...scenarioPresets.map((preset) => `<option value="${preset.key}">${scenarioPresetLabel(preset.key)}</option>`),
+  ];
+  select.innerHTML = options.join("");
+  select.value = [...select.options].some((option) => option.value === previous) ? previous : "custom";
+}
+
+function interpolateScenarioShock(scenario, maturity) {
+  const anchors = [...(scenario.shocks || [])].sort((a, b) => a.maturity_years - b.maturity_years);
+  if (!anchors.length) return Number(scenario.parallel_bp || 0);
+
+  let shaped = 0;
+  if (maturity <= anchors[0].maturity_years) {
+    shaped = anchors[0].shock_bp;
+  } else if (maturity >= anchors[anchors.length - 1].maturity_years) {
+    shaped = anchors[anchors.length - 1].shock_bp;
+  } else {
+    for (let i = 0; i < anchors.length - 1; i += 1) {
+      const left = anchors[i];
+      const right = anchors[i + 1];
+      if (left.maturity_years <= maturity && maturity <= right.maturity_years) {
+        const weight = (maturity - left.maturity_years) / (right.maturity_years - left.maturity_years);
+        shaped = left.shock_bp + weight * (right.shock_bp - left.shock_bp);
+        break;
+      }
+    }
+  }
+  return Number(scenario.parallel_bp || 0) + Number(shaped || 0);
+}
+
+function setScenarioControlsFromPreset(key) {
+  if (key === "custom") return;
+  const preset = scenarioPresets.find((item) => item.key === key);
+  if (!preset) return;
+  const scenario = preset.scenario;
+  $("parallelShock").value = Number(scenario.parallel_bp || 0);
+  $("shock2Y").value = interpolateScenarioShock({ ...scenario, parallel_bp: 0 }, 2);
+  $("shock10Y").value = interpolateScenarioShock({ ...scenario, parallel_bp: 0 }, 10);
+  $("shock30Y").value = interpolateScenarioShock({ ...scenario, parallel_bp: 0 }, 30);
+}
+
+function scenarioFromControls() {
+  const key = $("scenarioPreset").value;
+  const preset = scenarioPresets.find((item) => item.key === key);
+  if (key !== "custom" && preset) return JSON.parse(JSON.stringify(preset.scenario));
+
+  return {
+    name: "custom",
+    parallel_bp: Number($("parallelShock").value || 0),
+    shocks: [
+      { maturity_years: 2, shock_bp: Number($("shock2Y").value || 0) },
+      { maturity_years: 10, shock_bp: Number($("shock10Y").value || 0) },
+      { maturity_years: 30, shock_bp: Number($("shock30Y").value || 0) },
+    ],
+  };
+}
+
+async function loadScenarioPresets() {
+  const response = await fetch("/api/scenarios/presets");
+  if (!response.ok) throw new Error("scenario-presets-failed");
+  scenarioPresets = await response.json();
+  populateScenarioPresetOptions();
+}
+
+function renderScenarioState() {
+  if (!latestScenarioResult || !latestCurve || !scenarioShockedCurve) return;
+  renderComparisonChart(latestCurve, scenarioShockedCurve, "scenarioChart");
+  $("scenarioMovement").textContent = latestScenarioResult.movement
+    ? translateMovement(latestScenarioResult.movement)
+    : t("noData");
+  $("scenarioBaseSpread").textContent = fmtBpUnit(latestScenarioResult.base_two_ten_spread_bp);
+  $("scenarioShockedSpread").textContent = fmtBpUnit(latestScenarioResult.shocked_two_ten_spread_bp);
+  $("scenarioSpreadChange").textContent = fmtBpUnit(latestScenarioResult.two_ten_spread_change_bp);
+  setSignedClass($("scenarioSpreadChange"), latestScenarioResult.two_ten_spread_change_bp || 0);
+}
+
+async function applyScenario() {
+  if (!latestCurve) return;
+  const error = $("scenarioError");
+  error.hidden = true;
+  try {
+    const response = await fetch("/api/scenarios/curve", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(scenarioFromControls()),
+    });
+    if (!response.ok) throw new Error("scenario-failed");
+    latestScenarioResult = await response.json();
+    scenarioShockedCurve = {
+      as_of: latestScenarioResult.as_of,
+      source: latestScenarioResult.scenario_name,
+      points: latestScenarioResult.points.map((point) => ({
+        maturity_years: point.maturity_years,
+        label: point.label,
+        yield_pct: point.shocked_yield_pct,
+      })),
+    };
+    renderScenarioState();
+  } catch (_) {
+    error.textContent = t("scenarioGenericError");
+    error.hidden = false;
+  }
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function yieldAtMaturity(maturity) {
+  if (!latestCurve) return null;
+  const point = latestCurve.points.find((item) => Math.abs(item.maturity_years - maturity) < 1e-9);
+  return point ? point.yield_pct : null;
+}
+
+function addPortfolioRow(position = {}) {
+  const tbody = $("portfolioBody");
+  const row = document.createElement("tr");
+  const frequency = Number(position.payments_per_year || 2);
+  row.innerHTML = `
+    <td><input class="position-name" type="text" value="${escapeHtml(position.name || `Bond ${tbody.children.length + 1}`)}"></td>
+    <td><input class="position-face" type="number" min="0.01" step="1000" value="${Number(position.face_value || 100000)}"></td>
+    <td><input class="position-coupon" type="number" min="0" step="0.01" value="${Number(position.coupon_rate_pct ?? 4.5)}"></td>
+    <td><input class="position-ytm" type="number" step="0.01" value="${Number(position.yield_to_maturity_pct ?? 4.5)}"></td>
+    <td><input class="position-maturity" type="number" min="0.083333" step="0.5" value="${Number(position.maturity_years || 10)}"></td>
+    <td><select class="position-frequency">
+      ${[1, 2, 4, 12].map((item) => `<option value="${item}" ${item === frequency ? "selected" : ""}>${item}</option>`).join("")}
+    </select></td>
+    <td><button type="button" class="remove-position secondary-button" data-i18n-dynamic="remove">${t("remove")}</button></td>`;
+  tbody.appendChild(row);
+}
+
+function refreshPortfolioRowLabels() {
+  document.querySelectorAll("[data-i18n-dynamic='remove']").forEach((button) => {
+    button.textContent = t("remove");
+  });
+}
+
+function seedPortfolio() {
+  if ($("portfolioBody").children.length || !latestCurve) return;
+  const samples = [
+    { name: "2Y Treasury", maturity: 2, face: 100000 },
+    { name: "10Y Treasury", maturity: 10, face: 250000 },
+    { name: "30Y Treasury", maturity: 30, face: 100000 },
+  ];
+  samples.forEach((sample) => {
+    const ytm = yieldAtMaturity(sample.maturity) ?? 4.5;
+    addPortfolioRow({
+      name: sample.name,
+      face_value: sample.face,
+      coupon_rate_pct: ytm,
+      yield_to_maturity_pct: ytm,
+      maturity_years: sample.maturity,
+      payments_per_year: 2,
+    });
+  });
+}
+
+function readPortfolioPositions() {
+  return [...$("portfolioBody").querySelectorAll("tr")].map((row, index) => ({
+    name: row.querySelector(".position-name").value.trim() || `Bond ${index + 1}`,
+    face_value: Number(row.querySelector(".position-face").value),
+    coupon_rate_pct: Number(row.querySelector(".position-coupon").value),
+    yield_to_maturity_pct: Number(row.querySelector(".position-ytm").value),
+    maturity_years: Number(row.querySelector(".position-maturity").value),
+    payments_per_year: Number(row.querySelector(".position-frequency").value),
+  }));
+}
+
+function renderPortfolioResult() {
+  if (!latestPortfolioResult) return;
+  $("portfolioBefore").textContent = fmtMoney(latestPortfolioResult.market_value_before);
+  $("portfolioAfter").textContent = fmtMoney(latestPortfolioResult.market_value_after);
+  $("portfolioPnl").textContent = fmtMoney(latestPortfolioResult.pnl);
+  $("portfolioPnlPct").textContent = `${latestPortfolioResult.pnl_pct > 0 ? "+" : ""}${latestPortfolioResult.pnl_pct.toFixed(3)}%`;
+  $("portfolioDv01").textContent = fmtMoney(latestPortfolioResult.dv01);
+  $("portfolioDuration").textContent = `${latestPortfolioResult.weighted_modified_duration.toFixed(3)} ${t("yearSuffix")}`;
+  $("portfolioConvexity").textContent = latestPortfolioResult.weighted_convexity.toFixed(3);
+  setSignedClass($("portfolioPnl"), latestPortfolioResult.pnl);
+  setSignedClass($("portfolioPnlPct"), latestPortfolioResult.pnl_pct);
+
+  $("portfolioResults").innerHTML = latestPortfolioResult.positions.map((position) => `
+    <tr>
+      <td>${escapeHtml(position.name)}</td>
+      <td>${fmtBpUnit(position.shock_bp)}</td>
+      <td>${position.base_yield_pct.toFixed(2)}% → ${position.shocked_yield_pct.toFixed(2)}%</td>
+      <td>${fmtMoney(position.market_value_before)}</td>
+      <td>${fmtMoney(position.market_value_after)}</td>
+      <td class="${position.pnl > 0 ? "positive" : position.pnl < 0 ? "negative" : ""}">${fmtMoney(position.pnl)} (${position.pnl_pct > 0 ? "+" : ""}${position.pnl_pct.toFixed(2)}%)</td>
+    </tr>`).join("");
+}
+
+async function stressPortfolio() {
+  const error = $("portfolioError");
+  error.hidden = true;
+  try {
+    const positions = readPortfolioPositions();
+    if (!positions.length) throw new Error("empty-portfolio");
+    const response = await fetch("/api/portfolio/stress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ positions, scenario: scenarioFromControls() }),
+    });
+    if (!response.ok) throw new Error("portfolio-failed");
+    latestPortfolioResult = await response.json();
+    renderPortfolioResult();
+  } catch (_) {
+    error.textContent = t("portfolioGenericError");
+    error.hidden = false;
+  }
+}
+
 async function loadCurve() {
   const [curveRes, metricsRes] = await Promise.all([
     fetch("/api/curve"),
@@ -555,11 +890,33 @@ document.querySelectorAll("[data-lang]").forEach((button) => {
 
 $("spreadCalculate").addEventListener("click", calculateSpread);
 $("historyCompare").addEventListener("click", compareHistory);
+$("applyScenario").addEventListener("click", async () => {
+  await applyScenario();
+  if (latestPortfolioResult) await stressPortfolio();
+});
+$("stressPortfolio").addEventListener("click", stressPortfolio);
+$("addPosition").addEventListener("click", () => addPortfolioRow());
+$("portfolioBody").addEventListener("click", (event) => {
+  const button = event.target.closest(".remove-position");
+  if (!button) return;
+  button.closest("tr").remove();
+});
+$("scenarioPreset").addEventListener("change", async (event) => {
+  setScenarioControlsFromPreset(event.target.value);
+  await applyScenario();
+  if (latestPortfolioResult) await stressPortfolio();
+});
+["parallelShock", "shock2Y", "shock10Y", "shock30Y"].forEach((id) => {
+  $(id).addEventListener("input", () => {
+    $("scenarioPreset").value = "custom";
+  });
+});
 $("bondForm").addEventListener("submit", analyzeBond);
 
 window.addEventListener("resize", () => {
   if (latestCurve) renderCurve(latestCurve);
   if (comparedFromCurve && comparedToCurve) renderComparisonChart(comparedFromCurve, comparedToCurve);
+  if (latestCurve && scenarioShockedCurve) renderComparisonChart(latestCurve, scenarioShockedCurve, "scenarioChart");
 });
 
 applyLanguage(currentLanguage);
@@ -567,8 +924,12 @@ applyLanguage(currentLanguage);
 async function initialize() {
   try {
     await loadCurve();
+    seedPortfolio();
+    await loadScenarioPresets();
+    await applyScenario();
     await calculateSpread();
     await loadHistory();
+    await stressPortfolio();
   } catch (_) {
     if (!latestCurve) $("curveChart").textContent = t("curveLoadError");
   }
