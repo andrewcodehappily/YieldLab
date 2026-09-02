@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 
 from app.models import YieldCurve, YieldPoint
 from app.services.curve import DEMO_CURVE
+from app.services.history import load_history, merge_history, save_history
 
 PROJECT_DIR = Path(__file__).resolve().parents[2]
 DATA_FILE = PROJECT_DIR / "data" / "treasury_curve.json"
@@ -17,10 +18,7 @@ TREASURY_XML_URL = (
     "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/"
     "pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value_month={year_month}"
 )
-USER_AGENT = (
-    "Mozilla/5.0 (compatible; YieldLab/0.1; "
-    "+https://github.com/andrewcodehappily/YieldLab)"
-)
+USER_AGENT = "Mozilla/5.0 YieldLab/0.2"
 
 _NAMESPACES = {
     "atom": "http://www.w3.org/2005/Atom",
@@ -53,30 +51,12 @@ def _property_text(properties: ET.Element, field: str) -> str | None:
     return None
 
 
-def parse_treasury_xml(payload: bytes) -> YieldCurve:
-    root = ET.fromstring(payload)
-    entries = root.findall("atom:entry", _NAMESPACES)
-    if not entries:
-        raise ValueError("Treasury feed returned no yield-curve entries")
+def _curve_from_properties(properties: ET.Element) -> YieldCurve | None:
+    raw_date = _property_text(properties, "NEW_DATE")
+    if not raw_date:
+        return None
 
-    latest: tuple[datetime, ET.Element] | None = None
-    for entry in entries:
-        properties = entry.find("atom:content/m:properties", _NAMESPACES)
-        if properties is None:
-            continue
-
-        raw_date = _property_text(properties, "NEW_DATE")
-        if not raw_date:
-            continue
-
-        date = datetime.fromisoformat(raw_date.replace("Z", "+00:00"))
-        if latest is None or date > latest[0]:
-            latest = (date, properties)
-
-    if latest is None:
-        raise ValueError("Treasury feed contained no dated observations")
-
-    date, properties = latest
+    date = datetime.fromisoformat(raw_date.replace("Z", "+00:00"))
     points: list[YieldPoint] = []
     for field, maturity, label in _FIELD_MAP:
         raw_yield = _property_text(properties, field)
@@ -91,7 +71,7 @@ def parse_treasury_xml(payload: bytes) -> YieldCurve:
         )
 
     if len(points) < 2:
-        raise ValueError("Treasury feed did not contain enough valid maturities")
+        return None
 
     return YieldCurve(
         as_of=date.date().isoformat(),
@@ -100,31 +80,80 @@ def parse_treasury_xml(payload: bytes) -> YieldCurve:
     )
 
 
-def _candidate_months() -> tuple[str, str]:
+def parse_treasury_xml_history(payload: bytes) -> list[YieldCurve]:
+    root = ET.fromstring(payload)
+    entries = root.findall("atom:entry", _NAMESPACES)
+    if not entries:
+        raise ValueError("Treasury feed returned no yield-curve entries")
+
+    curves: list[YieldCurve] = []
+    for entry in entries:
+        properties = entry.find("atom:content/m:properties", _NAMESPACES)
+        if properties is None:
+            continue
+        curve = _curve_from_properties(properties)
+        if curve is not None:
+            curves.append(curve)
+
+    curves = merge_history(curves)
+    if not curves:
+        raise ValueError("Treasury feed contained no valid observations")
+    return curves
+
+
+def parse_treasury_xml(payload: bytes) -> YieldCurve:
+    return max(parse_treasury_xml_history(payload), key=lambda curve: curve.as_of)
+
+
+def _candidate_months(count: int = 2) -> tuple[str, ...]:
+    if count < 1:
+        raise ValueError("count must be at least 1")
+
     now = datetime.now(timezone.utc)
-    current = f"{now.year}{now.month:02d}"
-    if now.month == 1:
-        previous = f"{now.year - 1}12"
-    else:
-        previous = f"{now.year}{now.month - 1:02d}"
-    return current, previous
+    year = now.year
+    month = now.month
+    result: list[str] = []
+
+    for _ in range(count):
+        result.append(f"{year}{month:02d}")
+        month -= 1
+        if month == 0:
+            month = 12
+            year -= 1
+
+    return tuple(result)
 
 
-def fetch_latest_treasury_curve(timeout: float = 6.0) -> YieldCurve:
+def _fetch_month(year_month: str, timeout: float) -> list[YieldCurve]:
+    request = Request(
+        TREASURY_XML_URL.format(year_month=year_month),
+        headers={"User-Agent": USER_AGENT, "Accept": "application/xml,text/xml"},
+    )
+    with urlopen(request, timeout=timeout) as response:
+        return parse_treasury_xml_history(response.read())
+
+
+def fetch_recent_treasury_history(
+    months: int = 2,
+    timeout: float = 6.0,
+) -> list[YieldCurve]:
+    curves: list[YieldCurve] = []
     last_error: Exception | None = None
 
-    for year_month in _candidate_months():
-        request = Request(
-            TREASURY_XML_URL.format(year_month=year_month),
-            headers={"User-Agent": USER_AGENT, "Accept": "application/xml,text/xml"},
-        )
+    for year_month in _candidate_months(months):
         try:
-            with urlopen(request, timeout=timeout) as response:
-                return parse_treasury_xml(response.read())
+            curves = merge_history(curves, _fetch_month(year_month, timeout))
         except (URLError, TimeoutError, ET.ParseError, ValueError) as exc:
             last_error = exc
 
-    raise RuntimeError("Unable to fetch Treasury yield curve") from last_error
+    if curves:
+        return curves
+    raise RuntimeError("Unable to fetch Treasury yield-curve history") from last_error
+
+
+def fetch_latest_treasury_curve(timeout: float = 6.0) -> YieldCurve:
+    curves = fetch_recent_treasury_history(months=2, timeout=timeout)
+    return max(curves, key=lambda curve: curve.as_of)
 
 
 def load_cached_curve(path: Path = DATA_FILE) -> YieldCurve:
@@ -136,7 +165,6 @@ def save_cached_curve(curve: YieldCurve, path: Path = DATA_FILE) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     serialized = json.dumps(curve.model_dump(), indent=2, ensure_ascii=False) + "\n"
 
-    # Atomic replace keeps readers from ever seeing a half-written JSON file.
     with NamedTemporaryFile(
         "w",
         encoding="utf-8",
@@ -154,6 +182,20 @@ def refresh_cached_curve() -> YieldCurve:
     curve = fetch_latest_treasury_curve()
     save_cached_curve(curve)
     return curve
+
+
+def refresh_treasury_data(months: int = 2) -> tuple[YieldCurve, list[YieldCurve]]:
+    fetched = fetch_recent_treasury_history(months=months)
+    try:
+        existing = load_history()
+    except (OSError, json.JSONDecodeError, ValueError):
+        existing = []
+
+    history = merge_history(existing, fetched)
+    latest = max(fetched, key=lambda curve: curve.as_of)
+    save_history(history)
+    save_cached_curve(latest)
+    return latest, history
 
 
 def get_current_curve() -> YieldCurve:

@@ -1,5 +1,10 @@
 from app.models import YieldCurve, YieldPoint
-from app.services.treasury import load_cached_curve, parse_treasury_xml, save_cached_curve
+from app.services.treasury import (
+    load_cached_curve,
+    parse_treasury_xml,
+    parse_treasury_xml_history,
+    save_cached_curve,
+)
 
 
 SAMPLE_XML = b'''<?xml version="1.0" encoding="utf-8"?>
@@ -35,6 +40,13 @@ def test_parser_selects_latest_observation() -> None:
     assert curve.source == "U.S. Department of the Treasury"
     assert [point.label for point in curve.points] == ["1M", "2Y", "10Y", "30Y"]
     assert curve.points[2].yield_pct == 4.73
+
+
+def test_history_parser_keeps_all_dated_observations() -> None:
+    curves = parse_treasury_xml_history(SAMPLE_XML)
+    assert [curve.as_of for curve in curves] == ["2026-08-27", "2026-08-28"]
+    assert curves[0].points[0].label == "2Y"
+    assert curves[1].points[-1].label == "30Y"
 
 
 def test_cache_round_trip(tmp_path) -> None:

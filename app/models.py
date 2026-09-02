@@ -15,6 +15,33 @@ class YieldCurve(BaseModel):
     points: list[YieldPoint]
 
 
+class CurveHistory(BaseModel):
+    curves: list[YieldCurve]
+
+
+class SpreadQuote(BaseModel):
+    as_of: str
+    short_maturity_years: float
+    long_maturity_years: float
+    short_label: str
+    long_label: str
+    short_yield_pct: float
+    long_yield_pct: float
+    spread_bp: float
+
+
+class CurveComparison(BaseModel):
+    from_date: str
+    to_date: str
+    short_label: str
+    long_label: str
+    short_change_bp: float
+    long_change_bp: float
+    spread_change_bp: float
+    level_change_bp: float
+    movement: str
+
+
 class BondRequest(BaseModel):
     face_value: float = Field(default=1000.0, gt=0)
     coupon_rate_pct: float = Field(ge=0)

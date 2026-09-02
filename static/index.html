@@ -42,6 +42,64 @@
       <div id="curveChart" class="chart" role="img" data-i18n-aria-label="curveChartAria" aria-label="殖利率曲線圖"></div>
     </section>
 
+    <section class="panel spread-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow" data-i18n="spreadLab">利差實驗室</p>
+          <h2 data-i18n="customSpreadTitle">自訂任意期限利差</h2>
+        </div>
+        <span class="pill" data-i18n="longMinusShort">長端 − 短端</span>
+      </div>
+      <div class="spread-builder">
+        <label><span data-i18n="shortMaturity">短端期限</span><select id="spreadShort"></select></label>
+        <span class="operator">→</span>
+        <label><span data-i18n="longMaturity">長端期限</span><select id="spreadLong"></select></label>
+        <button type="button" id="spreadCalculate" data-i18n="calculateSpread">計算利差</button>
+      </div>
+      <div class="result-grid spread-results">
+        <article><span data-i18n="shortYield">短端殖利率</span><strong id="spreadShortYield">—</strong></article>
+        <article><span data-i18n="longYield">長端殖利率</span><strong id="spreadLongYield">—</strong></article>
+        <article><span data-i18n="spreadResult">利差</span><strong id="spreadValue">—</strong></article>
+        <article><span data-i18n="spreadState">狀態</span><strong id="spreadState">—</strong></article>
+      </div>
+      <p id="spreadError" class="error" hidden></p>
+    </section>
+
+    <section class="panel history-panel">
+      <div class="panel-heading history-heading">
+        <div>
+          <p class="eyebrow" data-i18n="historyLab">歷史實驗室</p>
+          <h2 data-i18n="historyCompareTitle">殖利率曲線時光機</h2>
+        </div>
+        <span id="historyCount" class="pill">—</span>
+      </div>
+
+      <div class="history-controls">
+        <label><span data-i18n="fromDate">起始日期</span><select id="historyFrom"></select></label>
+        <label><span data-i18n="toDate">比較日期</span><select id="historyTo"></select></label>
+        <label><span data-i18n="compareShort">分類短端</span><select id="compareShort"></select></label>
+        <label><span data-i18n="compareLong">分類長端</span><select id="compareLong"></select></label>
+        <button type="button" id="historyCompare" data-i18n="compareCurves">比較曲線</button>
+      </div>
+
+      <p id="historyEmpty" class="notice" hidden data-i18n="historyNotEnough">至少需要兩個歷史交易日才能比較曲線。執行 Treasury collector 後會自動累積。</p>
+
+      <div id="historyContent">
+        <div class="comparison-legend">
+          <span><i class="legend-dot from-dot"></i><strong id="legendFrom">—</strong></span>
+          <span><i class="legend-dot to-dot"></i><strong id="legendTo">—</strong></span>
+        </div>
+        <div id="compareChart" class="chart compare-chart" role="img" data-i18n-aria-label="compareChartAria" aria-label="歷史殖利率曲線比較圖"></div>
+        <div class="result-grid comparison-results">
+          <article><span id="comparisonShortLabel" data-i18n="shortEndChange">短端變化</span><strong id="shortChange">—</strong></article>
+          <article><span id="comparisonLongLabel" data-i18n="longEndChange">長端變化</span><strong id="longChange">—</strong></article>
+          <article><span data-i18n="spreadChange">利差變化</span><strong id="spreadChange">—</strong></article>
+          <article class="movement-card"><span data-i18n="movementClass">曲線動態</span><strong id="movement">—</strong><small id="levelChange">—</small></article>
+        </div>
+      </div>
+      <p id="historyError" class="error" hidden></p>
+    </section>
+
     <section class="panel calculator-panel">
       <div class="panel-heading">
         <div>
@@ -70,7 +128,7 @@
       <p id="bondError" class="error" hidden></p>
     </section>
 
-    <footer data-i18n="footer">YieldLab v0.1 · 讓利率風險少一點神祕，多一點可以直接點。</footer>
+    <footer data-i18n="footer">YieldLab v0.2 · 現在不只看今天，還能把昨天抓回來對質。</footer>
   </main>
   <script src="/static/app.js?v=0.2.0" defer></script>
 </body>
