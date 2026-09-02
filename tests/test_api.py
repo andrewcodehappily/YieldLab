@@ -12,7 +12,7 @@ def test_health() -> None:
     assert response.json() == {
         "status": "ok",
         "service": "yieldlab",
-        "version": "0.4.2",
+        "version": "0.4.3",
     }
 
 
@@ -120,18 +120,21 @@ def test_factor_shock_endpoint() -> None:
 def test_sp500_inversion_history_endpoint() -> None:
     response = client.get(
         "/api/market/sp500-inversions",
-        params={"t1": 2, "t2": 10, "start_year": 1961, "end_year": 2026},
+        params={"t1": 2, "t2": 10, "start_month": "2000-01", "end_month": "2010-12"},
     )
     assert response.status_code == 200
     payload = response.json()
     assert payload["t1_years"] == 2
     assert payload["t2_years"] == 10
-    assert payload["start_date"].startswith("1961-")
-    assert payload["end_date"].startswith("2026-")
+    assert payload["start_date"].startswith("2000-01")
+    assert payload["end_date"].startswith("2010-12")
     available = [point for point in payload["points"] if point["inverted"] is not None]
     assert available
     assert all("expected_path_difference_bp" in point for point in available)
     assert all("term_premium_threshold_bp" in point for point in available)
+    assert "events" in payload
+    assert "event_summary" in payload
+    assert payload["event_summary"]["event_count"] == len(payload["events"])
 
 
 def test_sp500_inversion_history_rejects_reversed_maturities() -> None:

@@ -41,7 +41,7 @@ from app.services.treasury import get_current_curve
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / "static"
-VERSION = "0.4.2"
+VERSION = "0.4.3"
 CurveModel = Literal["nelson_siegel", "svensson"]
 
 app = FastAPI(
@@ -119,6 +119,8 @@ def get_sp500_inversion_history(
     t2: int = Query(default=10, ge=2, le=10),
     start_year: int = Query(default=1950, ge=1950, le=2026),
     end_year: int = Query(default=2026, ge=1950, le=2026),
+    start_month: str | None = Query(default=None, pattern=r"^\d{4}-\d{2}$"),
+    end_month: str | None = Query(default=None, pattern=r"^\d{4}-\d{2}$"),
 ) -> MarketInversionData:
     try:
         return build_inversion_view(
@@ -127,6 +129,8 @@ def get_sp500_inversion_history(
             t2_years=t2,
             start_year=start_year,
             end_year=end_year,
+            start_month=start_month,
+            end_month=end_month,
         )
     except (OSError, json.JSONDecodeError) as exc:
         raise HTTPException(status_code=503, detail="Market history cache is unavailable") from exc

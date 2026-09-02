@@ -52,13 +52,31 @@ def test_market_history_supports_maturity_and_date_ranges() -> None:
         load_market_history(),
         t1_years=5,
         t2_years=9,
-        start_year=2000,
-        end_year=2010,
+        start_month="2000-03",
+        end_month="2010-08",
     )
     assert view.t1_years == 5
     assert view.t2_years == 9
-    assert view.start_date.startswith("2000-")
-    assert view.end_date.startswith("2010-")
+    assert view.start_date.startswith("2000-03")
+    assert view.end_date.startswith("2010-08")
+
+
+def test_six_month_event_study_uses_inversion_starts() -> None:
+    view = build_inversion_view(
+        load_market_history(),
+        t1_years=2,
+        t2_years=10,
+        start_month="1961-06",
+        end_month="2026-09",
+    )
+    assert view.events
+    assert view.event_summary.event_count == len(view.events)
+    assert view.event_summary.completed_event_count <= view.event_summary.event_count
+    completed = [event for event in view.events if event.completed]
+    assert completed
+    assert all(event.six_month_return_pct is not None for event in completed)
+    assert all(event.max_drawdown_pct is not None and event.max_drawdown_pct <= 0 for event in completed)
+    assert 0 <= (view.event_summary.negative_return_pct or 0) <= 100
 
 
 def test_invalid_maturity_order_is_rejected() -> None:

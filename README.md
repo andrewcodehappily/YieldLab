@@ -10,9 +10,9 @@ YieldLab 是一個互動式固定收益分析、殖利率曲線建模、因子�
 
 後端使用 FastAPI，前端保持零框架原生瀏覽器介面。Treasury collector 讀取美國財政部官方 XML 資料，將最新曲線與歷史交易日資料原子寫入本地 JSON；Web API 只讀本地資料，因此上游暫時故障時不會把整個網站一起拖下水。
 
-### v0.4.2 功能
+### v0.4.3 功能
 
-v0.4.2 在 v0.4 的曲線模型與因子分析上，加入 1950～2026 的長期市場視覺化，並把倒掛定義改成 ACM 預期短率／期限溢酬分解條件：
+v0.4.3 在 ACM 預期短率／期限溢酬倒掛條件上加入月份級縮放與「倒掛開始後 6 個月」事件研究：
 
 - 美國國債票面殖利率曲線資料擷取與本地快取
 - 歷史殖利率曲線持久化與日期查詢
@@ -34,8 +34,12 @@ v0.4.2 在 v0.4 的曲線模型與因子分析上，加入 1950～2026 的長期
 - 倒掛期間以全高紅色區帶標示，未倒掛為綠色，利率資料尚未開始的區間為灰色
 - 倒掛定義改為 `Eavg(T₂) − Eavg(T₁) < L(T₁) − L(T₂)`，其中 `Eavg` 使用 ACM risk-neutral yield、`L(T)` 使用 ACM term premium
 - `T₁` / `T₂` 可自由選擇 1Y～10Y 的 ACM 整數期限，並要求 `T₁ < T₂`
-- 可自由選擇 1950～2026 的圖表年份區間；1961 前因 ACM 尚無資料顯示灰色
+- 可自由選擇精確到月份的圖表區間；1961 前因 ACM 尚無資料顯示灰色
+- `全部 / 10年 / 5年 / 2年 / 1年` 快速縮放；短時間窗會自動提高 X 軸刻度密度
 - 圖表同時顯示預期短率平均差、期限溢酬門檻、ACM fitted-yield spread 與最新倒掛狀態
+- 每次 `未倒掛 → 倒掛` 的月份視為倒掛開始，並標示 +6 個月位置
+- 6 個月事件研究直接計算 S&P 500 六個月報酬、負報酬比例、中位報酬與月度最大回撤
+- 事件表可逐筆檢查；點任一事件會自動縮放到倒掛前 3 個月至後 9 個月
 - S&P 500 月度歷史資料與 New York Fed ACM monthly term-premium Excel 使用獨立本地快取
 - 利率情境衝擊引擎：全曲線平移 + 任意期限節點 shock 線性插值
 - 內建 Parallel ±100 bp、Bull/Bear Steepener、Bull/Bear Flattener 情境
@@ -93,14 +97,14 @@ python -m app.collectors.market_history
 
 這個 collector 使用 Multpl 的月度 S&P 500 歷史價格，搭配 Federal Reserve Bank of New York 的 `ACMTermPremium.xls` 月資料。ACM 提供 1Y～10Y fitted yield、term premium 與 expected average short rate；成功後才原子更新 `data/sp500_inversion_history.json`。
 
-### v0.4.2 API
+### v0.4.3 API
 
 #### `GET /api/market/sp500-inversions`
 
-支援 `t1`、`t2`、`start_year`、`end_year`。例如：
+支援 `t1`、`t2`、`start_month`、`end_month`（`YYYY-MM`）；舊的 `start_year` / `end_year` 仍保留相容。例如：
 
 ```text
-/api/market/sp500-inversions?t1=2&t2=10&start_year=1961&end_year=2026
+/api/market/sp500-inversions?t1=2&t2=10&start_month=2000-01&end_month=2010-12
 ```
 
 對每個 ACM 月份回傳：
@@ -109,8 +113,10 @@ python -m app.collectors.market_history
 - `term_premium_threshold_bp = L(T₁) − L(T₂)`
 - `fitted_yield_spread_bp = ACMY(T₂) − ACMY(T₁)`
 - `inverted = expected_path_difference_bp < term_premium_threshold_bp`
+- `events`：每次 `False → True` 的倒掛開始、+6 個月 S&P 500 報酬與該 6 個月內的月度最大回撤
+- `event_summary`：事件數、完成樣本數、負報酬比例、平均／中位報酬與最差報酬／回撤
 
-因為 `ACMY(T)=ACMRNY(T)+ACMTP(T)`，這個條件與 ACM fitted-yield spread 小於 0 完全等價。1961 前保留 S&P 500，但 inversion 欄位為空，前端顯示灰色。
+因為 `ACMY(T)=ACMRNY(T)+ACMTP(T)`，這個條件與 ACM fitted-yield spread 小於 0 完全等價。1961 前保留 S&P 500，但 inversion 欄位為空，前端顯示灰色。事件研究刻意把每次原始 `False → True` 穿越都算成新事件，因此在零附近反覆穿越時可能出現相鄰事件，不等同於把整段 whipsaw 合併成單一景氣循環。
 
 ### v0.4 API
 
@@ -276,9 +282,9 @@ YieldLab is an interactive fixed-income analytics, yield-curve modelling, factor
 
 The backend uses FastAPI while the frontend stays framework-free. A Treasury collector reads the official U.S. Department of the Treasury XML feed and atomically stores the latest curve plus historical trading-day curves in local JSON files. The web API reads local data only, so upstream outages do not block normal user requests.
 
-### v0.4.2 Features
+### v0.4.3 Features
 
-v0.4.2 adds a 1950–2026 long-run market view and replaces simple yield-spread inversion flags with an ACM expected-rate / term-premium decomposition condition:
+v0.4.3 adds month-level zooming and a six-month post-inversion event study on top of the ACM expected-rate / term-premium inversion condition:
 
 - U.S. Treasury par yield-curve ingestion with local caching
 - Persistent historical yield curves with date lookup
@@ -300,8 +306,12 @@ v0.4.2 adds a 1950–2026 long-run market view and replaces simple yield-spread 
 - Full-height red inversion regimes, green non-inverted regimes, and gray pre-data periods
 - Inversion condition: `Eavg(T₂) − Eavg(T₁) < L(T₁) − L(T₂)`, using ACM risk-neutral yields for `Eavg` and ACM term premia for `L(T)`
 - Freely selectable integer ACM maturities from 1Y to 10Y with `T₁ < T₂`
-- Freely selectable chart window from 1950 to 2026; pre-1961 months are gray because ACM data do not exist
+- Freely selectable exact month window; pre-1961 months are gray because ACM data do not exist
+- Quick `All / 10Y / 5Y / 2Y / 1Y` zoom presets with denser x-axis ticks for short windows
 - Latest decomposition cards show the expected-rate difference, term-premium threshold, ACM fitted-yield spread, and inversion state
+- Each `not inverted → inverted` transition is marked as an inversion start together with a +6-month marker
+- Six-month event-study statistics include S&P 500 return, negative-return rate, median return, and monthly max drawdown
+- Click an event-table row to zoom automatically from three months before to nine months after that inversion start
 - Separate cached monthly S&P 500 and New York Fed ACM term-premium data
 - Interest-rate scenario engine with parallel shifts and interpolated maturity-anchor shocks
 - Built-in Parallel ±100 bp and bull/bear steepener/flattener scenarios
@@ -349,17 +359,17 @@ python -m app.collectors.market_history
 
 The market-history collector uses Multpl monthly S&P 500 historical prices plus the Federal Reserve Bank of New York `ACMTermPremium.xls` monthly data. ACM provides fitted yields, term premia, and expected average short rates for 1Y–10Y maturities. The cache is atomically replaced only after a successful refresh.
 
-### v0.4.2 API
+### v0.4.3 API
 
 #### `GET /api/market/sp500-inversions`
 
-Supports `t1`, `t2`, `start_year`, and `end_year`. Example:
+Supports `t1`, `t2`, `start_month`, and `end_month` in `YYYY-MM` form; `start_year` / `end_year` remain available for compatibility. Example:
 
 ```text
-/api/market/sp500-inversions?t1=2&t2=10&start_year=1961&end_year=2026
+/api/market/sp500-inversions?t1=2&t2=10&start_month=2000-01&end_month=2010-12
 ```
 
-For each ACM month it returns the expected-rate path difference, the reverse term-premium difference, the ACM fitted-yield spread, and the resulting inversion flag. Since `ACMY(T)=ACMRNY(T)+ACMTP(T)`, the requested inequality is algebraically equivalent to a negative ACM fitted-yield spread.
+For each ACM month it returns the expected-rate path difference, the reverse term-premium difference, the ACM fitted-yield spread, and the resulting inversion flag. The response also includes raw `false → true` inversion-start events, six-month S&P 500 returns, monthly max drawdowns, and aggregate event-study statistics. Since `ACMY(T)=ACMRNY(T)+ACMTP(T)`, the requested inequality is algebraically equivalent to a negative ACM fitted-yield spread. Raw zero-crossing events are intentionally not merged, so whipsaws around zero can create neighboring events.
 
 ### v0.4 API
 

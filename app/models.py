@@ -249,6 +249,29 @@ class MarketInversionPoint(BaseModel):
     inverted: bool | None = None
 
 
+class InversionEventResult(BaseModel):
+    inversion_start_date: str
+    six_month_date: str | None = None
+    start_sp500: float
+    six_month_sp500: float | None = None
+    six_month_return_pct: float | None = None
+    max_drawdown_pct: float | None = None
+    max_drawdown_date: str | None = None
+    completed: bool
+
+
+class InversionEventSummary(BaseModel):
+    event_count: int
+    completed_event_count: int
+    negative_return_count: int
+    negative_return_pct: float | None = None
+    average_return_pct: float | None = None
+    median_return_pct: float | None = None
+    worst_return_pct: float | None = None
+    average_max_drawdown_pct: float | None = None
+    worst_max_drawdown_pct: float | None = None
+
+
 class MarketInversionData(BaseModel):
     start_date: str
     end_date: str
@@ -258,3 +281,5 @@ class MarketInversionData(BaseModel):
     rates_source: str
     methodology: str
     points: list[MarketInversionPoint]
+    events: list[InversionEventResult] = Field(default_factory=list)
+    event_summary: InversionEventSummary
