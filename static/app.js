@@ -155,13 +155,12 @@ const TRANSLATIONS = {
     marketZoom5Y: "5年",
     marketZoom2Y: "2年",
     marketZoom1Y: "1年",
-    zoomForMarkers: "縮到 15 年內才顯示事件線",
+    zoomForMarkers: "縮到 15 年內才顯示 +6 個月線",
     previousEvent: "← 上一個事件",
     nextEvent: "下一個事件 →",
     nonInverted: "未倒掛",
     invertedPeriod: "倒掛",
     unavailableData: "無 ACM 資料",
-    inversionOnset: "倒掛開始",
     sixMonthsLater: "+6 個月",
     expectedPathDifference: "預期短率平均差",
     termPremiumThreshold: "期限溢酬門檻",
@@ -170,15 +169,15 @@ const TRANSLATIONS = {
     marketStateInverted: "倒掛",
     marketStateNormal: "未倒掛",
     marketChartAria: "S&P 500 與 ACM 倒掛區間圖",
-    eventStudyTitle: "倒掛開始後 6 個月事件研究",
+    eventStudyTitle: "倒掛後 6 個月事件研究",
     monthlyObservationNote: "月度 S&P 500",
-    eventCount: "倒掛開始事件",
+    eventCount: "倒掛事件",
     completedSamples: (done, total) => `已完成 ${done} / ${total} 個 6 個月樣本`,
     negativeSixMonthRate: "6 個月後負報酬比例",
     medianSixMonthReturn: "6 個月中位報酬",
     worstSixMonthReturn: "最差 6 個月報酬",
     worstSixMonthDrawdown: "最差 6 個月內最大回撤",
-    eventStart: "倒掛開始",
+    eventStart: "倒掛月份",
     eventSixMonth: "+6 個月",
     eventSixMonthReturn: "6 個月報酬",
     eventMaxDrawdown: "期間最大回撤",
@@ -188,7 +187,7 @@ const TRANSLATIONS = {
     marketMethodology: "紅色月份滿足 Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂)。倒掛開始定義為狀態由未倒掛切換為倒掛；事件研究比較該月與 +6 個月的 S&P 500，最大回撤依月度資料計算。1961 前無 ACM 資料顯示灰色。",
     marketSource: (sp500, rates) => `S&P 500：${sp500} · 分解模型：${rates}`,
     marketGenericError: "長期市場歷史資料暫時無法載入，或選擇的期限／月份區間無效。",
-    footer: "YieldLab v0.4.4 · 全景看 regime，細節才把事件線放出來。",
+    footer: "YieldLab v0.4.5 · 全景看倒掛區間，細節只保留 +6 個月標記。",
     noData: "無資料",
     shapeNormal: "正常",
     shapeFlat: "平坦",
@@ -357,13 +356,12 @@ const TRANSLATIONS = {
     marketZoom5Y: "5Y",
     marketZoom2Y: "2Y",
     marketZoom1Y: "1Y",
-    zoomForMarkers: "Zoom to 15 years or less to show event lines",
+    zoomForMarkers: "Zoom to 15 years or less to show +6-month lines",
     previousEvent: "← Previous event",
     nextEvent: "Next event →",
     nonInverted: "Not inverted",
     invertedPeriod: "Inverted",
     unavailableData: "No ACM data",
-    inversionOnset: "Inversion start",
     sixMonthsLater: "+6 months",
     expectedPathDifference: "Expected-rate path difference",
     termPremiumThreshold: "Term-premium threshold",
@@ -374,13 +372,13 @@ const TRANSLATIONS = {
     marketChartAria: "S&P 500 with ACM inversion regimes",
     eventStudyTitle: "Six-month post-inversion event study",
     monthlyObservationNote: "Monthly S&P 500",
-    eventCount: "Inversion-start events",
+    eventCount: "Inversion events",
     completedSamples: (done, total) => `${done} / ${total} completed six-month samples`,
     negativeSixMonthRate: "Negative six-month return rate",
     medianSixMonthReturn: "Median six-month return",
     worstSixMonthReturn: "Worst six-month return",
     worstSixMonthDrawdown: "Worst max drawdown within six months",
-    eventStart: "Inversion start",
+    eventStart: "Inversion month",
     eventSixMonth: "+6 months",
     eventSixMonthReturn: "Six-month return",
     eventMaxDrawdown: "Max drawdown",
@@ -390,7 +388,7 @@ const TRANSLATIONS = {
     marketMethodology: "Red months satisfy Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂). An inversion start is a transition from non-inverted to inverted. The event study compares the S&P 500 at that month with +6 months; max drawdown uses monthly observations. Pre-1961 months are gray because ACM data do not exist.",
     marketSource: (sp500, rates) => `S&P 500: ${sp500} · Decomposition model: ${rates}`,
     marketGenericError: "Long-run market history is unavailable, or the selected maturity/month range is invalid.",
-    footer: "YieldLab v0.4.4 · overview shows regimes; detail view shows event markers.",
+    footer: "YieldLab v0.4.5 · overview shows inversion regimes; detail view keeps only +6-month markers.",
     noData: "n/a",
     shapeNormal: "Normal",
     shapeFlat: "Flat",
@@ -1004,19 +1002,10 @@ function renderMarketHistory() {
   });
   $("marketMarkerHint").hidden = showEventMarkers;
   const eventLines = showEventMarkers ? (marketHistory.events || []).map((event) => {
-    const startTime = Date.parse(`${event.inversion_start_date}T00:00:00Z`);
     const sixTime = event.six_month_date ? Date.parse(`${event.six_month_date}T00:00:00Z`) : null;
-    const parts = [];
-    if (startTime >= minTime && startTime <= maxTime) {
-      const xx = x(startTime);
-      parts.push(`<line class="market-event-start" x1="${xx}" x2="${xx}" y1="${margin.top}" y2="${margin.top + innerH}"><title>${t("inversionOnset")}: ${event.inversion_start_date}</title></line>`);
-      parts.push(`<circle class="market-event-start-dot" cx="${xx}" cy="${margin.top + 8}" r="5"><title>${t("inversionOnset")}: ${event.inversion_start_date}</title></circle>`);
-    }
-    if (sixTime !== null && sixTime >= minTime && sixTime <= maxTime) {
-      const xx = x(sixTime);
-      parts.push(`<line class="market-event-six" x1="${xx}" x2="${xx}" y1="${margin.top}" y2="${margin.top + innerH}"><title>${t("sixMonthsLater")}: ${event.six_month_date} · ${fmtPercent(event.six_month_return_pct)}</title></line>`);
-    }
-    return parts.join("");
+    if (sixTime === null || sixTime < minTime || sixTime > maxTime) return "";
+    const xx = x(sixTime);
+    return `<line class="market-event-six" x1="${xx}" x2="${xx}" y1="${margin.top}" y2="${margin.top + innerH}"><title>${t("sixMonthsLater")}: ${event.six_month_date} · ${fmtPercent(event.six_month_return_pct)}</title></line>`;
   }).join("") : "";
 
   const line = points.map((point, index) => `${x(timestamps[index])},${y(point.sp500_close)}`).join(" ");

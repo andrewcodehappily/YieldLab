@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="YieldLab 固定收益分析與殖利率曲線研究實驗室 / fixed-income analytics and yield-curve research lab" />
   <title>YieldLab</title>
-  <link rel="stylesheet" href="/static/styles.css?v=0.4.4" />
+  <link rel="stylesheet" href="/static/styles.css?v=0.4.5" />
 </head>
 <body>
   <main class="shell">
@@ -331,9 +331,8 @@
         <span><i class="market-swatch market-normal"></i><b data-i18n="nonInverted">未倒掛</b></span>
         <span><i class="market-swatch market-inverted"></i><b data-i18n="invertedPeriod">倒掛</b></span>
         <span><i class="market-swatch market-unavailable"></i><b data-i18n="unavailableData">無 ACM 資料</b></span>
-        <span class="market-event-marker-legend"><i class="market-event-key market-event-start-key"></i><b data-i18n="inversionOnset">倒掛開始</b></span>
         <span class="market-event-marker-legend"><i class="market-event-key market-event-six-key"></i><b data-i18n="sixMonthsLater">+6 個月</b></span>
-        <span id="marketMarkerHint" class="market-marker-hint" hidden data-i18n="zoomForMarkers">縮到 15 年內才顯示事件線</span>
+        <span id="marketMarkerHint" class="market-marker-hint" hidden data-i18n="zoomForMarkers">縮到 15 年內才顯示 +6 個月線</span>
       </div>
 
       <div id="marketChart" class="market-chart" role="img" data-i18n-aria-label="marketChartAria" aria-label="S&amp;P 500 與 ACM 倒掛區間圖"></div>
@@ -348,7 +347,7 @@
       <div class="market-event-study">
         <div class="market-event-study-heading">
           <div>
-            <h3 data-i18n="eventStudyTitle">倒掛開始後 6 個月事件研究</h3>
+            <h3 data-i18n="eventStudyTitle">倒掛後 6 個月事件研究</h3>
             <span class="pill" data-i18n="monthlyObservationNote">月度 S&amp;P 500</span>
           </div>
           <div class="market-event-nav">
@@ -357,7 +356,7 @@
           </div>
         </div>
         <div class="result-grid market-event-summary">
-          <article><span data-i18n="eventCount">倒掛開始事件</span><strong id="eventCount">—</strong><small id="eventCompleted">—</small></article>
+          <article><span data-i18n="eventCount">倒掛事件</span><strong id="eventCount">—</strong><small id="eventCompleted">—</small></article>
           <article><span data-i18n="negativeSixMonthRate">6 個月後負報酬比例</span><strong id="eventNegativeRate">—</strong></article>
           <article><span data-i18n="medianSixMonthReturn">6 個月中位報酬</span><strong id="eventMedianReturn">—</strong></article>
           <article><span data-i18n="worstSixMonthReturn">最差 6 個月報酬</span><strong id="eventWorstReturn">—</strong></article>
@@ -367,7 +366,7 @@
           <table class="portfolio-table market-event-table">
             <thead>
               <tr>
-                <th data-i18n="eventStart">倒掛開始</th>
+                <th data-i18n="eventStart">倒掛月份</th>
                 <th data-i18n="eventSixMonth">+6 個月</th>
                 <th data-i18n="eventSixMonthReturn">6 個月報酬</th>
                 <th data-i18n="eventMaxDrawdown">期間最大回撤</th>
@@ -384,8 +383,8 @@
       <p id="marketError" class="error" hidden></p>
     </section>
 
-    <footer data-i18n="footer">YieldLab v0.4.4 · 全景看 regime，細節才把事件線放出來。</footer>
+    <footer data-i18n="footer">YieldLab v0.4.5 · 全景看倒掛區間，細節只保留 +6 個月標記。</footer>
   </main>
-  <script src="/static/app.js?v=0.4.4" defer></script>
+  <script src="/static/app.js?v=0.4.5" defer></script>
 </body>
 </html>
