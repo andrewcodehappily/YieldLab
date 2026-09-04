@@ -12,7 +12,7 @@ def test_health() -> None:
     assert response.json() == {
         "status": "ok",
         "service": "yieldlab",
-        "version": "0.4.6",
+        "version": "0.4.7",
     }
 
 
@@ -135,6 +135,60 @@ def test_sp500_inversion_history_endpoint() -> None:
     assert "events" in payload
     assert "event_summary" in payload
     assert payload["event_summary"]["event_count"] == len(payload["events"])
+
+
+def test_sp500_daily_acm_inversion_history_endpoint() -> None:
+    response = client.get(
+        "/api/market/sp500-inversions/daily",
+        params={
+            "t1": 2,
+            "t2": 10,
+            "mode": "acm",
+            "start_date": "2019-01-01",
+            "end_date": "2020-04-01",
+        },
+    )
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["frequency"] == "daily"
+    assert payload["mode"] == "acm"
+    assert len(payload["points"]) > 250
+    assert any(event["inversion_end_date"] == "2019-08-15" for event in payload["events"])
+    assert any(event["six_month_date"] == "2020-03-03" for event in payload["events"])
+
+
+def test_sp500_daily_fred_2s10s_endpoint() -> None:
+    response = client.get(
+        "/api/market/sp500-inversions/daily",
+        params={
+            "t1": 2,
+            "t2": 10,
+            "mode": "fred_2s10s",
+            "start_date": "2022-01-01",
+            "end_date": "2025-04-01",
+        },
+    )
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["frequency"] == "daily"
+    assert payload["mode"] == "fred_2s10s"
+    assert any(event["inversion_end_date"] == "2024-08-27" for event in payload["events"])
+    available = [point for point in payload["points"] if point["inverted"] is not None]
+    assert available
+    assert all(point["expected_path_difference_bp"] is None for point in available)
+
+
+def test_sp500_daily_event_catalog_endpoint() -> None:
+    response = client.get(
+        "/api/market/sp500-inversions/daily/events",
+        params={"t1": 2, "t2": 10, "mode": "acm"},
+    )
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["frequency"] == "daily"
+    assert payload["mode"] == "acm"
+    assert payload["events"]
+    assert "points" not in payload
 
 
 def test_sp500_inversion_history_rejects_reversed_maturities() -> None:

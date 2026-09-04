@@ -1,6 +1,11 @@
 import pytest
 
-from app.services.market_history import build_inversion_view, load_market_history
+from app.services.market_history import (
+    build_daily_inversion_view,
+    build_inversion_view,
+    load_daily_market_history,
+    load_market_history,
+)
 
 
 def test_market_history_cache_covers_long_horizon() -> None:
@@ -89,6 +94,52 @@ def test_six_month_event_study_uses_inversion_ends() -> None:
     assert all(event.six_month_return_pct is not None for event in completed)
     assert all(event.max_drawdown_pct is not None and event.max_drawdown_pct <= 0 for event in completed)
     assert 0 <= (view.event_summary.negative_return_pct or 0) <= 100
+
+
+def test_daily_market_history_cache_has_long_daily_s_and_p_history() -> None:
+    data = load_daily_market_history()
+    assert data.frequency == "daily"
+    assert data.start_date == "1950-01-03"
+    assert data.end_date.startswith("2026-")
+    assert len(data.points) > 19000
+    assert sum(point.acm_fitted_yields_pct is not None for point in data.points) > 16000
+    assert sum(point.fred_10y2y_pct is not None for point in data.points) > 12000
+
+
+def test_daily_event_study_uses_inversion_end_trading_date() -> None:
+    data = load_daily_market_history()
+    view = build_daily_inversion_view(
+        data,
+        t1_years=2,
+        t2_years=10,
+        start_date="2019-01-01",
+        end_date="2020-04-01",
+        mode="acm",
+    )
+    first = next(event for event in view.events if event.inversion_end_date == "2019-08-15")
+    assert first.six_month_date == "2020-02-18"
+    second = next(event for event in view.events if event.inversion_end_date == "2019-09-03")
+    assert second.six_month_date == "2020-03-03"
+    assert second.max_drawdown_date == "2020-02-28"
+
+
+def test_daily_fred_mode_uses_negative_t10y2y() -> None:
+    data = load_daily_market_history()
+    view = build_daily_inversion_view(
+        data,
+        t1_years=2,
+        t2_years=10,
+        start_date="2019-01-01",
+        end_date="2020-04-01",
+        mode="fred_2s10s",
+    )
+    assert view.mode == "fred_2s10s"
+    event = next(event for event in view.events if event.inversion_end_date == "2019-08-30")
+    assert event.six_month_date == "2020-03-02"
+    assert event.max_drawdown_date == "2020-02-28"
+    available = [point for point in view.points if point.inverted is not None]
+    assert available
+    assert all(point.inverted == ((point.fitted_yield_spread_bp or 0) < 0) for point in available)
 
 
 def test_invalid_maturity_order_is_rejected() -> None:

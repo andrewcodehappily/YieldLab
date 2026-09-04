@@ -229,6 +229,7 @@ class MarketHistoryPoint(BaseModel):
     acm_fitted_yields_pct: list[float] | None = None
     acm_term_premia_pct: list[float] | None = None
     acm_expected_avg_short_rates_pct: list[float] | None = None
+    fred_10y2y_pct: float | None = None
 
 
 class MarketHistoryData(BaseModel):
@@ -237,6 +238,7 @@ class MarketHistoryData(BaseModel):
     sp500_source: str
     rates_source: str
     acm_maturities_years: list[int]
+    frequency: str = "monthly"
     points: list[MarketHistoryPoint]
 
 
@@ -280,6 +282,8 @@ class MarketInversionData(BaseModel):
     sp500_source: str
     rates_source: str
     methodology: str
+    frequency: str = "monthly"
+    mode: str = "acm"
     points: list[MarketInversionPoint]
     events: list[InversionEventResult] = Field(default_factory=list)
     event_summary: InversionEventSummary

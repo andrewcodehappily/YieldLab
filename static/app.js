@@ -143,12 +143,19 @@ const TRANSLATIONS = {
     factorShockedCurve: "PCA 衝擊後曲線",
     factorGenericError: "PCA 因子分析暫時無法完成。",
     marketHistoryLab: "市場歷史實驗室",
-    marketHistoryTitle: "S&P 500 與 ACM 倒掛條件",
+    marketHistoryTitle: "S&P 500 與倒掛條件",
     marketFormulaAria: "ACM 倒掛條件：長期限預期平均短率減短期限預期平均短率，小於短期限期限溢酬減長期限期限溢酬",
+    fredFormulaHint: "10年期殖利率 − 2年期殖利率為負",
+    marketFrequency: "資料頻率",
+    frequencyDaily: "日頻",
+    frequencyMonthly: "月頻",
+    marketDefinition: "倒掛定義",
+    definitionAcm: "ACM 分解",
+    definitionFred: "FRED 10Y−2Y",
     marketT1: "短端 T₁",
     marketT2: "長端 T₂",
-    marketStartMonth: "起始月",
-    marketEndMonth: "結束月",
+    marketStartDate: "起始日期",
+    marketEndDate: "結束日期",
     marketApply: "更新圖表",
     marketZoomAll: "全部",
     marketZoom10Y: "10年",
@@ -160,34 +167,40 @@ const TRANSLATIONS = {
     nextEvent: "下一個事件 →",
     nonInverted: "未倒掛",
     invertedPeriod: "倒掛",
-    unavailableData: "無 ACM 資料",
+    unavailableData: "無利率資料",
     sixMonthsLater: "+6 個月",
     expectedPathDifference: "預期短率平均差",
     termPremiumThreshold: "期限溢酬門檻",
     acmFittedSpread: "ACM 擬合殖利率差",
+    fredSpread: "FRED 10Y−2Y",
     marketCurrentState: "最新狀態",
     marketStateInverted: "倒掛",
     marketStateNormal: "未倒掛",
-    marketChartAria: "S&P 500 與 ACM 倒掛區間圖",
+    marketChartAria: "S&P 500 與倒掛區間圖",
     eventStudyTitle: "倒掛結束後 6 個月事件研究",
-    monthlyObservationNote: "月度 S&P 500",
+    dailyObservationNote: "日頻 S&P 500",
+    monthlyObservationNote: "月頻 S&P 500",
     eventCount: "倒掛結束事件",
     completedSamples: (done, total) => `已完成 ${done} / ${total} 個 6 個月樣本`,
     negativeSixMonthRate: "6 個月後負報酬比例",
     medianSixMonthReturn: "6 個月中位報酬",
     worstSixMonthReturn: "最差 6 個月報酬",
     worstSixMonthDrawdown: "最差 6 個月內最大回撤",
-    eventEnd: "倒掛結束月",
+    eventEndDay: "倒掛結束日",
+    eventEndMonth: "倒掛結束月",
     eventSixMonth: "+6 個月",
     eventSixMonthReturn: "6 個月報酬",
     eventMaxDrawdown: "期間最大回撤",
-    eventDrawdownDate: "最深回撤月",
+    eventDrawdownDay: "最深回撤日",
+    eventDrawdownMonth: "最深回撤月",
     incompleteSample: "尚未滿 6 個月",
     noEvents: "這個區間沒有倒掛結束事件。",
-    marketMethodology: "紅色月份滿足 Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂)。倒掛結束定義為狀態由倒掛切回未倒掛，並以第一個未倒掛月份作為結束月；事件研究比較結束月與 +6 個月的 S&P 500，最大回撤依月度資料計算。1961 前無 ACM 資料顯示灰色。",
-    marketSource: (sp500, rates) => `S&P 500：${sp500} · 分解模型：${rates}`,
-    marketGenericError: "長期市場歷史資料暫時無法載入，或選擇的期限／月份區間無效。",
-    footer: "YieldLab v0.4.6 · 半年倒數從倒掛結束才開始。",
+    marketMethodologyDaily: "日頻 ACM：紅色交易日滿足 Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂)。倒掛結束是第一個由倒掛切回未倒掛的日頻觀測；+6 個月使用六個日曆月後第一個 S&P 500 交易日。",
+    marketMethodologyMonthly: "月頻 ACM：紅色月份滿足 Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂)。倒掛結束是第一個由倒掛切回未倒掛的月份，並比較 +6 個月的 S&P 500。",
+    marketMethodologyFred: "FRED 日頻 2s10s：T10Y2Y < 0 為倒掛；第一個由負值恢復到 0 或正值的日頻觀測視為倒掛結束，+6 個月使用六個日曆月後第一個 S&P 500 交易日。",
+    marketSource: (sp500, rates) => `S&P 500：${sp500} · 利率資料：${rates}`,
+    marketGenericError: "市場歷史資料暫時無法載入，或選擇的期限／日期區間無效。",
+    footer: "YieldLab v0.4.7 · 倒掛事件研究正式進入日頻。" ,
     noData: "無資料",
     shapeNormal: "正常",
     shapeFlat: "平坦",
@@ -344,12 +357,19 @@ const TRANSLATIONS = {
     factorShockedCurve: "PCA-shocked curve",
     factorGenericError: "PCA factor analysis is temporarily unavailable.",
     marketHistoryLab: "MARKET HISTORY LAB",
-    marketHistoryTitle: "S&P 500 and the ACM inversion condition",
+    marketHistoryTitle: "S&P 500 and inversion regimes",
     marketFormulaAria: "ACM inversion condition: the difference in expected average short rates is below the reverse difference in term premia",
+    fredFormulaHint: "10-year yield minus 2-year yield is negative",
+    marketFrequency: "Data frequency",
+    frequencyDaily: "Daily",
+    frequencyMonthly: "Monthly",
+    marketDefinition: "Inversion definition",
+    definitionAcm: "ACM decomposition",
+    definitionFred: "FRED 10Y−2Y",
     marketT1: "Short end T₁",
     marketT2: "Long end T₂",
-    marketStartMonth: "Start month",
-    marketEndMonth: "End month",
+    marketStartDate: "Start date",
+    marketEndDate: "End date",
     marketApply: "Update chart",
     marketZoomAll: "All",
     marketZoom10Y: "10Y",
@@ -361,16 +381,18 @@ const TRANSLATIONS = {
     nextEvent: "Next event →",
     nonInverted: "Not inverted",
     invertedPeriod: "Inverted",
-    unavailableData: "No ACM data",
+    unavailableData: "No rate data",
     sixMonthsLater: "+6 months",
     expectedPathDifference: "Expected-rate path difference",
     termPremiumThreshold: "Term-premium threshold",
     acmFittedSpread: "ACM fitted-yield spread",
+    fredSpread: "FRED 10Y−2Y",
     marketCurrentState: "Latest state",
     marketStateInverted: "Inverted",
     marketStateNormal: "Not inverted",
-    marketChartAria: "S&P 500 with ACM inversion regimes",
+    marketChartAria: "S&P 500 with inversion regimes",
     eventStudyTitle: "Six-month post-inversion-end event study",
+    dailyObservationNote: "Daily S&P 500",
     monthlyObservationNote: "Monthly S&P 500",
     eventCount: "Inversion-end events",
     completedSamples: (done, total) => `${done} / ${total} completed six-month samples`,
@@ -378,17 +400,21 @@ const TRANSLATIONS = {
     medianSixMonthReturn: "Median six-month return",
     worstSixMonthReturn: "Worst six-month return",
     worstSixMonthDrawdown: "Worst max drawdown within six months",
-    eventEnd: "Inversion end month",
+    eventEndDay: "Inversion end date",
+    eventEndMonth: "Inversion end month",
     eventSixMonth: "+6 months",
     eventSixMonthReturn: "Six-month return",
     eventMaxDrawdown: "Max drawdown",
-    eventDrawdownDate: "Deepest drawdown month",
+    eventDrawdownDay: "Deepest drawdown date",
+    eventDrawdownMonth: "Deepest drawdown month",
     incompleteSample: "Not six months old yet",
     noEvents: "No inversion-end event occurs in this window.",
-    marketMethodology: "Red months satisfy Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂). An inversion ends when the state transitions from inverted to non-inverted; the first non-inverted month is the end observation. The event study compares the S&P 500 at that month with +6 months; max drawdown uses monthly observations. Pre-1961 months are gray because ACM data do not exist.",
-    marketSource: (sp500, rates) => `S&P 500: ${sp500} · Decomposition model: ${rates}`,
-    marketGenericError: "Long-run market history is unavailable, or the selected maturity/month range is invalid.",
-    footer: "YieldLab v0.4.6 · the six-month clock now starts when inversion ends.",
+    marketMethodologyDaily: "Daily ACM: red trading days satisfy Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂). The inversion ends on the first daily observation that returns from inverted to non-inverted; +6 months uses the first S&P 500 trading day on or after six calendar months later.",
+    marketMethodologyMonthly: "Monthly ACM: red months satisfy Eavg(T₂)−Eavg(T₁) < L(T₁)−L(T₂). The inversion ends on the first month that returns from inverted to non-inverted and is compared with S&P 500 six months later.",
+    marketMethodologyFred: "FRED daily 2s10s: T10Y2Y < 0 is inverted. The inversion ends on the first daily observation that returns to zero or positive; +6 months uses the first S&P 500 trading day on or after six calendar months later.",
+    marketSource: (sp500, rates) => `S&P 500: ${sp500} · Rates: ${rates}`,
+    marketGenericError: "Market history is unavailable, or the selected maturity/date range is invalid.",
+    footer: "YieldLab v0.4.7 · inversion event studies now run daily." ,
     noData: "n/a",
     shapeNormal: "Normal",
     shapeFlat: "Flat",
@@ -462,6 +488,7 @@ function applyLanguage(language) {
   refreshPortfolioRowLabels();
   renderModelState();
   renderFactorState();
+  if ($("marketFrequency")) syncMarketModeControls();
   renderMarketHistory();
 }
 
@@ -872,15 +899,55 @@ function populateMarketMaturityControls() {
   }).join("");
   t1.value = "2";
   t2.value = "10";
-  const currentMonth = new Date().toISOString().slice(0, 7);
-  if (!$("marketEndMonth").value) $("marketEndMonth").value = currentMonth;
-  if (!$("marketStartMonth").value) $("marketStartMonth").value = shiftMonth($("marketEndMonth").value, -119);
+  $("marketFrequency").value = "daily";
+  $("marketInversionMode").value = "acm";
+  const currentDate = new Date().toISOString().slice(0, 10);
+  if (!$("marketEndDate").value) $("marketEndDate").value = currentDate;
+  if (!$("marketStartDate").value) $("marketStartDate").value = shiftDateMonths($("marketEndDate").value, -120);
+  syncMarketModeControls();
+}
+
+function syncMarketModeControls() {
+  const frequency = $("marketFrequency").value;
+  const mode = $("marketInversionMode").value;
+  const isFred = frequency === "daily" && mode === "fred_2s10s";
+  $("marketInversionMode").disabled = frequency !== "daily";
+  if (frequency !== "daily") $("marketInversionMode").value = "acm";
+  $("marketT1").disabled = isFred;
+  $("marketT2").disabled = isFred;
+  if (isFred) {
+    $("marketT1").value = "2";
+    $("marketT2").value = "10";
+  }
+  $("marketAcmFormula").hidden = isFred;
+  $("marketFredFormula").hidden = !isFred;
+  $("marketExpectedCard").hidden = isFred;
+  $("marketPremiumCard").hidden = isFred;
+  $("marketSpreadLabel").textContent = isFred ? t("fredSpread") : t("acmFittedSpread");
+  $("marketObservationNote").textContent = frequency === "daily" ? t("dailyObservationNote") : t("monthlyObservationNote");
+  $("marketEventEndHeader").textContent = frequency === "daily" ? t("eventEndDay") : t("eventEndMonth");
+  $("marketDrawdownDateHeader").textContent = frequency === "daily" ? t("eventDrawdownDay") : t("eventDrawdownMonth");
+  $("marketMethodologyText").textContent = isFred
+    ? t("marketMethodologyFred")
+    : frequency === "daily"
+      ? t("marketMethodologyDaily")
+      : t("marketMethodologyMonthly");
 }
 
 function shiftMonth(month, delta) {
   const [year, monthNumber] = month.split("-").map(Number);
   const date = new Date(Date.UTC(year, monthNumber - 1 + delta, 1));
   return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
+}
+
+function shiftDateMonths(dateText, delta) {
+  const [year, month, day] = dateText.split("-").map(Number);
+  const target = new Date(Date.UTC(year, month - 1 + delta, 1));
+  const targetYear = target.getUTCFullYear();
+  const targetMonth = target.getUTCMonth();
+  const lastDay = new Date(Date.UTC(targetYear, targetMonth + 1, 0)).getUTCDate();
+  const result = new Date(Date.UTC(targetYear, targetMonth, Math.min(day, lastDay)));
+  return result.toISOString().slice(0, 10);
 }
 
 function marketRegime(point) {
@@ -908,11 +975,14 @@ function renderMarketEventStudy() {
     return;
   }
   tbody.innerHTML = events.map((event) => {
+    const eventKey = marketHistory.frequency === "daily"
+      ? event.inversion_end_date
+      : event.inversion_end_date.slice(0, 7);
     if (!event.completed) {
-      return `<tr data-event-end="${event.inversion_end_date.slice(0, 7)}"><td>${event.inversion_end_date}</td><td colspan="4" class="market-event-incomplete">${t("incompleteSample")}</td></tr>`;
+      return `<tr data-event-end="${eventKey}"><td>${event.inversion_end_date}</td><td colspan="4" class="market-event-incomplete">${t("incompleteSample")}</td></tr>`;
     }
     const returnClass = event.six_month_return_pct > 0 ? "positive" : event.six_month_return_pct < 0 ? "negative" : "";
-    return `<tr data-event-end="${event.inversion_end_date.slice(0, 7)}">
+    return `<tr data-event-end="${eventKey}">
       <td>${event.inversion_end_date}</td>
       <td>${event.six_month_date}</td>
       <td class="${returnClass}">${fmtPercent(event.six_month_return_pct)}</td>
@@ -925,6 +995,7 @@ function renderMarketEventStudy() {
 function renderMarketHistory() {
   const host = $("marketChart");
   if (!host || !marketHistory?.points?.length) return;
+  syncMarketModeControls();
 
   const points = marketHistory.points;
   const width = Math.max(host.clientWidth || 1040, 620);
@@ -940,7 +1011,8 @@ function renderMarketHistory() {
   const minPrice = Math.min(...prices);
   const maxPrice = Math.max(...prices);
   const count = points.length;
-  const useLogScale = count > 180;
+  const spanDays = Math.max((maxTime - minTime) / 86400000, 1);
+  const useLogScale = spanDays > 365.25 * 15;
   const minLog = Math.log10(minPrice);
   const maxLog = Math.log10(maxPrice);
   const linearPad = Math.max((maxPrice - minPrice) * 0.06, 1);
@@ -985,18 +1057,23 @@ function renderMarketHistory() {
     }).format(value);
     return `<line class="market-grid" x1="${margin.left}" x2="${margin.left + innerW}" y1="${yy}" y2="${yy}"/><text x="8" y="${yy + 4}">${label}</text>`;
   }).join("");
-  const tickStep = count <= 18 ? 1 : count <= 36 ? 3 : count <= 72 ? 6 : count <= 180 ? 12 : Math.ceil(count / 12);
+  const desiredTickCount = spanDays <= 180 ? 8 : 12;
+  const tickStep = Math.max(1, Math.floor((count - 1) / Math.max(desiredTickCount - 1, 1)));
   const tickIndexes = [];
   for (let index = 0; index < count; index += tickStep) tickIndexes.push(index);
   if (tickIndexes[tickIndexes.length - 1] !== count - 1) tickIndexes.push(count - 1);
   const xTicks = tickIndexes.map((index) => {
     const point = points[index];
     const xx = x(timestamps[index]);
-    const label = count <= 72 ? point.date.slice(0, 7) : point.date.slice(0, 4);
+    const label = spanDays <= 180
+      ? point.date
+      : spanDays <= 365.25 * 3
+        ? point.date.slice(0, 7)
+        : point.date.slice(0, 4);
     return `<line class="market-year-grid" x1="${xx}" x2="${xx}" y1="${margin.top}" y2="${margin.top + innerH}"/><text text-anchor="middle" x="${xx}" y="${height - 14}">${label}</text>`;
   }).join("");
 
-  const showEventMarkers = count <= 180;
+  const showEventMarkers = spanDays <= 365.25 * 15;
   document.querySelectorAll(".market-event-marker-legend").forEach((element) => {
     element.hidden = !showEventMarkers;
   });
@@ -1012,9 +1089,12 @@ function renderMarketHistory() {
   const hoverStep = count <= 36 ? 1 : Math.max(1, Math.round(count / 80));
   const hoverPoints = points.map((point, index) => {
     if (index % hoverStep !== 0 && index !== points.length - 1) return "";
-    const componentText = point.inverted === null || point.inverted === undefined
-      ? t("unavailableData")
-      : `EΔ ${point.expected_path_difference_bp.toFixed(1)} bp · Lgap ${point.term_premium_threshold_bp.toFixed(1)} bp · ACM ΔY ${point.fitted_yield_spread_bp.toFixed(1)} bp`;
+    let componentText = t("unavailableData");
+    if (point.inverted !== null && point.inverted !== undefined) {
+      componentText = marketHistory.mode === "fred_2s10s"
+        ? `FRED 2s10s ${fmtBpUnit(point.fitted_yield_spread_bp)}`
+        : `EΔ ${point.expected_path_difference_bp.toFixed(1)} bp · Lgap ${point.term_premium_threshold_bp.toFixed(1)} bp · ACM ΔY ${point.fitted_yield_spread_bp.toFixed(1)} bp`;
+    }
     return `<circle class="market-hover-point" cx="${x(timestamps[index])}" cy="${y(point.sp500_close)}" r="7"><title>${point.date} · S&P 500 ${point.sp500_close.toFixed(2)} · ${componentText}</title></circle>`;
   }).join("");
 
@@ -1041,33 +1121,47 @@ function renderMarketHistory() {
     $("marketCurrentState").classList.toggle("positive", !latest.inverted);
   }
 
-  $("marketRangePill").textContent = `${marketHistory.start_date.slice(0, 7)} → ${marketHistory.end_date.slice(0, 7)}`;
+  $("marketRangePill").textContent = marketHistory.frequency === "daily"
+    ? `${marketHistory.start_date} → ${marketHistory.end_date}`
+    : `${marketHistory.start_date.slice(0, 7)} → ${marketHistory.end_date.slice(0, 7)}`;
   $("marketSource").textContent = t("marketSource")(marketHistory.sp500_source, marketHistory.rates_source);
   renderMarketEventStudy();
 }
 
 async function ensureMarketEventCatalog(t1, t2) {
-  const key = `${t1}:${t2}`;
+  const frequency = $("marketFrequency").value;
+  const mode = frequency === "daily" ? $("marketInversionMode").value : "acm";
+  const key = `${frequency}:${mode}:${t1}:${t2}`;
   if (marketEventCatalogKey === key && marketEventCatalog.length) {
     updateMarketEventNav();
     return;
   }
 
   try {
-    const params = new URLSearchParams({
-      t1: String(t1),
-      t2: String(t2),
-      start_month: "1961-06",
-      end_month: new Date().toISOString().slice(0, 7),
-    });
-    const response = await fetch(`/api/market/sp500-inversions?${params}`);
+    let response;
+    if (frequency === "daily") {
+      const params = new URLSearchParams({ t1: String(t1), t2: String(t2), mode });
+      response = await fetch(`/api/market/sp500-inversions/daily/events?${params}`);
+    } else {
+      const params = new URLSearchParams({
+        t1: String(t1),
+        t2: String(t2),
+        start_month: "1961-06",
+        end_month: new Date().toISOString().slice(0, 7),
+      });
+      response = await fetch(`/api/market/sp500-inversions?${params}`);
+    }
     if (!response.ok) throw new Error("event-catalog-failed");
     const payload = await response.json();
     marketEventCatalog = payload.events || [];
     marketEventCatalogKey = key;
-    const visibleLatest = marketHistory?.events?.at(-1)?.inversion_end_date?.slice(0, 7);
-    const matchedIndex = visibleLatest
-      ? marketEventCatalog.findIndex((event) => event.inversion_end_date.slice(0, 7) === visibleLatest)
+    const visibleLatest = marketHistory?.events?.at(-1)?.inversion_end_date;
+    const normalizedVisible = frequency === "daily" ? visibleLatest : visibleLatest?.slice(0, 7);
+    const matchedIndex = normalizedVisible
+      ? marketEventCatalog.findIndex((event) => {
+          const keyDate = frequency === "daily" ? event.inversion_end_date : event.inversion_end_date.slice(0, 7);
+          return keyDate === normalizedVisible;
+        })
       : -1;
     marketFocusedEventIndex = matchedIndex >= 0 ? matchedIndex : marketEventCatalog.length - 1;
   } catch (_) {
@@ -1095,8 +1189,11 @@ async function focusMarketEvent(delta) {
   const baseIndex = marketFocusedEventIndex < 0 ? marketEventCatalog.length - 1 : marketFocusedEventIndex;
   const targetIndex = Math.min(Math.max(baseIndex + delta, 0), marketEventCatalog.length - 1);
   marketFocusedEventIndex = targetIndex;
-  const endMonth = marketEventCatalog[targetIndex].inversion_end_date.slice(0, 7);
-  await zoomToMarketEvent(endMonth);
+  const frequency = $("marketFrequency").value;
+  const endKey = frequency === "daily"
+    ? marketEventCatalog[targetIndex].inversion_end_date
+    : marketEventCatalog[targetIndex].inversion_end_date.slice(0, 7);
+  await zoomToMarketEvent(endKey);
   updateMarketEventNav();
 }
 
@@ -1104,24 +1201,39 @@ async function loadMarketHistory() {
   const error = $("marketError");
   if (!error) return;
   error.hidden = true;
+  syncMarketModeControls();
+  const frequency = $("marketFrequency").value;
+  const mode = frequency === "daily" ? $("marketInversionMode").value : "acm";
   const t1 = Number($("marketT1").value);
   const t2 = Number($("marketT2").value);
-  const startMonth = $("marketStartMonth").value;
-  const endMonth = $("marketEndMonth").value;
-  if (!(t1 >= 1 && t2 <= 10 && t1 < t2 && /^\d{4}-\d{2}$/.test(startMonth) && /^\d{4}-\d{2}$/.test(endMonth) && startMonth <= endMonth)) {
+  const startDate = $("marketStartDate").value;
+  const endDate = $("marketEndDate").value;
+  if (!(t1 >= 1 && t2 <= 10 && t1 < t2 && /^\d{4}-\d{2}-\d{2}$/.test(startDate) && /^\d{4}-\d{2}-\d{2}$/.test(endDate) && startDate <= endDate)) {
     error.textContent = t("marketGenericError");
     error.hidden = false;
     return;
   }
 
   try {
-    const params = new URLSearchParams({
-      t1: String(t1),
-      t2: String(t2),
-      start_month: startMonth,
-      end_month: endMonth,
-    });
-    const response = await fetch(`/api/market/sp500-inversions?${params}`);
+    let response;
+    if (frequency === "daily") {
+      const params = new URLSearchParams({
+        t1: String(t1),
+        t2: String(t2),
+        mode,
+        start_date: startDate,
+        end_date: endDate,
+      });
+      response = await fetch(`/api/market/sp500-inversions/daily?${params}`);
+    } else {
+      const params = new URLSearchParams({
+        t1: String(t1),
+        t2: String(t2),
+        start_month: startDate.slice(0, 7),
+        end_month: endDate.slice(0, 7),
+      });
+      response = await fetch(`/api/market/sp500-inversions?${params}`);
+    }
     if (!response.ok) throw new Error("market-history-failed");
     marketHistory = await response.json();
     await ensureMarketEventCatalog(t1, t2);
@@ -1133,19 +1245,26 @@ async function loadMarketHistory() {
 }
 
 async function setMarketWindow(months) {
-  const currentMonth = new Date().toISOString().slice(0, 7);
-  const end = months === "all" ? currentMonth : ($("marketEndMonth").value || currentMonth);
-  $("marketEndMonth").value = end;
-  $("marketStartMonth").value = months === "all" ? "1950-01" : shiftMonth(end, -(Number(months) - 1));
+  const currentDate = new Date().toISOString().slice(0, 10);
+  const end = $("marketEndDate").value || currentDate;
+  $("marketEndDate").value = end;
+  $("marketStartDate").value = months === "all"
+    ? "1950-01-03"
+    : shiftDateMonths(end, -Number(months));
   await loadMarketHistory();
 }
 
-async function zoomToMarketEvent(endMonth) {
-  const catalogIndex = marketEventCatalog.findIndex((event) => event.inversion_end_date.slice(0, 7) === endMonth);
+async function zoomToMarketEvent(endKey) {
+  const frequency = $("marketFrequency").value;
+  const catalogIndex = marketEventCatalog.findIndex((event) => {
+    const keyDate = frequency === "daily" ? event.inversion_end_date : event.inversion_end_date.slice(0, 7);
+    return keyDate === endKey;
+  });
   if (catalogIndex >= 0) marketFocusedEventIndex = catalogIndex;
-  const currentMonth = new Date().toISOString().slice(0, 7);
-  $("marketStartMonth").value = shiftMonth(endMonth, -3);
-  $("marketEndMonth").value = [shiftMonth(endMonth, 9), currentMonth].sort()[0];
+  const currentDate = new Date().toISOString().slice(0, 10);
+  const endDate = frequency === "daily" ? endKey : `${endKey}-01`;
+  $("marketStartDate").value = shiftDateMonths(endDate, -3);
+  $("marketEndDate").value = [shiftDateMonths(endDate, 9), currentDate].sort()[0];
   await loadMarketHistory();
   updateMarketEventNav();
 }
@@ -1569,6 +1688,18 @@ document.querySelectorAll("[data-lang]").forEach((button) => {
 $("spreadCalculate").addEventListener("click", calculateSpread);
 $("historyCompare").addEventListener("click", compareHistory);
 $("marketApply").addEventListener("click", loadMarketHistory);
+$("marketFrequency").addEventListener("change", async () => {
+  syncMarketModeControls();
+  marketEventCatalog = [];
+  marketEventCatalogKey = "";
+  await loadMarketHistory();
+});
+$("marketInversionMode").addEventListener("change", async () => {
+  syncMarketModeControls();
+  marketEventCatalog = [];
+  marketEventCatalogKey = "";
+  await loadMarketHistory();
+});
 $("marketPrevEvent").addEventListener("click", () => focusMarketEvent(-1));
 $("marketNextEvent").addEventListener("click", () => focusMarketEvent(1));
 document.querySelectorAll("[data-market-window]").forEach((button) => {

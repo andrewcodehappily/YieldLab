@@ -10,9 +10,9 @@ YieldLab 是一個互動式固定收益分析、殖利率曲線建模、因子�
 
 後端使用 FastAPI，前端保持零框架原生瀏覽器介面。Treasury collector 讀取美國財政部官方 XML 資料，將最新曲線與歷史交易日資料原子寫入本地 JSON；Web API 只讀本地資料，因此上游暫時故障時不會把整個網站一起拖下水。
 
-### v0.4.6 功能
+### v0.4.7 功能
 
-v0.4.6 修正倒掛事件研究的基準點：半年觀察期改從「倒掛結束」開始，而不是從第一次進入倒掛開始。倒掛結束定義為狀態由倒掛切回未倒掛，並以第一個未倒掛月份作為結束月。
+v0.4.7 把倒掛事件研究從月頻升級到**日頻**。預設使用 New York Fed `ACM Daily`，也可切換到 FRED `T10Y2Y` 經典 2s10s 日頻定義；月頻長歷史仍完整保留作全景與備援。
 
 - 美國國債票面殖利率曲線資料擷取與本地快取
 - 歷史殖利率曲線持久化與日期查詢
@@ -34,16 +34,20 @@ v0.4.6 修正倒掛事件研究的基準點：半年觀察期改從「倒掛結�
 - 倒掛期間以全高紅色區帶標示，未倒掛為綠色，利率資料尚未開始的區間為灰色
 - 倒掛定義改為 `Eavg(T₂) − Eavg(T₁) < L(T₁) − L(T₂)`，其中 `Eavg` 使用 ACM risk-neutral yield、`L(T)` 使用 ACM term premium
 - `T₁` / `T₂` 可自由選擇 1Y～10Y 的 ACM 整數期限，並要求 `T₁ < T₂`
-- 可自由選擇精確到月份的圖表區間；1961 前因 ACM 尚無資料顯示灰色
-- 預設只開最近 10 年，`全部 / 10年 / 5年 / 2年 / 1年` 可快速切換
-- 超過 15 年的全景模式只畫 S&P 500 與紅／綠倒掛區間，不顯示 +6 個月標線
-- 15 年以下細節模式才顯示 +6 個月標線，並把 S&P 500 Y 軸由對數切成線性以放大回撤細節
-- 圖表同時顯示預期短率平均差、期限溢酬門檻、ACM fitted-yield spread 與最新倒掛狀態
-- 事件研究以每次 `倒掛 → 未倒掛` 的第一個未倒掛月份作為倒掛結束月，並從該月往後計算 +6 個月
-- 6 個月事件研究直接計算 S&P 500 六個月報酬、負報酬比例、中位報酬與月度最大回撤
+- 可自由選擇精確到**日期**的圖表區間；預設只開最近 10 年，`全部 / 10年 / 5年 / 2年 / 1年` 可快速切換
+- 新增 **日頻 / 月頻**切換；日頻為預設，月頻長歷史仍保留
+- 日頻 ACM 使用 New York Fed `ACM Daily`，1Y～10Y 期限皆可自由組合
+- 新增 **FRED `T10Y2Y` 日頻交叉驗證**：`T10Y2Y < 0` 為倒掛，僅適用 2Y / 10Y
+- 日頻 S&P 500 快取涵蓋 1950-01-03～2026，約 19,000 個交易日；ACM Daily 約 16,000 筆，FRED T10Y2Y 自 1976 起
+- 超過 15 年的全景模式只畫 S&P 500 與紅／綠倒掛區間；15 年以下細節模式顯示 +6 個月線並切成線性 Y 軸
+- 圖表同時顯示預期短率平均差、期限溢酬門檻、ACM fitted-yield spread 或 FRED 2s10s 與最新倒掛狀態
+- 日頻事件研究以每次 `倒掛 → 未倒掛` 的第一個日頻觀測作為**倒掛結束日**
+- `+6 個月` 使用**六個日曆月後第一個 S&P 500 交易日**，不是固定 126 個交易日
+- 6 個月事件研究直接計算 S&P 500 報酬、負報酬比例、中位報酬與**日頻最大回撤**
 - 事件表可逐筆檢查；點任一事件會自動縮放到倒掛結束前 3 個月至後 9 個月
-- `上一個事件 / 下一個事件` 可跨完整 ACM 歷史逐次跳轉
-- S&P 500 月度歷史資料與 New York Fed ACM monthly term-premium Excel 使用獨立本地快取
+- `上一個事件 / 下一個事件` 可跨完整日頻事件歷史逐次跳轉
+- 2019 的 FRED 2s10s 日頻案例：倒掛結束 `2019-08-30`，+6 個日曆月落在最近交易日 `2020-03-02`
+- 日頻與月頻資料分別快取於 `data/sp500_inversion_daily.json` 與 `data/sp500_inversion_history.json`
 - 利率情境衝擊引擎：全曲線平移 + 任意期限節點 shock 線性插值
 - 內建 Parallel ±100 bp、Bull/Bear Steepener、Bull/Bear Flattener 情境
 - 多債券投資組合壓力測試
@@ -98,9 +102,12 @@ python -m app.collectors.treasury --months 6
 python -m app.collectors.market_history
 ```
 
-這個 collector 使用 Multpl 的月度 S&P 500 歷史價格，搭配 Federal Reserve Bank of New York 的 `ACMTermPremium.xls` 月資料。ACM 提供 1Y～10Y fitted yield、term premium 與 expected average short rate；成功後才原子更新 `data/sp500_inversion_history.json`。
+這個 collector 會同時更新兩份快取：
 
-### v0.4.6 API
+- `data/sp500_inversion_daily.json`：S&P 500 日線 + New York Fed `ACM Daily` + FRED `T10Y2Y` 日頻。S&P 日線優先使用 FRED，若上游暫時斷線則使用長期歷史資料搭配 FRED 鏡像補齊近期；T10Y2Y 也有鏡像備援。
+- `data/sp500_inversion_history.json`：原本的 Multpl 月度 S&P 500 + `ACM Monthly`，保留作長期全景與備援。
+
+### v0.4.7 API
 
 #### `GET /api/market/sp500-inversions`
 
@@ -119,7 +126,27 @@ python -m app.collectors.market_history
 - `events`：每次 `True → False` 的倒掛結束事件，包含 `inversion_end_date`、+6 個月 S&P 500 報酬與該 6 個月內的月度最大回撤
 - `event_summary`：事件數、完成樣本數、負報酬比例、平均／中位報酬與最差報酬／回撤
 
-因為 `ACMY(T)=ACMRNY(T)+ACMTP(T)`，這個條件與 ACM fitted-yield spread 小於 0 完全等價。1961 前保留 S&P 500，但 inversion 欄位為空，前端顯示灰色。事件研究把每次原始 `True → False` 穿越視為倒掛結束事件，因此在零附近反覆穿越時仍可能出現相鄰事件，不等同於把整段 whipsaw 合併成單一景氣循環。
+因為 `ACMY(T)=ACMRNY(T)+ACMTP(T)`，這個條件與 ACM fitted-yield spread 小於 0 完全等價。1961 前保留 S&P 500，但 ACM inversion 欄位為空，前端顯示灰色。事件研究把每次原始 `True → False` 穿越視為倒掛結束事件，因此在零附近反覆穿越時仍可能出現相鄰事件，不等同於把整段 whipsaw 合併成單一景氣循環。
+
+#### `GET /api/market/sp500-inversions/daily`
+
+日頻事件研究。例如 ACM：
+
+```text
+/api/market/sp500-inversions/daily?t1=2&t2=10&mode=acm&start_date=2019-01-01&end_date=2020-04-01
+```
+
+或 FRED 經典 2s10s：
+
+```text
+/api/market/sp500-inversions/daily?t1=2&t2=10&mode=fred_2s10s&start_date=2019-01-01&end_date=2020-04-01
+```
+
+`mode=fred_2s10s` 固定使用 2Y / 10Y。日頻事件的 `inversion_end_date` 是精確交易日，`six_month_date` 則是六個日曆月後第一個可用 S&P 500 交易日。
+
+#### `GET /api/market/sp500-inversions/daily/events`
+
+只回傳日頻事件清單與摘要，不回傳數千個圖表點，供前端「上一個／下一個事件」快速導航。
 
 ### v0.4 API
 
@@ -285,9 +312,9 @@ YieldLab is an interactive fixed-income analytics, yield-curve modelling, factor
 
 The backend uses FastAPI while the frontend stays framework-free. A Treasury collector reads the official U.S. Department of the Treasury XML feed and atomically stores the latest curve plus historical trading-day curves in local JSON files. The web API reads local data only, so upstream outages do not block normal user requests.
 
-### v0.4.6 Features
+### v0.4.7 Features
 
-v0.4.6 fixes the event-study anchor: the six-month observation window now starts when an inversion ends, not when it begins. An inversion end is the transition from inverted to non-inverted, with the first non-inverted month used as the end observation.
+v0.4.7 upgrades the inversion event study from monthly to **daily** data. New York Fed `ACM Daily` is the default definition, with FRED `T10Y2Y` available as a classic daily 2s10s cross-check. The monthly long-run view remains available as a fallback and overview.
 
 - U.S. Treasury par yield-curve ingestion with local caching
 - Persistent historical yield curves with date lookup
@@ -309,16 +336,19 @@ v0.4.6 fixes the event-study anchor: the six-month observation window now starts
 - Full-height red inversion regimes, green non-inverted regimes, and gray pre-data periods
 - Inversion condition: `Eavg(T₂) − Eavg(T₁) < L(T₁) − L(T₂)`, using ACM risk-neutral yields for `Eavg` and ACM term premia for `L(T)`
 - Freely selectable integer ACM maturities from 1Y to 10Y with `T₁ < T₂`
-- Freely selectable exact month window; pre-1961 months are gray because ACM data do not exist
-- The chart now opens on the latest 10 years by default, with `All / 10Y / 5Y / 2Y / 1Y` presets
-- Windows longer than 15 years show only the S&P 500 and inversion regimes; +6-month markers are suppressed
-- Windows of 15 years or less show +6-month markers and automatically switch the S&P 500 y-axis from logarithmic to linear for clearer drawdown detail
-- Latest decomposition cards show the expected-rate difference, term-premium threshold, ACM fitted-yield spread, and inversion state
-- Each `inverted → not inverted` transition defines an inversion-end event; the first non-inverted month anchors the +6-month observation window
-- Previous/next-event controls can step through the full ACM history
-- Six-month event-study statistics include S&P 500 return, negative-return rate, median return, and monthly max drawdown
-- Click an event-table row to zoom automatically from three months before to nine months after that inversion end
-- Separate cached monthly S&P 500 and New York Fed ACM term-premium data
+- Freely selectable exact **date** window with `All / 10Y / 5Y / 2Y / 1Y` presets
+- **Daily / monthly** frequency switch, with daily as the default
+- Daily ACM uses New York Fed `ACM Daily` for freely selectable 1Y–10Y maturity pairs
+- **FRED `T10Y2Y` daily cross-check** where values below zero are inverted; this mode is fixed to 2Y / 10Y
+- Daily S&P 500 cache spans 1950-01-03 through 2026 with roughly 19,000 trading days; ACM Daily has roughly 16,000 observations and T10Y2Y begins in 1976
+- Windows longer than 15 years show only the S&P 500 and inversion regimes; shorter windows show +6-month markers and switch to a linear y-axis
+- Latest cards show the expected-rate difference, term-premium threshold, ACM fitted spread, or FRED 2s10s depending on the selected mode
+- Each `inverted → not inverted` transition defines an exact daily inversion-end event
+- The +6-month target is the first S&P 500 trading day on or after **six calendar months**, not a fixed trading-day count
+- Previous/next-event controls can step through the daily event history
+- Six-month event-study statistics include return, negative-return rate, median return, and **daily max drawdown**
+- The FRED 2019 example ends on `2019-08-30`; six calendar months later maps to S&P trading day `2020-03-02`
+- Daily and monthly caches are stored separately in `data/sp500_inversion_daily.json` and `data/sp500_inversion_history.json`
 - Interest-rate scenario engine with parallel shifts and interpolated maturity-anchor shocks
 - Built-in Parallel ±100 bp and bull/bear steepener/flattener scenarios
 - Multi-bond portfolio stress testing
@@ -363,9 +393,12 @@ Refresh the long-run S&P 500 / inversion cache:
 python -m app.collectors.market_history
 ```
 
-The market-history collector uses Multpl monthly S&P 500 historical prices plus the Federal Reserve Bank of New York `ACMTermPremium.xls` monthly data. ACM provides fitted yields, term premia, and expected average short rates for 1Y–10Y maturities. The cache is atomically replaced only after a successful refresh.
+The market-history collector refreshes two caches:
 
-### v0.4.6 API
+- `data/sp500_inversion_daily.json`: daily S&P 500, New York Fed `ACM Daily`, and FRED `T10Y2Y`, with fallback sources when an upstream endpoint is temporarily unavailable.
+- `data/sp500_inversion_history.json`: the original Multpl monthly S&P 500 plus `ACM Monthly` long-run fallback/overview.
+
+### v0.4.7 API
 
 #### `GET /api/market/sp500-inversions`
 
@@ -376,6 +409,26 @@ Supports `t1`, `t2`, `start_month`, and `end_month` in `YYYY-MM` form; `start_ye
 ```
 
 For each ACM month it returns the expected-rate path difference, the reverse term-premium difference, the ACM fitted-yield spread, and the resulting inversion flag. The response also includes raw `true → false` inversion-end events using `inversion_end_date`, six-month S&P 500 returns, monthly max drawdowns, and aggregate event-study statistics. Since `ACMY(T)=ACMRNY(T)+ACMTP(T)`, the requested inequality is algebraically equivalent to a negative ACM fitted-yield spread. Raw zero-crossing events are intentionally not merged, so whipsaws around zero can create neighboring events.
+
+#### `GET /api/market/sp500-inversions/daily`
+
+Daily ACM example:
+
+```text
+/api/market/sp500-inversions/daily?t1=2&t2=10&mode=acm&start_date=2019-01-01&end_date=2020-04-01
+```
+
+Classic FRED 2s10s example:
+
+```text
+/api/market/sp500-inversions/daily?t1=2&t2=10&mode=fred_2s10s&start_date=2019-01-01&end_date=2020-04-01
+```
+
+`fred_2s10s` requires 2Y / 10Y. Daily `inversion_end_date` values are exact observation/trading dates. The six-month target uses the first S&P 500 trading day on or after six calendar months later.
+
+#### `GET /api/market/sp500-inversions/daily/events`
+
+Returns only daily events and summary statistics, omitting thousands of chart points so event navigation stays light.
 
 ### v0.4 API
 

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="YieldLab 固定收益分析與殖利率曲線研究實驗室 / fixed-income analytics and yield-curve research lab" />
   <title>YieldLab</title>
-  <link rel="stylesheet" href="/static/styles.css?v=0.4.6" />
+  <link rel="stylesheet" href="/static/styles.css?v=0.4.7" />
 </head>
 <body>
   <main class="shell">
@@ -296,12 +296,12 @@
       <div class="panel-heading market-history-heading">
         <div>
           <p class="eyebrow" data-i18n="marketHistoryLab">市場歷史實驗室</p>
-          <h2 data-i18n="marketHistoryTitle">S&amp;P 500 與 ACM 倒掛條件</h2>
+          <h2 data-i18n="marketHistoryTitle">S&amp;P 500 與倒掛條件</h2>
         </div>
         <span id="marketRangePill" class="pill">1950 → 2026</span>
       </div>
 
-      <div class="market-formula" data-i18n-aria-label="marketFormulaAria" aria-label="ACM 倒掛條件公式">
+      <div id="marketAcmFormula" class="market-formula" data-i18n-aria-label="marketFormulaAria" aria-label="ACM 倒掛條件公式">
         <span class="formula-frac"><i>1</i><b>T₂</b></span>
         <span class="formula-integral">∫<sub>0</sub><sup>T₂</sup></span><span>E[r(t)] dt</span>
         <span>−</span>
@@ -311,11 +311,18 @@
         <span>L(T₁) − L(T₂)</span>
       </div>
 
+      <div id="marketFredFormula" class="market-formula" hidden aria-label="FRED 2s10s 倒掛條件">
+        <strong>T10Y2Y &lt; 0</strong>
+        <span data-i18n="fredFormulaHint">10年期殖利率 − 2年期殖利率為負</span>
+      </div>
+
       <div class="market-history-controls market-acm-controls">
+        <label><span data-i18n="marketFrequency">資料頻率</span><select id="marketFrequency"><option value="daily" data-i18n="frequencyDaily">日頻</option><option value="monthly" data-i18n="frequencyMonthly">月頻</option></select></label>
+        <label><span data-i18n="marketDefinition">倒掛定義</span><select id="marketInversionMode"><option value="acm" data-i18n="definitionAcm">ACM 分解</option><option value="fred_2s10s" data-i18n="definitionFred">FRED 10Y−2Y</option></select></label>
         <label><span data-i18n="marketT1">短端 T₁</span><select id="marketT1"></select></label>
         <label><span data-i18n="marketT2">長端 T₂</span><select id="marketT2"></select></label>
-        <label><span data-i18n="marketStartMonth">起始月</span><input id="marketStartMonth" type="month" min="1950-01" max="2026-12"></label>
-        <label><span data-i18n="marketEndMonth">結束月</span><input id="marketEndMonth" type="month" min="1950-01" max="2026-12"></label>
+        <label><span data-i18n="marketStartDate">起始日期</span><input id="marketStartDate" type="date" min="1950-01-03" max="2026-12-31"></label>
+        <label><span data-i18n="marketEndDate">結束日期</span><input id="marketEndDate" type="date" min="1950-01-03" max="2026-12-31"></label>
         <button type="button" id="marketApply" data-i18n="marketApply">更新圖表</button>
       </div>
 
@@ -330,7 +337,7 @@
       <div class="market-legend">
         <span><i class="market-swatch market-normal"></i><b data-i18n="nonInverted">未倒掛</b></span>
         <span><i class="market-swatch market-inverted"></i><b data-i18n="invertedPeriod">倒掛</b></span>
-        <span><i class="market-swatch market-unavailable"></i><b data-i18n="unavailableData">無 ACM 資料</b></span>
+        <span><i class="market-swatch market-unavailable"></i><b data-i18n="unavailableData">無利率資料</b></span>
         <span class="market-event-marker-legend"><i class="market-event-key market-event-six-key"></i><b data-i18n="sixMonthsLater">+6 個月</b></span>
         <span id="marketMarkerHint" class="market-marker-hint" hidden data-i18n="zoomForMarkers">縮到 15 年內才顯示 +6 個月線</span>
       </div>
@@ -338,9 +345,9 @@
       <div id="marketChart" class="market-chart" role="img" data-i18n-aria-label="marketChartAria" aria-label="S&amp;P 500 與 ACM 倒掛區間圖"></div>
 
       <div class="result-grid market-decomposition-results">
-        <article><span data-i18n="expectedPathDifference">預期短率平均差</span><strong id="marketExpectedDiff">—</strong><small id="marketLatestDate">—</small></article>
-        <article><span data-i18n="termPremiumThreshold">期限溢酬門檻</span><strong id="marketPremiumGap">—</strong></article>
-        <article><span data-i18n="acmFittedSpread">ACM 擬合殖利率差</span><strong id="marketFittedSpread">—</strong></article>
+        <article id="marketExpectedCard"><span data-i18n="expectedPathDifference">預期短率平均差</span><strong id="marketExpectedDiff">—</strong><small id="marketLatestDate">—</small></article>
+        <article id="marketPremiumCard"><span data-i18n="termPremiumThreshold">期限溢酬門檻</span><strong id="marketPremiumGap">—</strong></article>
+        <article><span id="marketSpreadLabel" data-i18n="acmFittedSpread">ACM 擬合殖利率差</span><strong id="marketFittedSpread">—</strong></article>
         <article><span data-i18n="marketCurrentState">最新狀態</span><strong id="marketCurrentState">—</strong></article>
       </div>
 
@@ -348,7 +355,7 @@
         <div class="market-event-study-heading">
           <div>
             <h3 data-i18n="eventStudyTitle">倒掛結束後 6 個月事件研究</h3>
-            <span class="pill" data-i18n="monthlyObservationNote">月度 S&amp;P 500</span>
+            <span id="marketObservationNote" class="pill" data-i18n="dailyObservationNote">日頻 S&amp;P 500</span>
           </div>
           <div class="market-event-nav">
             <button type="button" id="marketPrevEvent" data-i18n="previousEvent">← 上一個事件</button>
@@ -366,11 +373,11 @@
           <table class="portfolio-table market-event-table">
             <thead>
               <tr>
-                <th data-i18n="eventEnd">倒掛結束月</th>
+                <th id="marketEventEndHeader" data-i18n="eventEndDay">倒掛結束日</th>
                 <th data-i18n="eventSixMonth">+6 個月</th>
                 <th data-i18n="eventSixMonthReturn">6 個月報酬</th>
                 <th data-i18n="eventMaxDrawdown">期間最大回撤</th>
-                <th data-i18n="eventDrawdownDate">最深回撤月</th>
+                <th id="marketDrawdownDateHeader" data-i18n="eventDrawdownDay">最深回撤日</th>
               </tr>
             </thead>
             <tbody id="marketEventRows"></tbody>
@@ -378,13 +385,13 @@
         </div>
       </div>
 
-      <p class="notice compact-notice" data-i18n="marketMethodology">紅色月份滿足 Eavg(T₂)−Eavg(T₁) &lt; L(T₁)−L(T₂)。倒掛結束定義為狀態由倒掛切回未倒掛，並以第一個未倒掛月份作為結束月；事件研究比較結束月與 +6 個月的 S&amp;P 500，最大回撤依月度資料計算。1961 前無 ACM 資料顯示灰色。</p>
+      <p id="marketMethodologyText" class="notice compact-notice" data-i18n="marketMethodologyDaily">日頻 ACM：紅色交易日滿足 Eavg(T₂)−Eavg(T₁) &lt; L(T₁)−L(T₂)。倒掛結束定義為第一個由倒掛切回未倒掛的日頻觀測；+6 個月使用六個日曆月後第一個 S&amp;P 500 交易日。</p>
       <p id="marketSource" class="market-source">—</p>
       <p id="marketError" class="error" hidden></p>
     </section>
 
-    <footer data-i18n="footer">YieldLab v0.4.6 · 半年倒數從倒掛結束才開始。</footer>
+    <footer data-i18n="footer">YieldLab v0.4.7 · 倒掛事件研究正式進入日頻。</footer>
   </main>
-  <script src="/static/app.js?v=0.4.6" defer></script>
+  <script src="/static/app.js?v=0.4.7" defer></script>
 </body>
 </html>

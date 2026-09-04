@@ -35,14 +35,20 @@ from app.services.curve import analyze_curve, calculate_spread, compare_curves
 from app.services.factors import analyze_pca, factor_shock
 from app.services.fitting import fit_curve, fitted_yield_quote, forward_rate_quote
 from app.services.history import get_curve_by_date, load_history, merge_history
-from app.services.market_history import build_inversion_view, load_market_history
+from app.services.market_history import (
+    build_daily_inversion_view,
+    build_inversion_view,
+    load_daily_market_history,
+    load_market_history,
+)
 from app.services.scenarios import get_presets, shock_curve, stress_portfolio
 from app.services.treasury import get_current_curve
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / "static"
-VERSION = "0.4.6"
+VERSION = "0.4.7"
 CurveModel = Literal["nelson_siegel", "svensson"]
+DailyInversionMode = Literal["acm", "fred_2s10s"]
 
 app = FastAPI(
     title="YieldLab",
@@ -134,6 +140,58 @@ def get_sp500_inversion_history(
         )
     except (OSError, json.JSONDecodeError) as exc:
         raise HTTPException(status_code=503, detail="Market history cache is unavailable") from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.get("/api/market/sp500-inversions/daily", response_model=MarketInversionData)
+def get_sp500_daily_inversion_history(
+    t1: int = Query(default=2, ge=1, le=9),
+    t2: int = Query(default=10, ge=2, le=10),
+    mode: DailyInversionMode = "acm",
+    start_date: str | None = Query(default=None, pattern=r"^\d{4}-\d{2}-\d{2}$"),
+    end_date: str | None = Query(default=None, pattern=r"^\d{4}-\d{2}-\d{2}$"),
+) -> MarketInversionData:
+    try:
+        data = load_daily_market_history()
+        return build_daily_inversion_view(
+            data,
+            t1_years=t1,
+            t2_years=t2,
+            start_date=start_date or data.start_date,
+            end_date=end_date or data.end_date,
+            mode=mode,
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        raise HTTPException(status_code=503, detail="Daily market history cache is unavailable") from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.get("/api/market/sp500-inversions/daily/events")
+def get_sp500_daily_inversion_events(
+    t1: int = Query(default=2, ge=1, le=9),
+    t2: int = Query(default=10, ge=2, le=10),
+    mode: DailyInversionMode = "acm",
+) -> dict:
+    try:
+        data = load_daily_market_history()
+        view = build_daily_inversion_view(
+            data,
+            t1_years=t1,
+            t2_years=t2,
+            start_date=data.start_date,
+            end_date=data.end_date,
+            mode=mode,
+        )
+        return {
+            "frequency": view.frequency,
+            "mode": view.mode,
+            "events": [event.model_dump() for event in view.events],
+            "event_summary": view.event_summary.model_dump(),
+        }
+    except (OSError, json.JSONDecodeError) as exc:
+        raise HTTPException(status_code=503, detail="Daily market history cache is unavailable") from exc
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 

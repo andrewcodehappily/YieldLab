@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import json
+from bisect import bisect_left
+import calendar
+from datetime import date
 from pathlib import Path
 from statistics import mean, median
 
@@ -14,9 +17,15 @@ from app.models import (
 
 PROJECT_DIR = Path(__file__).resolve().parents[2]
 MARKET_HISTORY_FILE = PROJECT_DIR / "data" / "sp500_inversion_history.json"
+DAILY_MARKET_HISTORY_FILE = PROJECT_DIR / "data" / "sp500_inversion_daily.json"
 
 
 def load_market_history(path: Path = MARKET_HISTORY_FILE) -> MarketHistoryData:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return MarketHistoryData.model_validate(payload)
+
+
+def load_daily_market_history(path: Path = DAILY_MARKET_HISTORY_FILE) -> MarketHistoryData:
     payload = json.loads(path.read_text(encoding="utf-8"))
     return MarketHistoryData.model_validate(payload)
 
@@ -141,6 +150,95 @@ def _event_results(
     return events
 
 
+def _add_months_date(value: str, months: int) -> str:
+    parsed = date.fromisoformat(value)
+    month_index = parsed.month - 1 + months
+    year = parsed.year + month_index // 12
+    month = month_index % 12 + 1
+    day = min(parsed.day, calendar.monthrange(year, month)[1])
+    return date(year, month, day).isoformat()
+
+
+def _point_for_daily_mode(
+    point,
+    t1_index: int,
+    t2_index: int,
+    mode: str,
+) -> MarketInversionPoint:
+    if mode == "fred_2s10s":
+        spread_pct = point.fred_10y2y_pct
+        if spread_pct is None:
+            return MarketInversionPoint(date=point.date, sp500_close=point.sp500_close)
+        spread_bp = spread_pct * 100
+        return MarketInversionPoint(
+            date=point.date,
+            sp500_close=point.sp500_close,
+            fitted_yield_spread_bp=round(spread_bp, 6),
+            inverted=spread_pct < 0,
+        )
+    return _point_for_maturities(point, t1_index, t2_index)
+
+
+def _daily_event_results(
+    all_points: list[MarketInversionPoint],
+    selected_start_date: str,
+    selected_end_date: str,
+) -> list[InversionEventResult]:
+    dates = [point.date for point in all_points]
+    events: list[InversionEventResult] = []
+    previous_valid_state: bool | None = None
+
+    for index, point in enumerate(all_points):
+        current_state = point.inverted
+        if current_state is None:
+            continue
+
+        ended = current_state is False and previous_valid_state is True
+        previous_valid_state = current_state
+        if not ended or point.date < selected_start_date or point.date > selected_end_date:
+            continue
+
+        target_calendar_date = _add_months_date(point.date, 6)
+        target_index = bisect_left(dates, target_calendar_date)
+        if target_index >= len(all_points):
+            events.append(
+                InversionEventResult(
+                    inversion_end_date=point.date,
+                    end_sp500=point.sp500_close,
+                    completed=False,
+                )
+            )
+            continue
+
+        target = all_points[target_index]
+        window = all_points[index : target_index + 1]
+        running_peak = window[0].sp500_close
+        max_drawdown = 0.0
+        max_drawdown_date = window[0].date
+        for observation in window:
+            running_peak = max(running_peak, observation.sp500_close)
+            drawdown = (observation.sp500_close / running_peak - 1) * 100
+            if drawdown < max_drawdown:
+                max_drawdown = drawdown
+                max_drawdown_date = observation.date
+
+        six_month_return = (target.sp500_close / point.sp500_close - 1) * 100
+        events.append(
+            InversionEventResult(
+                inversion_end_date=point.date,
+                six_month_date=target.date,
+                end_sp500=round(point.sp500_close, 6),
+                six_month_sp500=round(target.sp500_close, 6),
+                six_month_return_pct=round(six_month_return, 6),
+                max_drawdown_pct=round(max_drawdown, 6),
+                max_drawdown_date=max_drawdown_date,
+                completed=True,
+            )
+        )
+
+    return events
+
+
 def _event_summary(events: list[InversionEventResult]) -> InversionEventSummary:
     completed = [event for event in events if event.completed and event.six_month_return_pct is not None]
     returns = [event.six_month_return_pct for event in completed if event.six_month_return_pct is not None]
@@ -208,6 +306,75 @@ def build_inversion_view(
             "Six-month event study starts when the state changes from inverted to non-inverted; "
             "the first non-inverted month is the inversion-end observation, and drawdowns use monthly S&P 500 observations."
         ),
+        frequency="monthly",
+        mode="acm",
+        points=selected,
+        events=events,
+        event_summary=summary,
+    )
+
+
+def build_daily_inversion_view(
+    data: MarketHistoryData,
+    t1_years: int,
+    t2_years: int,
+    start_date: str,
+    end_date: str,
+    mode: str = "acm",
+) -> MarketInversionData:
+    try:
+        date.fromisoformat(start_date)
+        date.fromisoformat(end_date)
+    except ValueError as exc:
+        raise ValueError("start_date and end_date must use YYYY-MM-DD") from exc
+    if start_date > end_date:
+        raise ValueError("start_date must not exceed end_date")
+    if mode not in {"acm", "fred_2s10s"}:
+        raise ValueError("mode must be acm or fred_2s10s")
+    if mode == "fred_2s10s" and (t1_years != 2 or t2_years != 10):
+        raise ValueError("fred_2s10s mode requires T1=2 and T2=10")
+    if t1_years not in data.acm_maturities_years or t2_years not in data.acm_maturities_years:
+        raise ValueError("T1 and T2 must be available ACM maturities")
+    if t1_years >= t2_years:
+        raise ValueError("T1 must be shorter than T2")
+
+    t1_index = data.acm_maturities_years.index(t1_years)
+    t2_index = data.acm_maturities_years.index(t2_years)
+    all_points = [
+        _point_for_daily_mode(point, t1_index, t2_index, mode)
+        for point in data.points
+    ]
+    selected = [point for point in all_points if start_date <= point.date <= end_date]
+    if not selected:
+        raise ValueError("No daily market-history observations exist in the requested date range")
+
+    events = _daily_event_results(all_points, start_date, end_date)
+    summary = _event_summary(events)
+    if mode == "fred_2s10s":
+        rates_source = "Federal Reserve Bank of St. Louis FRED T10Y2Y"
+        methodology = (
+            "Daily classic 2s10s inversion: FRED T10Y2Y < 0. "
+            "An inversion ends on the first available daily observation with T10Y2Y >= 0 after a negative observation. "
+            "The six-month target is the first S&P 500 trading day on or after six calendar months later."
+        )
+    else:
+        rates_source = "Federal Reserve Bank of New York Adrian-Crump-Moench (ACM) Daily"
+        methodology = (
+            "Daily ACM decomposition inversion: Eavg(T2)-Eavg(T1) < L(T1)-L(T2). "
+            "An inversion ends on the first available daily ACM observation that returns to non-inverted after an inverted observation. "
+            "The six-month target is the first S&P 500 trading day on or after six calendar months later."
+        )
+
+    return MarketInversionData(
+        start_date=selected[0].date,
+        end_date=selected[-1].date,
+        t1_years=t1_years,
+        t2_years=t2_years,
+        sp500_source=data.sp500_source,
+        rates_source=rates_source,
+        methodology=methodology,
+        frequency="daily",
+        mode=mode,
         points=selected,
         events=events,
         event_summary=summary,
