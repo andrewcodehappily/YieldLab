@@ -5,33 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="YieldLab 固定收益分析與殖利率曲線研究實驗室 / fixed-income analytics and yield-curve research lab" />
   <title>YieldLab</title>
-  <link rel="stylesheet" href="/static/styles.css?v=0.4.7" />
+  <link rel="stylesheet" href="/static/styles.css?v=1.0.0" />
 </head>
 <body>
   <main class="shell">
-    <header class="hero">
-      <div>
-        <p class="eyebrow" data-i18n="eyebrow">固定收益研究實驗室</p>
-        <h1>YieldLab</h1>
-        <p class="lede" data-i18n="lede">探索殖利率曲線、利差與債券風險，不需要一台大得像小鋼琴的彭博終端機鍵盤。</p>
-      </div>
+    <header class="app-header">
+      <a class="brand" href="/" aria-label="YieldLab home">
+        <span class="brand-mark">YL</span>
+        <span class="brand-copy"><strong>YieldLab</strong><small>v1.0</small></span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a href="/" data-route-link="dashboard" data-i18n="navDashboard">總覽</a>
+        <a href="/curve" data-route-link="curve" data-i18n="navCurve">曲線</a>
+        <a href="/backtest" data-route-link="backtest" data-i18n="navBacktest">回測</a>
+        <a href="/risk" data-route-link="risk" data-i18n="navRisk">風險</a>
+      </nav>
       <div class="hero-actions">
         <div class="language-switch" role="group" aria-label="Language">
           <button type="button" data-lang="zh-Hant" class="lang-button active">繁中</button>
           <button type="button" data-lang="en" class="lang-button">EN</button>
         </div>
-        <a class="docs-link" href="/docs" data-i18n="apiDocs">介面文件 ↗</a>
+        <a class="docs-link" href="/docs" data-i18n="apiDocs">API 文件 ↗</a>
       </div>
     </header>
 
-    <section class="metric-grid" data-i18n-aria-label="curveMetricsAria" aria-label="殖利率曲線指標">
+    <section class="page-intro">
+      <div>
+        <p id="routeEyebrow" class="eyebrow">RESEARCH TERMINAL</p>
+        <h1 id="routeTitle">研究總覽</h1>
+        <p id="routeLede" class="lede">固定收益、殖利率曲線、事件回測與風險分析的研究工作台。</p>
+      </div>
+      <span id="routePath" class="route-path">/</span>
+    </section>
+
+    <section class="module-grid" data-pages="dashboard">
+      <a class="module-card" href="/curve"><span data-i18n="moduleCurveEyebrow">CURVE RESEARCH</span><strong data-i18n="moduleCurveTitle">殖利率曲線研究</strong><small data-i18n="moduleCurveDesc">利差、歷史曲線、NS/NSS 擬合與 PCA 因子。</small><b>→ /curve</b></a>
+      <a class="module-card" href="/backtest"><span data-i18n="moduleBacktestEyebrow">EVENT STUDY</span><strong data-i18n="moduleBacktestTitle">歷史回測</strong><small data-i18n="moduleBacktestDesc">ACM / FRED 日頻倒掛解除與 S&amp;P 500 事件研究。</small><b>→ /backtest</b></a>
+      <a class="module-card" href="/risk"><span data-i18n="moduleRiskEyebrow">RISK ENGINE</span><strong data-i18n="moduleRiskTitle">風險與投資組合</strong><small data-i18n="moduleRiskDesc">情境衝擊、債券風險與投資組合重新定價。</small><b>→ /risk</b></a>
+    </section>
+
+    <section class="metric-grid" data-pages="dashboard curve" data-i18n-aria-label="curveMetricsAria" aria-label="殖利率曲線指標">
       <article class="metric-card"><span data-i18n="twoTenLabel">10年－2年利差（2s10s）</span><strong id="twoTen">—</strong><small data-i18n="basisPoints">基點</small></article>
       <article class="metric-card"><span data-i18n="fiveThirtyLabel">30年－5年利差（5s30s）</span><strong id="fiveThirty">—</strong><small data-i18n="basisPoints">基點</small></article>
       <article class="metric-card"><span data-i18n="frontBackLabel">短端 → 長端</span><strong id="frontBack">—</strong><small data-i18n="basisPoints">基點</small></article>
       <article class="metric-card"><span data-i18n="curveShapeLabel">曲線形狀</span><strong id="shape">—</strong><small id="curveSource" data-i18n="loading">載入中</small></article>
     </section>
 
-    <section class="panel chart-panel">
+    <section class="panel chart-panel" data-pages="dashboard curve">
       <div class="panel-heading">
         <div>
           <p class="eyebrow" data-i18n="curveExplorer">曲線探索器</p>
@@ -42,7 +62,7 @@
       <div id="curveChart" class="chart" role="img" data-i18n-aria-label="curveChartAria" aria-label="殖利率曲線圖"></div>
     </section>
 
-    <section class="panel spread-panel">
+    <section class="panel spread-panel" data-pages="curve">
       <div class="panel-heading">
         <div>
           <p class="eyebrow" data-i18n="spreadLab">利差實驗室</p>
@@ -65,7 +85,7 @@
       <p id="spreadError" class="error" hidden></p>
     </section>
 
-    <section class="panel history-panel">
+    <section class="panel history-panel" data-pages="curve">
       <div class="panel-heading history-heading">
         <div>
           <p class="eyebrow" data-i18n="historyLab">歷史實驗室</p>
@@ -100,7 +120,7 @@
       <p id="historyError" class="error" hidden></p>
     </section>
 
-    <section class="panel model-panel">
+    <section class="panel model-panel" data-pages="curve">
       <div class="panel-heading">
         <div>
           <p class="eyebrow" data-i18n="modelLab">曲線模型實驗室</p>
@@ -135,7 +155,7 @@
       <p id="modelError" class="error" hidden></p>
     </section>
 
-    <section class="panel factor-panel">
+    <section class="panel factor-panel" data-pages="curve">
       <div class="panel-heading">
         <div>
           <p class="eyebrow" data-i18n="factorLab">PCA 因子實驗室</p>
@@ -173,7 +193,7 @@
       <p id="factorError" class="error" hidden></p>
     </section>
 
-    <section class="panel scenario-panel">
+    <section class="panel scenario-panel" data-pages="risk">
       <div class="panel-heading">
         <div>
           <p class="eyebrow" data-i18n="scenarioLab">情境實驗室</p>
@@ -206,7 +226,7 @@
       <p id="scenarioError" class="error" hidden></p>
     </section>
 
-    <section class="panel portfolio-panel">
+    <section class="panel portfolio-panel" data-pages="risk">
       <div class="panel-heading">
         <div>
           <p class="eyebrow" data-i18n="portfolioLab">投資組合實驗室</p>
@@ -264,7 +284,7 @@
       <p id="portfolioError" class="error" hidden></p>
     </section>
 
-    <section class="panel calculator-panel">
+    <section class="panel calculator-panel" data-pages="risk">
       <div class="panel-heading">
         <div>
           <p class="eyebrow" data-i18n="bondEngine">債券引擎</p>
@@ -292,7 +312,7 @@
       <p id="bondError" class="error" hidden></p>
     </section>
 
-    <section class="panel market-history-panel">
+    <section class="panel market-history-panel" data-pages="backtest">
       <div class="panel-heading market-history-heading">
         <div>
           <p class="eyebrow" data-i18n="marketHistoryLab">市場歷史實驗室</p>
@@ -390,8 +410,8 @@
       <p id="marketError" class="error" hidden></p>
     </section>
 
-    <footer data-i18n="footer">YieldLab v0.4.7 · 倒掛事件研究正式進入日頻。</footer>
+    <footer data-i18n="footer">YieldLab v1.0 · Fixed-Income Research Terminal</footer>
   </main>
-  <script src="/static/app.js?v=0.4.7" defer></script>
+  <script src="/static/app.js?v=1.0.0" defer></script>
 </body>
 </html>

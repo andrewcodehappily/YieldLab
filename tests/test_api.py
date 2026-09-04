@@ -12,8 +12,16 @@ def test_health() -> None:
     assert response.json() == {
         "status": "ok",
         "service": "yieldlab",
-        "version": "0.4.7",
+        "version": "1.0.0",
     }
+
+
+def test_application_routes_serve_research_terminal() -> None:
+    for path in ["/", "/dashboard", "/curve", "/backtest", "/risk"]:
+        response = client.get(path)
+        assert response.status_code == 200
+        assert "YieldLab" in response.text
+        assert "data-route-link" in response.text
 
 
 def test_current_spread_endpoint() -> None:

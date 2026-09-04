@@ -4,7 +4,32 @@ const TRANSLATIONS = {
   "zh-Hant": {
     eyebrow: "固定收益研究實驗室",
     lede: "探索殖利率曲線、利差與債券風險，不需要一台大得像小鋼琴的彭博終端機鍵盤。",
-    apiDocs: "介面文件 ↗",
+    apiDocs: "API 文件 ↗",
+    navDashboard: "總覽",
+    navCurve: "曲線",
+    navBacktest: "回測",
+    navRisk: "風險",
+    routeDashboardEyebrow: "RESEARCH TERMINAL",
+    routeDashboardTitle: "研究總覽",
+    routeDashboardLede: "固定收益、殖利率曲線、事件回測與風險分析的研究工作台。",
+    routeCurveEyebrow: "CURVE RESEARCH",
+    routeCurveTitle: "殖利率曲線研究",
+    routeCurveLede: "分析期限結構、歷史曲線、參數化擬合與利率因子。",
+    routeBacktestEyebrow: "BACKTEST LAB",
+    routeBacktestTitle: "歷史回測",
+    routeBacktestLede: "用日頻 ACM 與 FRED 2s10s 驗證倒掛解除後的市場行為。",
+    routeRiskEyebrow: "RISK ENGINE",
+    routeRiskTitle: "風險與投資組合",
+    routeRiskLede: "建立利率情境、重新定價債券組合並分析 DV01、Duration 與 Convexity。",
+    moduleCurveEyebrow: "CURVE RESEARCH",
+    moduleCurveTitle: "殖利率曲線研究",
+    moduleCurveDesc: "利差、歷史曲線、NS/NSS 擬合與 PCA 因子。",
+    moduleBacktestEyebrow: "EVENT STUDY",
+    moduleBacktestTitle: "歷史回測",
+    moduleBacktestDesc: "ACM / FRED 日頻倒掛解除與 S&P 500 事件研究。",
+    moduleRiskEyebrow: "RISK ENGINE",
+    moduleRiskTitle: "風險與投資組合",
+    moduleRiskDesc: "情境衝擊、債券風險與投資組合重新定價。",
     curveMetricsAria: "殖利率曲線指標",
     twoTenLabel: "10年－2年利差（2s10s）",
     fiveThirtyLabel: "30年－5年利差（5s30s）",
@@ -200,7 +225,7 @@ const TRANSLATIONS = {
     marketMethodologyFred: "FRED 日頻 2s10s：T10Y2Y < 0 為倒掛；第一個由負值恢復到 0 或正值的日頻觀測視為倒掛結束，+6 個月使用六個日曆月後第一個 S&P 500 交易日。",
     marketSource: (sp500, rates) => `S&P 500：${sp500} · 利率資料：${rates}`,
     marketGenericError: "市場歷史資料暫時無法載入，或選擇的期限／日期區間無效。",
-    footer: "YieldLab v0.4.7 · 倒掛事件研究正式進入日頻。" ,
+    footer: "YieldLab v1.0 · Fixed-Income Research Terminal",
     noData: "無資料",
     shapeNormal: "正常",
     shapeFlat: "平坦",
@@ -219,6 +244,31 @@ const TRANSLATIONS = {
     eyebrow: "FIXED-INCOME RESEARCH LAB",
     lede: "Explore yield curves, spreads, and bond risk without needing a Bloomberg keyboard the size of a small piano.",
     apiDocs: "API Docs ↗",
+    navDashboard: "Dashboard",
+    navCurve: "Curve",
+    navBacktest: "Backtest",
+    navRisk: "Risk",
+    routeDashboardEyebrow: "RESEARCH TERMINAL",
+    routeDashboardTitle: "Research Dashboard",
+    routeDashboardLede: "A focused workspace for fixed income, curve research, event studies, and risk analytics.",
+    routeCurveEyebrow: "CURVE RESEARCH",
+    routeCurveTitle: "Yield Curve Research",
+    routeCurveLede: "Study term structure, historical curves, parametric fits, and rate factors.",
+    routeBacktestEyebrow: "BACKTEST LAB",
+    routeBacktestTitle: "Historical Backtest",
+    routeBacktestLede: "Test post-inversion market behavior with daily ACM and FRED 2s10s data.",
+    routeRiskEyebrow: "RISK ENGINE",
+    routeRiskTitle: "Risk & Portfolio",
+    routeRiskLede: "Build rate scenarios, reprice bond portfolios, and analyze DV01, duration, and convexity.",
+    moduleCurveEyebrow: "CURVE RESEARCH",
+    moduleCurveTitle: "Yield Curve Research",
+    moduleCurveDesc: "Spreads, curve history, NS/NSS fitting, and PCA factors.",
+    moduleBacktestEyebrow: "EVENT STUDY",
+    moduleBacktestTitle: "Historical Backtest",
+    moduleBacktestDesc: "Daily ACM / FRED inversion ends with S&P 500 event studies.",
+    moduleRiskEyebrow: "RISK ENGINE",
+    moduleRiskTitle: "Risk & Portfolio",
+    moduleRiskDesc: "Scenario shocks, bond analytics, and full portfolio repricing.",
     curveMetricsAria: "Yield curve metrics",
     twoTenLabel: "10Y − 2Y spread (2s10s)",
     fiveThirtyLabel: "30Y − 5Y spread (5s30s)",
@@ -414,7 +464,7 @@ const TRANSLATIONS = {
     marketMethodologyFred: "FRED daily 2s10s: T10Y2Y < 0 is inverted. The inversion ends on the first daily observation that returns to zero or positive; +6 months uses the first S&P 500 trading day on or after six calendar months later.",
     marketSource: (sp500, rates) => `S&P 500: ${sp500} · Rates: ${rates}`,
     marketGenericError: "Market history is unavailable, or the selected maturity/date range is invalid.",
-    footer: "YieldLab v0.4.7 · inversion event studies now run daily." ,
+    footer: "YieldLab v1.0 · Fixed-Income Research Terminal",
     noData: "n/a",
     shapeNormal: "Normal",
     shapeFlat: "Flat",
@@ -454,9 +504,46 @@ let marketHistory = null;
 let marketEventCatalog = [];
 let marketEventCatalogKey = "";
 let marketFocusedEventIndex = -1;
+let currentPage = resolvePage();
+
+function resolvePage() {
+  const path = window.location.pathname.replace(/\/+$/, "") || "/";
+  if (path === "/" || path === "/dashboard") return "dashboard";
+  if (path === "/curve") return "curve";
+  if (path === "/backtest") return "backtest";
+  if (path === "/risk") return "risk";
+  return "dashboard";
+}
 
 function t(key) {
   return TRANSLATIONS[currentLanguage][key];
+}
+
+function applyRouteLayout() {
+  currentPage = resolvePage();
+  const routeCopy = {
+    dashboard: ["routeDashboardEyebrow", "routeDashboardTitle", "routeDashboardLede", "/"],
+    curve: ["routeCurveEyebrow", "routeCurveTitle", "routeCurveLede", "/curve"],
+    backtest: ["routeBacktestEyebrow", "routeBacktestTitle", "routeBacktestLede", "/backtest"],
+    risk: ["routeRiskEyebrow", "routeRiskTitle", "routeRiskLede", "/risk"],
+  };
+  const [eyebrowKey, titleKey, ledeKey, routePath] = routeCopy[currentPage];
+  $("routeEyebrow").textContent = t(eyebrowKey);
+  $("routeTitle").textContent = t(titleKey);
+  $("routeLede").textContent = t(ledeKey);
+  $("routePath").textContent = routePath;
+  document.title = `YieldLab · ${t(titleKey)}`;
+
+  document.querySelectorAll("[data-pages]").forEach((element) => {
+    const pages = element.dataset.pages.split(/\s+/).filter(Boolean);
+    element.hidden = !pages.includes(currentPage);
+  });
+  document.querySelectorAll("[data-route-link]").forEach((link) => {
+    const active = link.dataset.routeLink === currentPage;
+    link.classList.toggle("active", active);
+    if (active) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  });
 }
 
 function applyLanguage(language) {
@@ -479,6 +566,7 @@ function applyLanguage(language) {
     button.setAttribute("aria-pressed", String(button.dataset.lang === currentLanguage));
   });
 
+  applyRouteLayout();
   renderDynamicText();
   renderSpreadResult();
   renderHistoryState();
@@ -1748,32 +1836,49 @@ $("scenarioPreset").addEventListener("change", async (event) => {
 $("bondForm").addEventListener("submit", analyzeBond);
 
 window.addEventListener("resize", () => {
-  if (latestCurve) renderCurve(latestCurve);
-  if (comparedFromCurve && comparedToCurve) renderComparisonChart(comparedFromCurve, comparedToCurve);
-  if (latestCurve && scenarioShockedCurve) renderComparisonChart(latestCurve, scenarioShockedCurve, "scenarioChart");
-  if (latestCurveFit) renderFitChart(latestCurveFit);
-  if (pcaAnalysis) renderFactorChart(pcaAnalysis);
-  if (latestCurve && factorShockedCurve) renderComparisonChart(latestCurve, factorShockedCurve, "factorShockChart");
-  if (marketHistory) renderMarketHistory();
+  if ((currentPage === "dashboard" || currentPage === "curve") && latestCurve) renderCurve(latestCurve);
+  if (currentPage === "curve" && comparedFromCurve && comparedToCurve) renderComparisonChart(comparedFromCurve, comparedToCurve);
+  if (currentPage === "curve" && latestCurveFit) renderFitChart(latestCurveFit);
+  if (currentPage === "curve" && pcaAnalysis) renderFactorChart(pcaAnalysis);
+  if (currentPage === "curve" && latestCurve && factorShockedCurve) renderComparisonChart(latestCurve, factorShockedCurve, "factorShockChart");
+  if (currentPage === "risk" && latestCurve && scenarioShockedCurve) renderComparisonChart(latestCurve, scenarioShockedCurve, "scenarioChart");
+  if (currentPage === "backtest" && marketHistory) renderMarketHistory();
 });
 
 applyLanguage(currentLanguage);
 
 async function initialize() {
   try {
-    await loadCurve();
-    seedPortfolio();
-    populateMarketMaturityControls();
-    await Promise.all([loadScenarioPresets(), loadCurveFit(), loadPca(), loadMarketHistory()]);
-    await Promise.all([queryFittedYield(), calculateForwardRate(), applyPcaFactorShock()]);
-    await applyScenario();
-    await calculateSpread();
-    await loadHistory();
-    await stressPortfolio();
+    if (currentPage === "dashboard") {
+      await loadCurve();
+      return;
+    }
+
+    if (currentPage === "curve") {
+      await loadCurve();
+      await Promise.all([loadCurveFit(), loadPca(), calculateSpread(), loadHistory()]);
+      await Promise.all([queryFittedYield(), calculateForwardRate(), applyPcaFactorShock()]);
+      return;
+    }
+
+    if (currentPage === "backtest") {
+      populateMarketMaturityControls();
+      await loadMarketHistory();
+      return;
+    }
+
+    if (currentPage === "risk") {
+      await loadCurve();
+      seedPortfolio();
+      await loadScenarioPresets();
+      await applyScenario();
+      await stressPortfolio();
+      $("bondForm").requestSubmit();
+    }
   } catch (_) {
-    if (!latestCurve) $("curveChart").textContent = t("curveLoadError");
+    const visibleCurve = !$("curveChart")?.closest("[data-pages]")?.hidden;
+    if (visibleCurve && !latestCurve) $("curveChart").textContent = t("curveLoadError");
   }
 }
 
 initialize();
-$("bondForm").requestSubmit();

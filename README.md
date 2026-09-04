@@ -10,9 +10,17 @@ YieldLab 是一個互動式固定收益分析、殖利率曲線建模、因子�
 
 後端使用 FastAPI，前端保持零框架原生瀏覽器介面。Treasury collector 讀取美國財政部官方 XML 資料，將最新曲線與歷史交易日資料原子寫入本地 JSON；Web API 只讀本地資料，因此上游暫時故障時不會把整個網站一起拖下水。
 
-### v0.4.7 功能
+### v1.0.0
 
-v0.4.7 把倒掛事件研究從月頻升級到**日頻**。預設使用 New York Fed `ACM Daily`，也可切換到 FRED `T10Y2Y` 經典 2s10s 日頻定義；月頻長歷史仍完整保留作全景與備援。
+YieldLab v1.0.0 將原本的單頁研究介面重構成正式研究終端。前端仍保持零框架，但功能依用途拆成獨立 URL，且每個路由只初始化自己需要的資料與分析模組。
+
+主要頁面：
+
+- `/` / `/dashboard`：研究總覽與目前殖利率曲線
+- `/curve`：殖利率曲線、利差、歷史比較、Nelson–Siegel / Svensson 與 PCA
+- `/backtest`：日頻／月頻倒掛事件研究，支援 ACM 與 FRED `T10Y2Y`
+- `/risk`：利率情境、債券分析與投資組合壓力測試
+- `/docs`：OpenAPI 文件
 
 - 美國國債票面殖利率曲線資料擷取與本地快取
 - 歷史殖利率曲線持久化與日期查詢
@@ -107,7 +115,7 @@ python -m app.collectors.market_history
 - `data/sp500_inversion_daily.json`：S&P 500 日線 + New York Fed `ACM Daily` + FRED `T10Y2Y` 日頻。S&P 日線優先使用 FRED，若上游暫時斷線則使用長期歷史資料搭配 FRED 鏡像補齊近期；T10Y2Y 也有鏡像備援。
 - `data/sp500_inversion_history.json`：原本的 Multpl 月度 S&P 500 + `ACM Monthly`，保留作長期全景與備援。
 
-### v0.4.7 API
+### v1.0.0 API
 
 #### `GET /api/market/sp500-inversions`
 
@@ -312,9 +320,17 @@ YieldLab is an interactive fixed-income analytics, yield-curve modelling, factor
 
 The backend uses FastAPI while the frontend stays framework-free. A Treasury collector reads the official U.S. Department of the Treasury XML feed and atomically stores the latest curve plus historical trading-day curves in local JSON files. The web API reads local data only, so upstream outages do not block normal user requests.
 
-### v0.4.7 Features
+### v1.0.0
 
-v0.4.7 upgrades the inversion event study from monthly to **daily** data. New York Fed `ACM Daily` is the default definition, with FRED `T10Y2Y` available as a classic daily 2s10s cross-check. The monthly long-run view remains available as a fallback and overview.
+YieldLab v1.0.0 restructures the former single-page research interface into a route-based research terminal. The frontend remains framework-free, while each URL initializes only the data and analytics required for that workspace.
+
+Primary pages:
+
+- `/` / `/dashboard`: research overview and current yield curve
+- `/curve`: yield curve, spreads, historical comparison, Nelson–Siegel / Svensson, and PCA
+- `/backtest`: daily/monthly inversion event studies with ACM and FRED `T10Y2Y`
+- `/risk`: rate scenarios, bond analytics, and portfolio stress testing
+- `/docs`: OpenAPI documentation
 
 - U.S. Treasury par yield-curve ingestion with local caching
 - Persistent historical yield curves with date lookup
@@ -398,7 +414,7 @@ The market-history collector refreshes two caches:
 - `data/sp500_inversion_daily.json`: daily S&P 500, New York Fed `ACM Daily`, and FRED `T10Y2Y`, with fallback sources when an upstream endpoint is temporarily unavailable.
 - `data/sp500_inversion_history.json`: the original Multpl monthly S&P 500 plus `ACM Monthly` long-run fallback/overview.
 
-### v0.4.7 API
+### v1.0.0 API
 
 #### `GET /api/market/sp500-inversions`
 

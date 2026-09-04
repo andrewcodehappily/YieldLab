@@ -46,7 +46,7 @@ from app.services.treasury import get_current_curve
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / "static"
-VERSION = "0.4.7"
+VERSION = "1.0.0"
 CurveModel = Literal["nelson_siegel", "svensson"]
 DailyInversionMode = Literal["acm", "fred_2s10s"]
 
@@ -92,7 +92,11 @@ def _history_window(limit: int) -> list[YieldCurve]:
 
 
 @app.get("/", include_in_schema=False)
-def index() -> FileResponse:
+@app.get("/dashboard", include_in_schema=False)
+@app.get("/curve", include_in_schema=False)
+@app.get("/backtest", include_in_schema=False)
+@app.get("/risk", include_in_schema=False)
+def app_page() -> FileResponse:
     return FileResponse(STATIC_DIR / "index.html")
 
 
