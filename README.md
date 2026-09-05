@@ -10,6 +10,10 @@ YieldLab 是一個互動式固定收益分析、殖利率曲線建模、因子�
 
 後端使用 FastAPI，前端保持零框架原生瀏覽器介面。Treasury collector 讀取美國財政部官方 XML 資料，將最新曲線與歷史交易日資料原子寫入本地 JSON；Web API 只讀本地資料，因此上游暫時故障時不會把整個網站一起拖下水。
 
+### v1.0.1
+
+v1.0.1 修正長時間窗 X 軸重複年份標籤。多年圖現在依日曆年份產生刻度，最後一個年份若與既有刻度重疊會取代而不是追加，避免右側出現 `2026 2026` 或中間出現重複年份。
+
 ### v1.0.0
 
 YieldLab v1.0.0 將原本的單頁研究介面重構成正式研究終端。前端仍保持零框架，但功能依用途拆成獨立 URL，且每個路由只初始化自己需要的資料與分析模組。
@@ -319,6 +323,10 @@ YieldLab 是研究與教育用途專案，不構成投資建議。
 YieldLab is an interactive fixed-income analytics, yield-curve modelling, factor-research, and interest-rate stress-testing toolkit. It explores U.S. Treasury yield curves, maturity spreads, historical curve movements, single-bond risk, and portfolio P/L under custom rate scenarios.
 
 The backend uses FastAPI while the frontend stays framework-free. A Treasury collector reads the official U.S. Department of the Treasury XML feed and atomically stores the latest curve plus historical trading-day curves in local JSON files. The web API reads local data only, so upstream outages do not block normal user requests.
+
+### v1.0.1
+
+v1.0.1 fixes duplicate year labels on long-window x-axes. Multi-year charts now derive ticks from calendar years, and a final-year tick replaces a nearby duplicate instead of being appended.
 
 ### v1.0.0
 

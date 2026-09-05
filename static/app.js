@@ -1146,10 +1146,44 @@ function renderMarketHistory() {
     return `<line class="market-grid" x1="${margin.left}" x2="${margin.left + innerW}" y1="${yy}" y2="${yy}"/><text x="8" y="${yy + 4}">${label}</text>`;
   }).join("");
   const desiredTickCount = spanDays <= 180 ? 8 : 12;
-  const tickStep = Math.max(1, Math.floor((count - 1) / Math.max(desiredTickCount - 1, 1)));
-  const tickIndexes = [];
-  for (let index = 0; index < count; index += tickStep) tickIndexes.push(index);
-  if (tickIndexes[tickIndexes.length - 1] !== count - 1) tickIndexes.push(count - 1);
+  let tickIndexes = [];
+  if (spanDays > 365.25 * 3) {
+    const firstYear = Number(points[0].date.slice(0, 4));
+    const lastYear = Number(points[points.length - 1].date.slice(0, 4));
+    const yearStep = Math.max(1, Math.ceil((lastYear - firstYear) / 10));
+    const targetYears = [];
+    for (let year = firstYear; year <= lastYear; year += yearStep) targetYears.push(year);
+    if (targetYears[targetYears.length - 1] !== lastYear) targetYears.push(lastYear);
+
+    let searchIndex = 0;
+    for (const year of targetYears) {
+      const target = `${year}-01-01`;
+      while (searchIndex < count - 1 && points[searchIndex].date < target) searchIndex += 1;
+      const candidate = searchIndex;
+      if (!tickIndexes.length || points[tickIndexes[tickIndexes.length - 1]].date.slice(0, 4) !== points[candidate].date.slice(0, 4)) {
+        tickIndexes.push(candidate);
+      }
+    }
+
+    const lastIndex = count - 1;
+    if (points[tickIndexes[tickIndexes.length - 1]].date.slice(0, 4) === points[lastIndex].date.slice(0, 4)) {
+      tickIndexes[tickIndexes.length - 1] = lastIndex;
+    } else {
+      tickIndexes.push(lastIndex);
+    }
+  } else {
+    const tickStep = Math.max(1, Math.floor((count - 1) / Math.max(desiredTickCount - 1, 1)));
+    for (let index = 0; index < count; index += tickStep) tickIndexes.push(index);
+    if (tickIndexes[tickIndexes.length - 1] !== count - 1) {
+      const previous = tickIndexes[tickIndexes.length - 1];
+      const minimumGapPx = spanDays <= 180 ? 96 : 72;
+      if (x(timestamps[count - 1]) - x(timestamps[previous]) < minimumGapPx) {
+        tickIndexes[tickIndexes.length - 1] = count - 1;
+      } else {
+        tickIndexes.push(count - 1);
+      }
+    }
+  }
   const xTicks = tickIndexes.map((index) => {
     const point = points[index];
     const xx = x(timestamps[index]);
@@ -1158,7 +1192,8 @@ function renderMarketHistory() {
       : spanDays <= 365.25 * 3
         ? point.date.slice(0, 7)
         : point.date.slice(0, 4);
-    return `<line class="market-year-grid" x1="${xx}" x2="${xx}" y1="${margin.top}" y2="${margin.top + innerH}"/><text text-anchor="middle" x="${xx}" y="${height - 14}">${label}</text>`;
+    const anchor = index === 0 ? "start" : index === count - 1 ? "end" : "middle";
+    return `<line class="market-year-grid" x1="${xx}" x2="${xx}" y1="${margin.top}" y2="${margin.top + innerH}"/><text text-anchor="${anchor}" x="${xx}" y="${height - 14}">${label}</text>`;
   }).join("");
 
   const showEventMarkers = spanDays <= 365.25 * 15;

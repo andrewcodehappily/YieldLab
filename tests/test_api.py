@@ -12,7 +12,7 @@ def test_health() -> None:
     assert response.json() == {
         "status": "ok",
         "service": "yieldlab",
-        "version": "1.0.0",
+        "version": "1.0.1",
     }
 
 

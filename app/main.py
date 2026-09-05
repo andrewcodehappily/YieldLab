@@ -46,7 +46,7 @@ from app.services.treasury import get_current_curve
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / "static"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 CurveModel = Literal["nelson_siegel", "svensson"]
 DailyInversionMode = Literal["acm", "fred_2s10s"]
 
