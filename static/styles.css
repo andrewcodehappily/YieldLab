@@ -44,7 +44,6 @@ h2 { margin: 0; font-size: clamp(1.35rem, 3vw, 2rem); letter-spacing: -.035em; }
 .module-card span { color: var(--accent); font-size: .66rem; letter-spacing: .15em; font-weight: 800; }
 .module-card strong { font-size: 1.25rem; letter-spacing: -.025em; }
 .module-card small { color: var(--muted); line-height: 1.55; }
-.module-card b { align-self: end; margin-top: 6px; color: #748391; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .72rem; font-weight: 600; }
 .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
 .metric-card, .panel { border: 1px solid var(--border); background: var(--panel); box-shadow: 0 18px 70px rgba(0,0,0,.22); backdrop-filter: blur(18px); }
 .metric-card { border-radius: 18px; padding: 20px; display: grid; gap: 7px; }
